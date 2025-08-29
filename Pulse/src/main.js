@@ -8,6 +8,11 @@ const recent_files_container = document.getElementById("recent_files_container")
 const colorMode = new ColorMode();
 let toggleColorMode = 0;
 
+async function greet(){
+  const test = await invoke("greet", { name: "coucou" });
+  console.log(test);
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   (async () => {
     const titles = await jsonManager.getRecentFileTitles();
@@ -28,5 +33,7 @@ window.addEventListener("DOMContentLoaded", () => {
       colorMode.darkMode();
       toggleColorMode --;
     }
-  })
+  });
+
+  greet();
 });

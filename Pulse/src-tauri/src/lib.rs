@@ -1,7 +1,29 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+use std::process::Command;
+
 #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
+fn greet(name: &str) -> Result<String, String> {
+    let script_path = "../src/scripts/pick_file.py"; // chemin vers ton script
+
+    // Lancer le script Python
+    let output = Command::new("python3") // ou "python" selon ton OS
+        .arg(script_path)
+        .output()
+        .map_err(|e| e.to_string())?;
+
+    // Récupérer stdout et stderr
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur : {}", stderr);
+    }
+
+    if stdout.is_empty() {
+        Err("Aucun fichier sélectionné".into())
+    } else {
+        Ok(stdout)
+    }
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
