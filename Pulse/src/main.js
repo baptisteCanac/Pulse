@@ -10,7 +10,6 @@ let toggleColorMode = 0;
 
 async function selectFile(){
   const selectedfilePath = await invoke("select_file", { scriptPath: "../src/scripts/pick_file.py" });
-  console.log(selectedfilePath);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
