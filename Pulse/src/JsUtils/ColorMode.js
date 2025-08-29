@@ -25,6 +25,14 @@ export default class ColorMode{
         const button = document.getElementById("openFileButton");
         button.classList.remove("bg-blue-600", "text-white");
         button.classList.add("bg-blue-500", "text-white");
+
+        // Changer le style des recent files en mode clair
+        const recentFileElements = document.querySelectorAll(".bg-gray-700");
+
+        recentFileElements.forEach(el => {
+            el.classList.remove("bg-gray-700", "text-white");
+            el.classList.add("bg-gray-200", "text-gray-900");
+        });
     }
 
     darkMode() {
@@ -49,5 +57,13 @@ export default class ColorMode{
         const button = document.getElementById("openFileButton");
         button.classList.remove("bg-blue-500", "text-white");
         button.classList.add("bg-blue-600", "text-white");
+
+        // Changer le style des recent files en mode sombre
+        const recentFileElements = document.querySelectorAll(".bg-gray-700");
+        
+        recentFileElements.forEach(el => {
+            el.classList.remove("bg-gray-200", "text-gray-900");
+            el.classList.add("bg-gray-700", "text-white");
+        });
     }
 }
