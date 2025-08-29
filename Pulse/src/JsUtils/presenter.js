@@ -2,7 +2,7 @@ const { invoke } = window.__TAURI__.core;
 
 let code = await invoke("get_code");
 let presentationPath = await invoke("get_presentation_path");
-console.log(presentationPath);
+console.log("Chemin de la présentation :", presentationPath);
 
 let currentSlide = 0;
 
@@ -15,94 +15,94 @@ code = String(code)
   .replace(/^##\s+(.*)$/gm,   '<h2>$1</h2>')
   .replace(/^#\s+(.*)$/gm,    '<h1>$1</h1>');
 
-// Parse Markdown tables into HTML (multi-line support)
+// Parse Markdown tables → HTML
 code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
-    const lines = match.trim().split("\n").filter(l => l.trim() !== "");
-    if (lines.length < 2) return match; // pas un vrai tableau
+  const lines = match.trim().split("\n").filter(l => l.trim() !== "");
+  if (lines.length < 2) return match;
+  const separatorLine = lines[1].trim();
+  if (!/^\|[- :|]+\|$/.test(separatorLine)) return match;
 
-    // Vérifier si la deuxième ligne est une ligne de séparateurs
-    const separatorLine = lines[1].trim();
-    if (!/^\|[- :|]+\|$/.test(separatorLine)) return match; // pas un vrai tableau
-
-    let tableHTML = "<table>";
-    
-    // Header
-    const headers = lines[0].split("|").map(h => h.trim()).filter(Boolean);
-    tableHTML += "<thead><tr>";
-    headers.forEach(h => tableHTML += `<th>${h}</th>`);
-    tableHTML += "</tr></thead>";
-
-    // Body
-    tableHTML += "<tbody>";
-    for (let i = 2; i < lines.length; i++) {
-        const cells = lines[i].split("|").map(c => c.trim()).filter(Boolean);
-        if (cells.length === 0) continue;
-        tableHTML += "<tr>";
-        cells.forEach(c => tableHTML += `<td>${c}</td>`);
-        tableHTML += "</tr>";
-    }
-    tableHTML += "</tbody></table>";
-
-    return tableHTML;
+  let tableHTML = "<table><thead><tr>";
+  const headers = lines[0].split("|").map(h => h.trim()).filter(Boolean);
+  headers.forEach(h => tableHTML += `<th>${h}</th>`);
+  tableHTML += "</tr></thead><tbody>";
+  for (let i = 2; i < lines.length; i++) {
+    const cells = lines[i].split("|").map(c => c.trim()).filter(Boolean);
+    if (cells.length === 0) continue;
+    tableHTML += "<tr>";
+    cells.forEach(c => tableHTML += `<td>${c}</td>`);
+    tableHTML += "</tr>";
+  }
+  tableHTML += "</tbody></table>";
+  return tableHTML;
 });
 
-function fixImagePaths(html, mdPath) {
-  // Récupérer le répertoire du fichier md
-  let mdDir = mdPath.replace(/\/?[^\/\\]+$/, ''); // supprime le nom du fichier
+async function fixImagePaths(html, mdPath) {
+  let mdDir = mdPath.replace(/\/?[^\/\\]+$/, '');
+  const imgRegex = /<img\s+src=["'](.*?)["']/g;
+  const matches = [...html.matchAll(imgRegex)];
 
-  // Regex pour trouver toutes les balises <img src="...">
-  return html.replace(/<img\s+src=["'](.*?)["']/g, (match, src) => {
-    // Si src est déjà absolu (commence par / ou http), on ne touche pas
-    if (/^(\/|https?:)/.test(src)) return match;
+  for (const match of matches) {
+    const src = match[1];
+    if (/^(\/|https?:)/.test(src)) continue; // absolu ou http → ok
 
-    // Crée un chemin absolu
-    let parts = src.split(/[\\/]/); // sépare par / ou \
+    // Résolution chemin absolu du fichier md
+    let parts = src.split(/[\\/]/);
     let baseParts = mdDir.split(/[\\/]/);
-
     for (let part of parts) {
       if (part === "..") baseParts.pop();
       else if (part !== ".") baseParts.push(part);
     }
+    const resolvedPath = baseParts.join("/");
 
-    let fixedPath = baseParts.join("/");
+    // Lire le fichier depuis Rust et créer un Blob URL
+    let bytes;
+    try {
+      bytes = await invoke("read_image", { path: resolvedPath });
+    } catch (e) {
+      console.error("Erreur lecture image :", e);
+      continue;
+    }
 
-    return `<img src="${fixedPath}"`;
-  });
+    const blob = new Blob([new Uint8Array(bytes)]);
+    const url = URL.createObjectURL(blob);
+
+    html = html.replace(match[0], `<img src="${url}">`);
+  }
+
+  return html;
 }
 
-code = fixImagePaths(code, presentationPath);
+code = await fixImagePaths(code, presentationPath);
 
 // Découpe en slides
 let slideStrings = String(code).split(/^\-{3}$/gm);
 
-// Tableau des <section> DOM
+// Crée <section>
 let slideElements = [];
-
-// Création des <section>
 slideStrings.forEach(element => {
   const new_section = document.createElement("section");
   new_section.innerHTML = element;
-  new_section.style.display = "none"; // cachée par défaut
+  new_section.style.display = "none";
   document.body.appendChild(new_section);
   slideElements.push(new_section);
 });
 
-// Affiche la première slide
+// Affiche première slide
 showSlide(currentSlide);
 
 // Écoute clavier
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", event => {
   if (event.key === "ArrowLeft") goToPreviousSlide();
   if (event.key === "ArrowRight") goToNextSlide();
 });
 
-// Fonction affichage
+// Fonctions slides
 function showSlide(index) {
   slideElements.forEach(s => (s.style.display = "none"));
   slideElements[index].style.display = "flex";
 }
 
-// Navigation
 function goToPreviousSlide() {
   if (currentSlide > 0) {
     currentSlide--;

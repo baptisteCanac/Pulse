@@ -1,5 +1,7 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use std::process::Command;
+use std::fs;
+use std::path::Path;
 
 #[tauri::command]
 fn select_file(script_path: &str) -> Result<String, String> {
@@ -57,8 +59,6 @@ fn new_recent_file(new_recent_file_path: &str) -> Result<String, String> {
         Ok(stdout)
     }
 }
-
-use std::fs;
 
 #[tauri::command]
 fn get_code() -> Result<String, String> {
@@ -118,6 +118,32 @@ fn get_presentation_path() -> Result<String, String>{
     Err("recent_files_titles introuvable".into())
 }
 
+#[tauri::command]
+fn get_assets_dir() -> String {
+    // Ici on renvoie un chemin absolu vers le dossier assets/images
+    let assets_path = std::path::Path::new("./src-tauri/assets/images");
+    std::fs::create_dir_all(&assets_path).ok(); // créer le dossier s'il n'existe pas
+    assets_path.to_string_lossy().to_string()
+}
+
+#[tauri::command]
+fn copy_image(src: String, dest_dir: String) -> Result<String, String> {
+    let src_path = Path::new(&src);
+    if !src_path.exists() {
+        return Err(format!("Fichier non trouvé: {}", src));
+    }
+    let file_name = src_path.file_name().unwrap().to_string_lossy();
+    let dest_path = Path::new(&dest_dir).join(&*file_name);
+    fs::create_dir_all(&dest_dir).map_err(|e| e.to_string())?;
+    fs::copy(&src_path, &dest_path).map_err(|e| e.to_string())?;
+    Ok(dest_path.to_string_lossy().to_string())
+}
+
+#[tauri::command]
+fn read_image(path: String) -> Result<Vec<u8>, String> {
+    std::fs::read(&path).map_err(|e| e.to_string())
+}
+
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -127,7 +153,10 @@ pub fn run() {
             select_file,
             new_recent_file,
             get_code,
-            get_presentation_path
+            get_presentation_path,
+            copy_image,
+            get_assets_dir,
+            read_image
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
