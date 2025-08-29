@@ -11,7 +11,9 @@ let toggleColorMode = 0;
 async function selectFile(){
   const selectedfilePath = await invoke("select_file", { scriptPath: "../src/scripts/pick_file.py" });
 
-  window.location.href = "html/presenter.html";
+  console.log(await invoke("new_recent_file", {newRecentFilePath: selectedfilePath }));
+
+  // window.location.href = "html/presenter.html";
 }
 
 window.addEventListener("DOMContentLoaded", () => {

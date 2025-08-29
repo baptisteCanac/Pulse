@@ -12,5 +12,5 @@ export default class JsonManager{
             console.error(error);
             return []; // évite que ça casse
         }
-}
+    }
 }
