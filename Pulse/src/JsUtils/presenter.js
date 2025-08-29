@@ -13,6 +13,38 @@ code = String(code)
   .replace(/^##\s+(.*)$/gm,   '<h2>$1</h2>')
   .replace(/^#\s+(.*)$/gm,    '<h1>$1</h1>');
 
+// Parse Markdown tables into HTML (multi-line support)
+code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
+    const lines = match.trim().split("\n").filter(l => l.trim() !== "");
+    if (lines.length < 2) return match; // pas un vrai tableau
+
+    // Vérifier si la deuxième ligne est une ligne de séparateurs
+    const separatorLine = lines[1].trim();
+    if (!/^\|[- :|]+\|$/.test(separatorLine)) return match; // pas un vrai tableau
+
+    let tableHTML = "<table>";
+    
+    // Header
+    const headers = lines[0].split("|").map(h => h.trim()).filter(Boolean);
+    tableHTML += "<thead><tr>";
+    headers.forEach(h => tableHTML += `<th>${h}</th>`);
+    tableHTML += "</tr></thead>";
+
+    // Body
+    tableHTML += "<tbody>";
+    for (let i = 2; i < lines.length; i++) {
+        const cells = lines[i].split("|").map(c => c.trim()).filter(Boolean);
+        if (cells.length === 0) continue;
+        tableHTML += "<tr>";
+        cells.forEach(c => tableHTML += `<td>${c}</td>`);
+        tableHTML += "</tr>";
+    }
+    tableHTML += "</tbody></table>";
+
+    return tableHTML;
+});
+
+
 // Découpe en slides
 let slideStrings = String(code).split(/^\-{3}$/gm);
 
