@@ -9,8 +9,8 @@ const colorMode = new ColorMode();
 let toggleColorMode = 0;
 
 async function selectFile(){
-  const test = await invoke("select_file", { scriptPath: "../src/scripts/pick_file.py" });
-  console.log(test);
+  const selectedfilePath = await invoke("select_file", { scriptPath: "../src/scripts/pick_file.py" });
+  console.log(selectedfilePath);
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -35,5 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  //selectFile();
+  document.getElementById("openFileButton").addEventListener("click", () => {
+    selectFile();
+  });
 });
