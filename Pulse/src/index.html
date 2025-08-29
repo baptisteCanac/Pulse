@@ -1,39 +1,69 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri App</title>
-    <script type="module" src="/main.js" defer></script>
-  </head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PULSE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="main.js" defer></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
 
-  <body>
-    <main class="container">
-      <h1>Welcome to Tauri</h1>
+  <div class="flex flex-col md:flex-row h-screen">
+    <!-- Sidebar -->
+    <aside class="bg-gray-800 w-full md:w-64 p-6 flex flex-row md:flex-col justify-between md:justify-start">
+      <div>
+        <!-- Logo -->
+        <div class="flex items-center space-x-2 mb-10">
+          <span class="text-blue-400 text-2xl">⌁</span>
+          <span class="text-xl font-bold">PULSE</span>
+        </div>
 
-      <div class="row">
-        <a href="https://tauri.app" target="_blank">
-          <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
-        </a>
-        <a
-          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-          target="_blank"
-        >
-          <img
-            src="/assets/javascript.svg"
-            class="logo vanilla"
-            alt="JavaScript logo"
-          />
-        </a>
+        <!-- Menu -->
+        <nav class="flex md:flex-col space-x-6 md:space-x-0 md:space-y-6">
+          <a href="#" class="flex items-center space-x-2 hover:text-blue-400 transition text-blue-400">
+            <span>🏠</span>
+            <span>Home</span>
+          </a>
+          <a href="#" class="flex items-center space-x-2 hover:text-blue-400 transition">
+            <span>🧑‍💻</span>
+            <span>Code</span>
+          </a>
+          <a href="#" class="flex items-center space-x-2 hover:text-blue-400 transition">
+            <span>⚙️</span>
+            <span>Settings</span>
+          </a>
+          <a id="toggleColorMode" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition">
+            <span id="emojiColorMode">☀️</span>
+            <span id="titleColorMode">Light mode</span>
+          </a>
+        </nav>
       </div>
-      <p>Click on the Tauri logo to learn more about the framework</p>
 
-      <form class="row" id="greet-form">
-        <input id="greet-input" placeholder="Enter a name..." />
-        <button type="submit">Greet</button>
-      </form>
-      <p id="greet-msg"></p>
+      <!-- Footer -->
+      <div class="mt-6 text-sm text-gray-400">
+        About / verion
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center p-6">
+      <div class="bg-gray-800 rounded-2xl shadow-xl p-8 w-full max-w-md">
+        <input type="file" id="openFileInput" hidden>
+        <button id="openFileButton" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-lg transition">
+          Open a File
+        </button>
+
+        <!-- Recent Files -->
+        <div class="mt-6">
+          <h2 class="text-gray-300 text-sm mb-3">Recent Files</h2>
+          <div class="space-y-2" id="recent_files_container">
+            <!-- Add recent files via js -->
+          </div>
+        </div>
+      </div>
     </main>
-  </body>
+  </div>
+
+</body>
 </html>

@@ -1,18 +1,18 @@
 const { invoke } = window.__TAURI__.core;
+import ColorMode from "./JsUtils/ColorMode.js";
 
-let greetInputEl;
-let greetMsgEl;
-
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsgEl.textContent = await invoke("greet", { name: greetInputEl.value });
-}
+const colorMode = new ColorMode();
+let toggleColorMode = 0;
 
 window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
+  console.log("coucou");
+  document.getElementById("toggleColorMode").addEventListener("click", () => {
+    if (toggleColorMode == 0){
+      colorMode.lightMode();
+      toggleColorMode ++;
+    }else{
+      colorMode.darkMode();
+      toggleColorMode --;
+    }
+  })
 });
