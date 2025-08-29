@@ -91,6 +91,33 @@ fn get_code() -> Result<String, String> {
     Err("recent_files_paths introuvable".into())
 }
 
+#[tauri::command]
+fn get_presentation_path() -> Result<String, String>{
+    // Chemin vers ton fichier JSON
+    let file_path = "../src/datas/data.json";
+
+    // Lire le fichier
+    let content = fs::read_to_string(file_path).map_err(|e| e.to_string())?;
+
+    // Chercher le tableau "recent_files_titles"
+    let start_key = "\"recent_files_paths\": [";
+    if let Some(start_idx) = content.find(start_key) {
+        let rest = &content[start_idx + start_key.len()..];
+        if let Some(end_idx) = rest.find(']') {
+            let titles_str = &rest[..end_idx];
+            // Split sur les virgules et retirer les guillemets et espaces
+            let first_title = titles_str
+                .split(',')
+                .map(|s| s.trim().trim_matches('"'))
+                .next()
+                .ok_or("Pas de titre trouvé")?;
+            return Ok(first_title.to_string());
+        }
+    }
+
+    Err("recent_files_titles introuvable".into())
+}
+
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -99,7 +126,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             select_file,
             new_recent_file,
-            get_code
+            get_code,
+            get_presentation_path
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -1,6 +1,8 @@
 const { invoke } = window.__TAURI__.core;
 
 let code = await invoke("get_code");
+let presentationPath = await invoke("get_presentation_path");
+console.log(presentationPath);
 
 let currentSlide = 0;
 
@@ -44,6 +46,31 @@ code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
     return tableHTML;
 });
 
+function fixImagePaths(html, mdPath) {
+  // Récupérer le répertoire du fichier md
+  let mdDir = mdPath.replace(/\/?[^\/\\]+$/, ''); // supprime le nom du fichier
+
+  // Regex pour trouver toutes les balises <img src="...">
+  return html.replace(/<img\s+src=["'](.*?)["']/g, (match, src) => {
+    // Si src est déjà absolu (commence par / ou http), on ne touche pas
+    if (/^(\/|https?:)/.test(src)) return match;
+
+    // Crée un chemin absolu
+    let parts = src.split(/[\\/]/); // sépare par / ou \
+    let baseParts = mdDir.split(/[\\/]/);
+
+    for (let part of parts) {
+      if (part === "..") baseParts.pop();
+      else if (part !== ".") baseParts.push(part);
+    }
+
+    let fixedPath = baseParts.join("/");
+
+    return `<img src="${fixedPath}"`;
+  });
+}
+
+code = fixImagePaths(code, presentationPath);
 
 // Découpe en slides
 let slideStrings = String(code).split(/^\-{3}$/gm);
