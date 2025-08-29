@@ -1,11 +1,25 @@
 const { invoke } = window.__TAURI__.core;
 import ColorMode from "./JsUtils/ColorMode.js";
+import JsonManager from "./JsUtils/JsonManager.js";
+
+const jsonManager = new JsonManager("datas/data.json");
+const recent_files_container = document.getElementById("recent_files_container");
 
 const colorMode = new ColorMode();
 let toggleColorMode = 0;
 
 window.addEventListener("DOMContentLoaded", () => {
-  console.log("coucou");
+  (async () => {
+    const titles = await jsonManager.getRecentFileTitles();
+    titles.forEach(element => {
+      console.log(element);
+      const new_recent_file = document.createElement("div")
+      new_recent_file.setAttribute("class", "bg-gray-700 p-3 rounded-lg");
+      new_recent_file.innerText = element;
+      recent_files_container.appendChild(new_recent_file);
+    });
+  })();
+
   document.getElementById("toggleColorMode").addEventListener("click", () => {
     if (toggleColorMode == 0){
       colorMode.lightMode();
