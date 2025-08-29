@@ -13,7 +13,7 @@ async function selectFile(){
 
   console.log(await invoke("new_recent_file", {newRecentFilePath: selectedfilePath }));
 
-  // window.location.href = "html/presenter.html";
+  window.location.href = "html/presenter.html";
 }
 
 window.addEventListener("DOMContentLoaded", () => {

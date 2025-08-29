@@ -1,7 +1,6 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use std::process::Command;
 
-
 #[tauri::command]
 fn select_file(script_path: &str) -> Result<String, String> {
     // Lancer le script Python
@@ -59,13 +58,48 @@ fn new_recent_file(new_recent_file_path: &str) -> Result<String, String> {
     }
 }
 
+use std::fs;
+
+#[tauri::command]
+fn get_code() -> Result<String, String> {
+    // Chemin vers ton fichier JSON
+    let file_path = "../src/datas/data.json";
+
+    // Lire le fichier JSON
+    let content = fs::read_to_string(file_path).map_err(|e| e.to_string())?;
+
+    // Chercher le tableau "recent_files_paths"
+    let start_key = "\"recent_files_paths\": [";
+    if let Some(start_idx) = content.find(start_key) {
+        let rest = &content[start_idx + start_key.len()..];
+        if let Some(end_idx) = rest.find(']') {
+            let paths_str = &rest[..end_idx];
+            // Split sur les virgules et retirer les guillemets et espaces
+            if let Some(first_path) = paths_str
+                .split(',')
+                .map(|s| s.trim().trim_matches('"'))
+                .next()
+            {
+                // Lire le contenu du fichier dont on a récupéré le path
+                let file_content = fs::read_to_string(first_path)
+                    .map_err(|e| format!("Erreur lecture du fichier {} : {}", first_path, e))?;
+                return Ok(file_content);
+            }
+        }
+    }
+
+    Err("recent_files_paths introuvable".into())
+}
+
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
-            select_file,       // commande existante
-            new_recent_file    // ta nouvelle commande
+            select_file,
+            new_recent_file,
+            get_code
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
