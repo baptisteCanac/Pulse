@@ -1,6 +1,7 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use std::process::Command;
 
+
 #[tauri::command]
 fn select_file(script_path: &str) -> Result<String, String> {
     // Lancer le script Python
