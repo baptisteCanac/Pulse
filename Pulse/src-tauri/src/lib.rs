@@ -2,9 +2,7 @@
 use std::process::Command;
 
 #[tauri::command]
-fn greet(name: &str) -> Result<String, String> {
-    let script_path = "../src/scripts/pick_file.py"; // chemin vers ton script
-
+fn select_file(script_path: &str) -> Result<String, String> {
     // Lancer le script Python
     let output = Command::new("python3") // ou "python" selon ton OS
         .arg(script_path)
@@ -30,7 +28,7 @@ fn greet(name: &str) -> Result<String, String> {
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![select_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

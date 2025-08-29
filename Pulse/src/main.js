@@ -8,8 +8,8 @@ const recent_files_container = document.getElementById("recent_files_container")
 const colorMode = new ColorMode();
 let toggleColorMode = 0;
 
-async function greet(){
-  const test = await invoke("greet", { name: "coucou" });
+async function selectFile(){
+  const test = await invoke("select_file", { scriptPath: "../src/scripts/pick_file.py" });
   console.log(test);
 }
 
@@ -35,5 +35,5 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  greet();
+  //selectFile();
 });
