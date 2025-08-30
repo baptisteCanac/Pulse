@@ -46,6 +46,15 @@ window.addEventListener("DOMContentLoaded", () => {
     selectFile();
   });
 
+  // Vérifier si le système est en mode sombre
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (prefersDark) {
+    toggleColorMode = 0;
+  } else {
+    toggleColorMode = 1;
+  }
+
   // 🔥 Forcer le mode clair sur les nouveaux éléments
   if (toggleColorMode === 1) {
     colorMode.lightMode();
