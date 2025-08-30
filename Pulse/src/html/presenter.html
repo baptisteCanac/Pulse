@@ -6,8 +6,6 @@
 	<title>Presenter</title>
 	<script type="module" src="../JsUtils/presenter.js" defer></script>
 	<link rel="stylesheet" type="text/css" href="../stylesheets/style_presentation.css">
-	<script src="https://cdn.tailwindcss.com"></script>
-
 	<link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" rel="stylesheet">
 </head>
 <body>
@@ -15,17 +13,36 @@
 	<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
-    
-	<div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 bg-opacity-90 text-white rounded-2xl shadow-xl p-4 flex items-center space-x-4">
-	<span class="text-lg font-mono">00:12:34</span>
-	<div class="flex items-center space-x-2">
-		<span class="text-sm">3 / 20</span>
-		<button class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full">▶️</button>
-		<button class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full">🔄</button>
-		<button class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full">⬅️</button>
-		<button class="bg-gray-700 hover:bg-gray-600 p-2 rounded-full">➡️</button>
-	</div>
-	</div>
 
+	<div class="media-player-overlay">
+        <div class="media-player-time-display">00:12:34</div>
+        <div class="media-player-progress-info">3/20</div>
+        
+        <div class="media-player-controls">
+            <button class="media-player-control-btn media-player-play-btn" title="Lecture/Pause">
+                <svg class="media-player-icon media-player-play-icon" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                </svg>
+            </button>
+            
+            <button class="media-player-control-btn" title="Actualiser">
+                <svg class="media-player-icon" viewBox="0 0 24 24">
+                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                </svg>
+            </button>
+            
+            <button class="media-player-control-btn" title="Précédent">
+                <svg class="media-player-icon" viewBox="0 0 24 24">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+            </button>
+            
+            <button class="media-player-control-btn" title="Suivant">
+                <svg class="media-player-icon" viewBox="0 0 24 24">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
 </body>
 </html>
