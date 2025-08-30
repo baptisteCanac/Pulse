@@ -65,6 +65,19 @@ function parseMarkdownLists(md) {
 
 code = parseMarkdownLists(code);
 
+function parseCodeBlocks(md) {
+  return md.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
+    // Échapper les caractères HTML pour ne pas casser le rendu
+    const escapedCode = code
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    return `<pre><code class="language-${lang}">${escapedCode}</code></pre>`;
+  });
+}
+
+code = parseCodeBlocks(code);
+
 // Parse Markdown tables → HTML
 code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
   const lines = match.trim().split("\n").filter(l => l.trim() !== "");
