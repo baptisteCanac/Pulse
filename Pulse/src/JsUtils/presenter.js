@@ -119,3 +119,14 @@ function goToNextSlide() {
   }
   console.log("🔜 Slide suivante :", currentSlide);
 }
+
+// escape function
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    // Retourner au home
+    window.location.href = "../index.html"; 
+  }
+  if (event.ctrlKey && event.key.toLowerCase() === "h") {
+    window.location.href = "../index.html";
+  }
+});
