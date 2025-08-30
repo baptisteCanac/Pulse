@@ -33,6 +33,8 @@ slideStrings.forEach(element => {
   slideElements.push(new_section);
 });
 
+console.log(slideStrings);
+
 // Affiche première slide
 showSlide(currentSlide);
 
@@ -52,7 +54,6 @@ function goToPreviousSlide() {
     currentSlide--;
     showSlide(currentSlide);
   }
-  console.log("🔙 Slide précédente :", currentSlide);
 }
 
 function goToNextSlide() {
@@ -60,7 +61,6 @@ function goToNextSlide() {
     currentSlide++;
     showSlide(currentSlide);
   }
-  console.log("🔜 Slide suivante :", currentSlide);
 }
 
 // Escape et Ctrl+H
@@ -76,6 +76,8 @@ if (!prefersDark) {
   colorMode.lightModePresentation();
 }
 
+// mermaid
+
 mermaid.initialize({
     startOnLoad: true, // Scanne toute la page et convertit automatiquement
     theme: 'default'   // Tu peux changer: 'dark', 'neutral', etc.
@@ -87,5 +89,7 @@ slideElements.forEach(section => {
         mermaid.init(undefined, mermaidBlocks);
     }
 });
+
+// text coloration
 
 Prism.highlightAll();

@@ -5,8 +5,6 @@ export default class ColorMode {
             this.footer = this.sidebar.querySelector("div.mt-6");
             this.mainCard = document.querySelector("main > div");
             this.button = document.getElementById("openFileButton");
-        }else{
-            console.log("coucou");
         }
     }
 
