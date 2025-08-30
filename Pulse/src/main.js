@@ -60,4 +60,9 @@ window.addEventListener("DOMContentLoaded", () => {
   } else{
     colorMode.darkMode();
   }
+
+  document.getElementById("exportToHtml").addEventListener("click", () => {
+    window.location.href = "html/htmlExport.html";
+  })
+
 });
