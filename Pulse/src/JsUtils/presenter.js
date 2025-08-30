@@ -74,3 +74,5 @@ const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 if (!prefersDark) {
   colorMode.lightModePresentation();
 }
+
+Prism.highlightAll();
