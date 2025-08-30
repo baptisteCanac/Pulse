@@ -7,6 +7,8 @@ const { invoke } = window.__TAURI__.core;
 const colorMode = new ColorMode("presentation");
 const markdownParser = new MarkdownParser(invoke);
 
+let toggleOverlay = 0;
+
 let code = await invoke("get_code");
 let presentationPath = await invoke("get_presentation_path");
 console.log("Chemin de la présentation :", presentationPath);
@@ -69,6 +71,26 @@ document.addEventListener("keydown", (event) => {
     window.location.href = "../index.html";
   }
 });
+
+// CTRL+O pour l'overlay
+document.addEventListener("keydown", (event) => {
+  if (event.ctrlKey && event.key.toLocaleLowerCase() === "o"){
+    if (toggleOverlay === 0 ){
+      toggleOverlay ++;
+      activateOverlay();
+    }else{
+      deactivateOverlay();
+      toggleOverlay --;
+    }
+  }
+});
+
+function activateOverlay(){
+  console.log("activation de l'overlay");
+}
+function deactivateOverlay(){
+  console.log("Desactivation de l'overlay");
+}
 
 // Mode clair/sombre
 const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
