@@ -16,7 +16,10 @@ code = String(code)
   .replace(/^####\s+(.*)$/gm, '<h4>$1</h4>')
   .replace(/^###\s+(.*)$/gm,  '<h3>$1</h3>')
   .replace(/^##\s+(.*)$/gm,   '<h2>$1</h2>')
-  .replace(/^#\s+(.*)$/gm,    '<h1>$1</h1>');
+  .replace(/^#\s+(.*)$/gm,    '<h1>$1</h1>')
+  .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+console.log(code);
 
 // Parse Markdown tables → HTML
 code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
@@ -86,7 +89,13 @@ console.log(slideStrings);
 let slideElements = [];
 slideStrings.forEach(element => {
   const new_section = document.createElement("section");
-  new_section.innerHTML = element;
+
+  // Encapsule tout le contenu dans un div inline pour éviter le retour à la ligne
+  const wrapper = document.createElement("div");
+  wrapper.style.display = "inline";
+  wrapper.innerHTML = element;
+
+  new_section.appendChild(wrapper);
   new_section.style.display = "none";
   document.body.appendChild(new_section);
   slideElements.push(new_section);
