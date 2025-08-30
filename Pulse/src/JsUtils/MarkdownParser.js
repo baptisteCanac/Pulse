@@ -189,9 +189,6 @@ export default class MarkdownParser {
   );
 }
 
-
-
-
   async parseAll(md, mdPath) {
     let html = this.parseMarkdownHeadings(md);
     html = this.parseMarkdownLists(html);
