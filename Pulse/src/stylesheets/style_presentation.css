@@ -54,21 +54,32 @@ ul, ol {
   margin: 1rem auto;
 }
 
-/* Code */
-code, pre {
+/* Code inline et blocs */
+code {
   font-family: "Fira Code", monospace;
   background: #2e2e2e;
   color: #ffcc66;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
+  display: inline;        /* reste inline pour les backticks */
+  white-space: pre-wrap;  /* conserve les espaces si nécessaire */
+  font-size: 1em;
 }
+
+/* Blocs de code préformatés */
 pre {
+  font-family: "Fira Code", monospace;
+  background: #2e2e2e;
+  color: #ffcc66;
   padding: 1rem;
   overflow-x: auto;
   text-align: left;
-  max-width: 90%;
   border-radius: 8px;
+  max-width: 95%;         /* un peu plus large que 90% */
+  margin: 1rem auto;      /* centrer horizontalement */
+  box-sizing: border-box; /* inclut le padding dans la largeur */
 }
+
 span.inline-code {
   font-family: "Fira Code", monospace;
   background: #2e2e2e;
