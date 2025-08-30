@@ -137,3 +137,13 @@ hr::after {
   color: #666;
   letter-spacing: 0.5rem;
 }
+
+/* Images dans les slides */
+section img {
+  max-width: 80%;   /* largeur max 80% de la slide */
+  max-height: 60%;  /* hauteur max 60% de la slide */
+  object-fit: contain; /* conserve le ratio */
+  margin: 1rem 0;   /* espace au-dessus et en-dessous */
+  border-radius: 8px; /* coins arrondis si tu veux */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* optionnel, léger relief */
+}

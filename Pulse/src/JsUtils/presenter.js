@@ -39,7 +39,7 @@ code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
 
 async function fixImagePaths(html, mdPath) {
   let mdDir = mdPath.replace(/\/?[^\/\\]+$/, '');
-  const imgRegex = /<img\s+src=["'](.*?)["']/g;
+  const imgRegex = /<img\s+src=["'](.*?)["']\s*>/g;
   const matches = [...html.matchAll(imgRegex)];
 
   for (const match of matches) {
@@ -75,10 +75,11 @@ async function fixImagePaths(html, mdPath) {
 
 code = await fixImagePaths(code, presentationPath);
 
-// Découpe en slides
-let slideStrings = String(code).split(/^\-{3}$/gm);
+// Découpe les slides correctement
+let slideStrings = code.split(/^\s*---\s*$/gm);
 
 // Crée <section>
+console.log(slideStrings);
 let slideElements = [];
 slideStrings.forEach(element => {
   const new_section = document.createElement("section");
