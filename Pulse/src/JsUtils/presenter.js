@@ -1,4 +1,7 @@
 const { invoke } = window.__TAURI__.core;
+import ColorMode from "../JsUtils/ColorMode.js";
+
+const colorMode = new ColorMode("presentation");
 
 let code = await invoke("get_code");
 let presentationPath = await invoke("get_presentation_path");
@@ -130,3 +133,12 @@ document.addEventListener("keydown", (event) => {
     window.location.href = "../index.html";
   }
 });
+
+// Vérifier si le système est en mode sombre
+const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+if (prefersDark) {
+  console.log("coucou");
+} else {
+  colorMode.lightModePresentation();
+}

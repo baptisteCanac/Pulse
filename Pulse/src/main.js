@@ -5,7 +5,7 @@ import JsonManager from "./JsUtils/JsonManager.js";
 const jsonManager = new JsonManager("datas/data.json");
 const recent_files_container = document.getElementById("recent_files_container");
 
-const colorMode = new ColorMode();
+const colorMode = new ColorMode("index");
 let toggleColorMode = 1;
 
 async function selectFile(){
