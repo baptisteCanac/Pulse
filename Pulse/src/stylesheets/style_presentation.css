@@ -157,3 +157,14 @@ section img {
   border-radius: 8px; /* coins arrondis si tu veux */
   box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* optionnel, léger relief */
 }
+
+/* Citations inline */
+span.quote {
+  display: block;            /* un bloc pour la citation */
+  font-style: italic;
+  color: #a0a0a0;
+  border-left: 3px solid #ffcc66;
+  padding-left: 0.8rem;
+  margin: 0.5rem 0;
+  white-space: pre-wrap;     /* conserver les retours à la ligne */
+}

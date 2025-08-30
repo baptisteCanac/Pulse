@@ -91,6 +91,38 @@ function parseInlineCode(text) {
 
 code = parseInlineCode(code);
 
+function parseBlockQuotes(md) {
+  const lines = md.split("\n");
+  let html = "";
+  let inQuote = false;
+  let buffer = [];
+
+  lines.forEach(line => {
+    if (/^\s*>/.test(line)) {
+      // Ligne de citation → enlever le ">" et trim
+      buffer.push(line.replace(/^\s*> ?/, ""));
+      inQuote = true;
+    } else {
+      if (inQuote) {
+        // Fin de bloc de citation → créer le span
+        html += `<span class="quote">${buffer.join("\n")}</span>\n`;
+        buffer = [];
+        inQuote = false;
+      }
+      html += line + "\n";
+    }
+  });
+
+  // Si la dernière ligne était une citation
+  if (inQuote) {
+    html += `<span class="quote">${buffer.join("\n")}</span>\n`;
+  }
+
+  return html;
+}
+
+code = parseBlockQuotes(code);
+
 // Parse Markdown tables → HTML
 code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
   const lines = match.trim().split("\n").filter(l => l.trim() !== "");
