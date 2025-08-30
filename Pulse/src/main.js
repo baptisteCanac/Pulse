@@ -20,7 +20,6 @@ window.addEventListener("DOMContentLoaded", () => {
   (async () => {
     const titles = await jsonManager.getRecentFileTitles();
     titles.forEach(element => {
-      console.log(element);
       const new_recent_file = document.createElement("div");
       if (toggleColorMode === 0){
         new_recent_file.setAttribute("class", "recent-file p-3 bg-gray-700 rounded-lg"); 
