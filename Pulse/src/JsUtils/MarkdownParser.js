@@ -1,4 +1,4 @@
-export default class Parser {
+export default class MarkdownParser {
   constructor(invoke) {
     this.invoke = invoke; // tu passes `invoke` en argument
   }
@@ -157,10 +157,47 @@ export default class Parser {
     return html;
   }
 
+   parseMermaidBlocks(md) {
+  // Cherche tous les blocs ```mermaid ... ```
+  return md.replace(/```mermaid\n([\s\S]*?)```/g, (match, mermaidCode) => {
+    // Nettoyage : enlever retours chariot Windows, décoder entités, trim
+    const cleanedCode = mermaidCode
+      .replace(/\r/g, "")
+      .replace(/&gt;/g, ">")
+      .replace(/&lt;/g, "<")
+      .replace(/&amp;/g, "&")
+      .trim();
+
+    // Retourne un bloc <pre> prêt pour Mermaid avec retours à la ligne conservés
+    return `<pre class="mermaid">\n${cleanedCode}\n</pre>`;
+  });
+}
+
+
+
+    convertHtmlMermaidToMermaidPre(html) {
+  return html.replace(
+    /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+    (match, content) => {
+      // Décode les entités HTML (ici juste &gt; -> >)
+      const cleaned = content.replace(/&gt;/g, ">")
+                             .replace(/&lt;/g, "<")
+                             .replace(/&amp;/g, "&")
+                             .trim();
+      return `<pre class="mermaid">${cleaned}</pre>`;
+    }
+  );
+}
+
+
+
+
   async parseAll(md, mdPath) {
     let html = this.parseMarkdownHeadings(md);
     html = this.parseMarkdownLists(html);
     html = this.parseCodeBlocks(html);
+    html = this.parseMermaidBlocks(html);
+    html = this.convertHtmlMermaidToMermaidPre(html);
     html = this.parseInlineCode(html);
     html = this.parseBlockQuotes(html);
     html = this.parseTables(html);

@@ -1,5 +1,6 @@
 import ColorMode from "../JsUtils/ColorMode.js";
-import MarkdownParser from "../JsUtils/MarkdownParser.js"; // Nouveau fichier
+import MarkdownParser from "../JsUtils/MarkdownParser.js";
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
 const { invoke } = window.__TAURI__.core;
 
@@ -74,5 +75,17 @@ const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 if (!prefersDark) {
   colorMode.lightModePresentation();
 }
+
+mermaid.initialize({
+    startOnLoad: true, // Scanne toute la page et convertit automatiquement
+    theme: 'default'   // Tu peux changer: 'dark', 'neutral', etc.
+  });
+
+slideElements.forEach(section => {
+    const mermaidBlocks = section.querySelectorAll('pre.mermaid');
+    if (mermaidBlocks.length > 0) {
+        mermaid.init(undefined, mermaidBlocks);
+    }
+});
 
 Prism.highlightAll();
