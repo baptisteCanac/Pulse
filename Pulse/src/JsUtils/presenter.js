@@ -19,7 +19,51 @@ code = String(code)
   .replace(/^#\s+(.*)$/gm,    '<h1>$1</h1>')
   .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 
-console.log(code);
+function parseMarkdownLists(md) {
+  const lines = md.split("\n");
+  const stack = []; // pile de niveaux
+  let html = "";
+
+  lines.forEach(line => {
+    const match = line.match(/^(\s*)-\s+(.*)$/);
+    if (!match) {
+      // ligne normale → ferme toutes les listes ouvertes
+      while (stack.length) {
+        html += "</ul>";
+        stack.pop();
+      }
+      html += line + "\n";
+      return;
+    }
+
+    const indent = match[1].length;
+    const content = match[2];
+
+    // Gérer le niveau
+    const level = Math.floor(indent / 3); // 3 espaces = 1 niveau
+    if (level > stack.length - 1) {
+      html += "<ul>".repeat(level - stack.length + 1);
+      stack.push(...Array(level - stack.length + 1).fill(true));
+    } else if (level < stack.length - 1) {
+      while (stack.length > level + 1) {
+        html += "</ul>";
+        stack.pop();
+      }
+    }
+
+    html += `<li>${content}</li>`;
+  });
+
+  // fermer toutes les listes ouvertes
+  while (stack.length) {
+    html += "</ul>";
+    stack.pop();
+  }
+
+  return html;
+}
+
+code = parseMarkdownLists(code);
 
 // Parse Markdown tables → HTML
 code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
