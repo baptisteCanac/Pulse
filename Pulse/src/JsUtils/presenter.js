@@ -78,6 +78,19 @@ function parseCodeBlocks(md) {
 
 code = parseCodeBlocks(code);
 
+function parseInlineCode(text) {
+  return text.replace(/`([^`]+)`/g, (match, content) => {
+    // Échapper les caractères HTML à l’intérieur
+    const escaped = content
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    return `<span class="inline-code">${escaped}</span>`;
+  });
+}
+
+code = parseInlineCode(code);
+
 // Parse Markdown tables → HTML
 code = code.replace(/((?:^\|.*\|$\n?)+)/gm, match => {
   const lines = match.trim().split("\n").filter(l => l.trim() !== "");

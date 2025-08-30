@@ -69,6 +69,16 @@ pre {
   max-width: 90%;
   border-radius: 8px;
 }
+span.inline-code {
+  font-family: "Fira Code", monospace;
+  background: #2e2e2e;
+  color: #ffcc66;
+  padding: 0.1rem 0.3rem;   /* un peu moins que pre pour rester discret */
+  border-radius: 4px;
+  white-space: pre-wrap;    /* préserve les espaces si nécessaire */
+  display: inline;          /* reste dans le flux inline */
+  font-size: 1em;           /* taille cohérente avec le texte */
+}
 
 /* Séparateur visuel si on scrolle (utile pour debug) */
 section:not(:last-child) {
