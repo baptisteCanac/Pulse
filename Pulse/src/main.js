@@ -6,7 +6,7 @@ const jsonManager = new JsonManager("datas/data.json");
 const recent_files_container = document.getElementById("recent_files_container");
 
 const colorMode = new ColorMode();
-let toggleColorMode = 0;
+let toggleColorMode = 1;
 
 async function selectFile(){
   const selectedfilePath = await invoke("select_file", { scriptPath: "../src/scripts/pick_file.py" });
@@ -21,8 +21,12 @@ window.addEventListener("DOMContentLoaded", () => {
     const titles = await jsonManager.getRecentFileTitles();
     titles.forEach(element => {
       console.log(element);
-      const new_recent_file = document.createElement("div")
-      new_recent_file.setAttribute("class", "bg-gray-700 p-3 rounded-lg");
+      const new_recent_file = document.createElement("div");
+      if (toggleColorMode === 0){
+        new_recent_file.setAttribute("class", "recent-file p-3 bg-gray-700 rounded-lg"); 
+      }else{
+        new_recent_file.setAttribute("class", "recent-file p-3 bg-gray-200 rounded-lg"); 
+      }
       new_recent_file.innerText = element;
       recent_files_container.appendChild(new_recent_file);
     });
@@ -41,4 +45,11 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("openFileButton").addEventListener("click", () => {
     selectFile();
   });
+
+  // 🔥 Forcer le mode clair sur les nouveaux éléments
+  if (toggleColorMode === 1) {
+    colorMode.lightMode();
+  } else{
+    colorMode.darkMode();
+  }
 });

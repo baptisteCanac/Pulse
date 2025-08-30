@@ -1,5 +1,5 @@
-export default class ColorMode{
-    constructor(){
+export default class ColorMode {
+    constructor() {
         this.sidebar = document.querySelector("aside");
         this.footer = this.sidebar.querySelector("div.mt-6");
         this.mainCard = document.querySelector("main > div");
@@ -22,13 +22,11 @@ export default class ColorMode{
         this.mainCard.classList.remove("bg-gray-800");
         this.mainCard.classList.add("bg-gray-50");
 
-        this.button.classList.remove("bg-blue-600", "text-white");
-        this.button.classList.add("bg-blue-500", "text-white");
+        this.button.classList.remove("bg-blue-600");
+        this.button.classList.add("bg-blue-500");
 
-        // Changer le style des recent files en mode clair
-        const recentFileElements = document.querySelectorAll(".bg-gray-700");
-
-        recentFileElements.forEach(el => {
+        // 🔥 Fichiers récents
+        document.querySelectorAll(".recent-file").forEach(el => {
             el.classList.remove("bg-gray-700", "text-white");
             el.classList.add("bg-gray-200", "text-gray-900");
         });
@@ -50,13 +48,11 @@ export default class ColorMode{
         this.mainCard.classList.remove("bg-gray-50");
         this.mainCard.classList.add("bg-gray-800");
 
-        this.button.classList.remove("bg-blue-500", "text-white");
-        this.button.classList.add("bg-blue-600", "text-white");
+        this.button.classList.remove("bg-blue-500");
+        this.button.classList.add("bg-blue-600");
 
-        // Changer le style des recent files en mode sombre
-        const recentFileElements = document.querySelectorAll(".bg-gray-700");
-        
-        recentFileElements.forEach(el => {
+        // 🔥 Fichiers récents
+        document.querySelectorAll(".recent-file").forEach(el => {
             el.classList.remove("bg-gray-200", "text-gray-900");
             el.classList.add("bg-gray-700", "text-white");
         });
