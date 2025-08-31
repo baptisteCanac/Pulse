@@ -63,6 +63,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("exportToHtml").addEventListener("click", () => {
     window.location.href = "html/htmlExport.html";
+  });
+
+  document.getElementById("settings").addEventListener("click", () => {
+    window.location.href = "html/settings.html";
   })
 
 });
