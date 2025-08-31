@@ -1,10 +1,15 @@
 export default class ColorMode {
     constructor(type) {
-        if (type === "index"){
-            this.sidebar = document.querySelector("aside");
-            this.footer = this.sidebar.querySelector("div.mt-6");
-            this.mainCard = document.querySelector("main > div");
-            this.button = document.getElementById("openFileButton");
+        if (type === "index") {
+          const temp = document.querySelector("app-sidebar");
+
+          temp.addEventListener("rendered", () => {
+              // Maintenant que le composant a rendu son contenu
+              this.sidebar = temp.querySelector("aside");
+              this.footer = this.sidebar.querySelector("div.mt-6");
+              this.mainCard = document.querySelector("main > div");
+              this.button = document.getElementById("openFileButton");
+          });
         }
     }
 
@@ -14,6 +19,7 @@ export default class ColorMode {
 
         this.sidebar.classList.remove("bg-gray-800");
         this.sidebar.classList.add("bg-gray-100");
+        this.sidebar.classList.add("h-screen");
 
         this.footer.classList.remove("text-gray-400");
         this.footer.classList.add("text-gray-600");
@@ -37,6 +43,7 @@ export default class ColorMode {
 
         this.sidebar.classList.remove("bg-gray-100");
         this.sidebar.classList.add("bg-gray-800");
+        this.sidebar.classList.add("h-screen");
 
         this.footer.classList.remove("text-gray-600");
         this.footer.classList.add("text-gray-400");
