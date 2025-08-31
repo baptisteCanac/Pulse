@@ -85,6 +85,10 @@ window.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "html/htmlExport.html";
   });
 
+  document.getElementById("code").addEventListener("click", () => {
+    window.location.href = "html/code.html";
+  });
+
   document.getElementById("settings").addEventListener("click", () => {
     window.location.href = "html/settings.html";
   });

@@ -27,7 +27,7 @@ class appSidebar extends HTMLElement{
             <span>📄</span>
             <span>Export to PDF</span>
           </a>
-          <a href="#" class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'code' ? 'text-blue-400' : ''}">
+          <a href="#" id='code' class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'code' ? 'text-blue-400' : ''}">
             <span>🧑‍💻</span>
             <span>Code</span>
           </a>
