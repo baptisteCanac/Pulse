@@ -173,6 +173,25 @@ fn get_shortcuts() -> Result<HashMap<String, String>, String> {
     Ok(map)
 }
 
+#[tauri::command]
+fn get_theme() -> Result<String, String> {
+    // Chemin vers le fichier JSON
+    let file_path = "../src/datas/data.json";
+
+    // Lire le contenu du fichier
+    let content = fs::read_to_string(file_path).map_err(|e| e.to_string())?;
+
+    // Parser en JSON
+    let json: Value = serde_json::from_str(&content).map_err(|e| e.to_string())?;
+
+    // Extraire "theme" en String
+    let theme = json.get("theme")
+        .and_then(|t| t.as_str())
+        .ok_or("Impossible de trouver 'theme' dans le JSON")?;
+
+    Ok(theme.to_string())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -185,7 +204,8 @@ pub fn run() {
             copy_image,
             get_assets_dir,
             read_image,
-            get_shortcuts
+            get_shortcuts,
+            get_theme
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

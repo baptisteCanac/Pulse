@@ -14,5 +14,6 @@
     "shortcuts": {
         "open_overlay": "o",
         "go_home": "h"
-    }
+    },
+    "theme": "0"
 }

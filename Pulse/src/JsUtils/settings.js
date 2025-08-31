@@ -1,10 +1,34 @@
+const { invoke } = window.__TAURI__.core;
+
+/* 
+affichage des données actuelles des réglages en suivant le data.json
+*/
+
+let theme = await invoke("get_theme");
+theme = parseInt(theme, 10);
+
+let temp = 0;
+document.querySelectorAll("#themeSection .radio-button").forEach(element => {
+    if (temp === theme){
+        element.classList.add("active");
+        console.log(element);
+    }else{
+        element.classList = "radio-button";
+    }
+    temp ++;
+});
+
+/*
+interragir avec les données du data.json et les afficher
+*/
+
 function setActiveNav(button) {
-            // Remove active class from all nav buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.backgroundColor = 'transparent';
-                btn.style.color = '#D1D5DB';
-            });
+    // Remove active class from all nav buttons
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.backgroundColor = 'transparent';
+        btn.style.color = '#D1D5DB';
+});
             
             // Add active class to clicked button
             button.classList.add('active');
