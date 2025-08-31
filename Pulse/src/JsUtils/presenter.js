@@ -4,18 +4,22 @@ import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.mi
 
 const { invoke } = window.__TAURI__.core;
 
+/*
+Settings
+*/
+// 0: auto, 1: Light, 2: Dark
+const theme = await invoke("get_theme");
+
 const colorMode = new ColorMode("presentation");
 const markdownParser = new MarkdownParser(invoke);
 
 const shortcuts = await invoke("get_shortcuts");
-console.log(shortcuts["go_home"]);
 
 let toggleOverlay = 0;
 let actualSlide = 0;
 
 let code = await invoke("get_code");
 let presentationPath = await invoke("get_presentation_path");
-console.log("Chemin de la présentation :", presentationPath);
 
 // Parsing via la classe
 code = await markdownParser.parseAll(code, presentationPath);
@@ -38,8 +42,6 @@ slideStrings.forEach(element => {
   document.body.appendChild(new_section);
   slideElements.push(new_section);
 });
-
-console.log(slideStrings);
 
 // Affiche première slide
 showSlide(currentSlide);
@@ -107,8 +109,12 @@ function deactivateOverlay(){
 }
 
 // Mode clair/sombre
-const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-if (!prefersDark) {
+if (theme === "0"){
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  if (!prefersDark) {
+    colorMode.lightModePresentation();
+  }
+}else if (theme === "1"){
   colorMode.lightModePresentation();
 }
 

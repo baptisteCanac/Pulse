@@ -28,7 +28,7 @@ function setActiveNav(button) {
         btn.classList.remove('active');
         btn.style.backgroundColor = 'transparent';
         btn.style.color = '#D1D5DB';
-});
+    });
             
             // Add active class to clicked button
             button.classList.add('active');
