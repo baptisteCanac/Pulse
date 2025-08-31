@@ -11,24 +11,48 @@
 <body style="background-color: #111827; color: white; margin: 0; font-family: system-ui, -apple-system, sans-serif;">
     <div style="display: flex; min-height: 100vh;">
         <!-- Sidebar -->
-        <div style="width: 320px; background-color: #1F2937; padding: 24px;">
-            <h1 style="font-size: 2rem; font-weight: 300; margin-bottom: 32px; margin-top: 0;">Settings</h1>
-            
-            <nav>
-                <button class="nav-btn active" onclick="setActiveNav(this)" style="display: block; width: 100%; text-align: left; padding: 12px 16px; background-color: #374151; border-radius: 8px; color: white; font-weight: 500; border: none; margin-bottom: 8px; cursor: pointer;">
-                    Appearance
-                </button>
-                <button class="nav-btn" onclick="setActiveNav(this)" style="display: block; width: 100%; text-align: left; padding: 12px 16px; background-color: transparent; border-radius: 8px; color: #D1D5DB; border: none; margin-bottom: 8px; cursor: pointer;">
-                    Presentation
-                </button>
-                <button class="nav-btn" onclick="setActiveNav(this)" style="display: block; width: 100%; text-align: left; padding: 12px 16px; background-color: transparent; border-radius: 8px; color: #D1D5DB; border: none; margin-bottom: 8px; cursor: pointer;">
-                    Diagrams & Code
-                </button>
-                <button class="nav-btn" onclick="setActiveNav(this)" style="display: block; width: 100%; text-align: left; padding: 12px 16px; background-color: transparent; border-radius: 8px; color: #D1D5DB; border: none; margin-bottom: 8px; cursor: pointer;">
-                    General
-                </button>
-            </nav>
+        <aside class="bg-gray-800 w-full md:w-64 p-6 flex flex-row md:flex-col justify-between md:justify-start">
+      <div>
+        <!-- Logo -->
+        <div class="flex items-center space-x-2 mb-10">
+          <span class="text-blue-400 text-2xl">⌁</span>
+          <span class="text-xl font-bold">PULSE</span>
         </div>
+
+        <!-- Menu -->
+        <nav class="flex md:flex-col space-x-6 md:space-x-0 md:space-y-6">
+          <a href="../index.html" class="flex items-center space-x-2 hover:text-blue-400 transition">
+            <span>🏠</span>
+            <span>Home</span>
+          </a>
+          <a id="exportToHtml" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition">
+            <span>🌐</span>
+            <span>Export to HTML</span>
+          </a>
+          <a href="#" class="flex items-center space-x-2 hover:text-blue-400 transition">
+            <span>📄</span>
+            <span>Export to PDF</span>
+          </a>
+          <a href="#" class="flex items-center space-x-2 hover:text-blue-400 transition">
+            <span>🧑‍💻</span>
+            <span>Code</span>
+          </a>
+          <a id="settings" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition text-blue-400">
+            <span>⚙️</span>
+            <span>Settings</span>
+          </a>
+          <a id="toggleColorMode" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition">
+            <span id="emojiColorMode">🌙</span>
+            <span id="titleColorMode">Dark mode</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Footer -->
+      <div class="mt-6 text-sm text-gray-400">
+        version 1.0
+      </div>
+    </aside>
 
         <!-- Main Content -->
         <div style="flex: 1; padding: 32px;">

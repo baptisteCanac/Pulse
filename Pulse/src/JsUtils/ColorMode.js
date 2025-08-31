@@ -163,33 +163,34 @@ body.presentation-light .active { display: flex !important; }
   }
 
   lightModeSettings() {
-        document.body.classList.add("settings-light");
-        document.body.classList.remove("settings-dark");
+    document.body.classList.add("settings-light");
+    document.body.classList.remove("settings-dark");
 
-        const darkStyle = document.getElementById("settings-dark-styles");
-        if (darkStyle) darkStyle.remove();
+    // Supprime l'ancien style dark si présent
+    const darkStyle = document.getElementById("settings-dark-styles");
+    if (darkStyle) darkStyle.remove();
 
-        let style = document.getElementById("settings-light-styles");
-        const css = `
-/* SETTINGS PAGE LIGHT MODE */
+    // Crée ou met à jour le style pour le thème clair
+    let style = document.getElementById("settings-light-styles");
+    const css = `
 body.settings-light {
   background: #ffffff !important;
   color: #111827 !important;
 }
 
 /* Sidebar */
-body.settings-light > div > div:first-child {
+body.settings-light aside {
   background-color: #f3f4f6 !important;
 }
 
-/* Buttons in sidebar */
-body.settings-light .nav-btn {
-  background-color: transparent !important;
-  color: #374151 !important;
+/* Sidebar links */
+body.settings-light aside a:hover {
+  color: #1e40af !important; /* bleu foncé au hover */
 }
-body.settings-light .nav-btn.active {
-  background-color: #e5e7eb !important; /* gray-200 */
-  color: #111827 !important;
+
+/* Footer */
+body.settings-light aside .mt-6 {
+  color: #6b7280 !important; /* gris-500 */
 }
 
 /* Main content headings */
@@ -215,14 +216,20 @@ body.settings-light span[style*="background-color: #374151"] {
   border: 1px solid #d1d5db !important;
 }
 `;
-        if (!style) {
-            style = document.createElement("style");
-            style.id = "settings-light-styles";
-            style.textContent = css;
-            document.head.appendChild(style);
-        } else {
-            style.textContent = css;
-        }
-      }
-    
+
+    if (!style) {
+        style = document.createElement("style");
+        style.id = "settings-light-styles";
+        style.textContent = css;
+        document.head.appendChild(style);
+    } else {
+        style.textContent = css;
+    }
+
+    // Mettre à jour l'affichage du switch dans la sidebar
+    const title = document.getElementById("titleColorMode");
+    const emoji = document.getElementById("emojiColorMode");
+    if (title) title.innerText = "Light mode"; // on propose d'activer le mode sombre
+    if (emoji) emoji.innerText = "☀️";        // emoji correspondant au mode à activer
+}
 }
