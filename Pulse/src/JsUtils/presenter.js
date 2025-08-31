@@ -8,7 +8,7 @@ const colorMode = new ColorMode("presentation");
 const markdownParser = new MarkdownParser(invoke);
 
 const shortcuts = await invoke("get_shortcuts");
-console.log(shortcuts);
+console.log(shortcuts["go_home"]);
 
 let toggleOverlay = 0;
 let actualSlide = 0;
@@ -71,16 +71,20 @@ function goToNextSlide() {
   }
 }
 
-// Escape et Ctrl+H
+/* 
+Shortcuts
+*/
+
+// go home
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" || (event.ctrlKey && event.key.toLowerCase() === "h")) {
+  if (event.key === "Escape" || (event.ctrlKey && event.key.toLowerCase() === shortcuts["go_home"])) {
     window.location.href = "../index.html";
   }
 });
 
 // CTRL+O pour l'overlay
 document.addEventListener("keydown", (event) => {
-  if (event.ctrlKey && event.key.toLocaleLowerCase() === "o"){
+  if (event.ctrlKey && event.key.toLocaleLowerCase() === shortcuts["open_overlay"]){
     if (toggleOverlay === 0 ){
       toggleOverlay ++;
       activateOverlay();
