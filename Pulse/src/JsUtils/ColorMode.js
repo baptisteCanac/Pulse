@@ -9,9 +9,6 @@ export default class ColorMode {
     }
 
     lightMode() {
-        document.getElementById("titleColorMode").innerText = "Dark mode";
-        document.getElementById("emojiColorMode").innerText = "🌙";
-
         document.body.classList.remove("bg-gray-900", "text-white");
         document.body.classList.add("bg-white", "text-gray-900");
 
@@ -35,9 +32,6 @@ export default class ColorMode {
     }
 
     darkMode() {
-        document.getElementById("titleColorMode").innerText = "Light mode";
-        document.getElementById("emojiColorMode").innerText = "☀️";
-
         document.body.classList.remove("bg-white", "text-gray-900");
         document.body.classList.add("bg-gray-900", "text-white");
 
@@ -225,11 +219,5 @@ body.settings-light span[style*="background-color: #374151"] {
     } else {
         style.textContent = css;
     }
-
-    // Mettre à jour l'affichage du switch dans la sidebar
-    const title = document.getElementById("titleColorMode");
-    const emoji = document.getElementById("emojiColorMode");
-    if (title) title.innerText = "Light mode"; // on propose d'activer le mode sombre
-    if (emoji) emoji.innerText = "☀️";        // emoji correspondant au mode à activer
 }
 }

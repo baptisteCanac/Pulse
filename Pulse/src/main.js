@@ -7,6 +7,7 @@ const recent_files_container = document.getElementById("recent_files_container")
 const colorMode = new ColorMode("index");
 
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
+let toggleColorMode;
 
 // Fonction pour appliquer le thème actuel
 async function applyTheme() {
@@ -47,22 +48,6 @@ function updateThemeButtons() {
     btn.classList.toggle("active", idx === theme);
   });
 }
-
-// Changement de thème depuis le toggle manuel
-document.getElementById("toggleColorMode").addEventListener("click", async () => {
-  try {
-    if (toggleColorMode === 0) {
-      theme = 1;
-    } else {
-      theme = 2;
-    }
-    await invoke("set_theme", { newTheme: theme });
-    await applyTheme();
-    console.log("Thème mis à jour via toggle !");
-  } catch (err) {
-    console.error(err);
-  }
-});
 
 // Sélection d’un fichier
 async function selectFile() {
