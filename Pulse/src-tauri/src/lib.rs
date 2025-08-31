@@ -193,6 +193,25 @@ fn get_theme() -> Result<String, String> {
 }
 
 #[tauri::command]
+fn get_version() -> Result<String, String> {
+    // Chemin vers le fichier JSON
+    let file_path = "../src/datas/data.json";
+
+    // Lire le contenu du fichier
+    let content = fs::read_to_string(file_path).map_err(|e| e.to_string())?;
+
+    // Parser en JSON
+    let json: Value = serde_json::from_str(&content).map_err(|e| e.to_string())?;
+
+    // Extraire "theme" en String
+    let theme = json.get("version")
+        .and_then(|t| t.as_str())
+        .ok_or("Impossible de trouver 'theme' dans le JSON")?;
+
+    Ok(theme.to_string())
+}
+
+#[tauri::command]
 fn set_theme(new_theme: i32) -> Result<(), String> {
     // Chemin vers ton fichier JSON
     let file_path = "../src/datas/data.json";
@@ -237,7 +256,8 @@ pub fn run() {
             read_image,
             get_shortcuts,
             get_theme,
-            set_theme
+            set_theme,
+            get_version
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

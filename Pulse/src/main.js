@@ -9,6 +9,12 @@ const colorMode = new ColorMode("index");
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 let toggleColorMode;
 
+async function syncVersion(){
+  const version = await invoke("get_version");
+  document.getElementById("version").innerText = version;
+}
+syncVersion();
+
 // Fonction pour appliquer le thème actuel
 async function applyTheme() {
   try {
