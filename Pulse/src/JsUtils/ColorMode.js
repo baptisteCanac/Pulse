@@ -161,5 +161,68 @@ body.presentation-light .active { display: flex !important; }
       style.textContent = css; // update if exists
     }
   }
+
+  lightModeSettings() {
+        document.body.classList.add("settings-light");
+        document.body.classList.remove("settings-dark");
+
+        const darkStyle = document.getElementById("settings-dark-styles");
+        if (darkStyle) darkStyle.remove();
+
+        let style = document.getElementById("settings-light-styles");
+        const css = `
+/* SETTINGS PAGE LIGHT MODE */
+body.settings-light {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+/* Sidebar */
+body.settings-light > div > div:first-child {
+  background-color: #f3f4f6 !important;
+}
+
+/* Buttons in sidebar */
+body.settings-light .nav-btn {
+  background-color: transparent !important;
+  color: #374151 !important;
+}
+body.settings-light .nav-btn.active {
+  background-color: #e5e7eb !important; /* gray-200 */
+  color: #111827 !important;
+}
+
+/* Main content headings */
+body.settings-light h2,
+body.settings-light h3 {
+  color: #111827 !important;
+}
+
+/* Toggle switches */
+body.settings-light .toggle-switch.active {
+  background-color: #3b82f6 !important; /* blue-500 */
+}
+
+/* Radio buttons */
+body.settings-light .radio-button.active {
+  border: 2px solid #3b82f6 !important;
+}
+
+/* Language tags */
+body.settings-light span[style*="background-color: #374151"] {
+  background-color: #e5e7eb !important;
+  color: #111827 !important;
+  border: 1px solid #d1d5db !important;
+}
+`;
+        if (!style) {
+            style = document.createElement("style");
+            style.id = "settings-light-styles";
+            style.textContent = css;
+            document.head.appendChild(style);
+        } else {
+            style.textContent = css;
+        }
+      }
     
 }

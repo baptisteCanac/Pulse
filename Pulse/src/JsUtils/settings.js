@@ -1,70 +1,61 @@
 const { invoke } = window.__TAURI__.core;
+import ColorMode from "../JsUtils/ColorMode.js";
 
-/* 
-affichage des données actuelles des réglages en suivant le data.json
-*/
+let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 
-let theme = await invoke("get_theme");
-theme = parseInt(theme, 10);
+// Fonction principale qui applique le thème
+async function updateTheme() {
+  try {
+    theme = parseInt(await invoke("get_theme"), 10);
+    const colorMode = new ColorMode();
 
-let temp = 0;
-document.querySelectorAll("#themeSection .radio-button").forEach(element => {
-    if (temp === theme){
-        element.classList.add("active");
-        console.log(element);
-    }else{
-        element.classList = "radio-button";
+    // Nettoyage des classes
+    document.body.classList.remove("settings-light", "settings-dark");
+
+    // Application du thème
+    if (theme === 1) {
+      colorMode.lightModeSettings();
+    } else if (theme === 2) {
+      colorMode.darkModeSettings?.(); 
+      // ⬆️ Utilise darkModeSettings() si tu l'implémentes
+      document.body.classList.add("settings-dark");
+    } else {
+      // Thème auto (par défaut, clair si OS en clair)
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        colorMode.darkModeSettings?.();
+        document.body.classList.add("settings-dark");
+      } else {
+        colorMode.lightModeSettings();
+      }
     }
-    temp ++;
-});
 
-/*
-interragir avec les données du data.json et les afficher
-*/
+    updateThemeButtons();
+  } catch (err) {
+    console.error("Erreur lors de la mise à jour du thème :", err);
+  }
+}
 
-function setActiveNav(button) {
-    // Remove active class from all nav buttons
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.style.backgroundColor = 'transparent';
-        btn.style.color = '#D1D5DB';
-    });
-            
-            // Add active class to clicked button
-            button.classList.add('active');
-            button.style.backgroundColor = '#374151';
-            button.style.color = 'white';
-        }
+// Boutons du sélecteur de thème
+const buttons = document.querySelectorAll("#themeSection .radio-button");
 
-        function toggleSwitch(element) {
-            element.classList.toggle('active');
-        }
+// Met à jour l'état visuel des boutons
+function updateThemeButtons() {
+  buttons.forEach((btn, idx) => {
+    btn.classList.toggle("active", idx === theme);
+  });
+}
 
-        function setRadio(groupName, element) {
-            // Find all radio buttons in the same group
-            const parent = element.closest('div');
-            const allRadios = parent.querySelectorAll('.radio-button');
-            
-            // Remove active class from all
-            allRadios.forEach(radio => {
-                radio.classList.remove('active');
-            });
-            
-            // Add active class to clicked one
-            element.classList.add('active');
-        }
+// Changement de thème depuis les boutons
+window.changeTheme = async function (val) {
+  try {
+    await invoke("set_theme", { newTheme: val });
+    theme = val;
+    await updateTheme(); // ✅ Applique directement le bon thème
+    console.log("Thème mis à jour !");
+  } catch (err) {
+    console.error("Erreur :", err);
+  }
+};
 
-        // Add hover effects to nav buttons
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                if (!this.classList.contains('active')) {
-                    this.style.backgroundColor = '#374151';
-                }
-            });
-            
-            btn.addEventListener('mouseleave', function() {
-                if (!this.classList.contains('active')) {
-                    this.style.backgroundColor = 'transparent';
-                }
-            });
-        });
+// Initialisation
+updateTheme();

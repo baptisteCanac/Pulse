@@ -192,6 +192,37 @@ fn get_theme() -> Result<String, String> {
     Ok(theme.to_string())
 }
 
+#[tauri::command]
+fn set_theme(new_theme: i32) -> Result<(), String> {
+    // Chemin vers ton fichier JSON
+    let file_path = "../src/datas/data.json";
+
+    // Lire le fichier
+    let content = fs::read_to_string(file_path)
+        .map_err(|e| format!("Erreur de lecture du fichier: {}", e))?;
+
+    // Parser le JSON
+    let mut json: Value = serde_json::from_str(&content)
+        .map_err(|e| format!("Erreur parsing JSON: {}", e))?;
+
+    // Modifier la valeur du thème
+    if let Some(obj) = json.as_object_mut() {
+        obj.insert("theme".to_string(), Value::String(new_theme.to_string()));
+    } else {
+        return Err("JSON root n'est pas un objet".into());
+    }
+
+    // Convertir en String avec indentation
+    let new_content = serde_json::to_string_pretty(&json)
+        .map_err(|e| format!("Erreur de conversion JSON: {}", e))?;
+
+    // Réécrire dans le fichier
+    fs::write(file_path, new_content)
+        .map_err(|e| format!("Erreur d'écriture dans le fichier: {}", e))?;
+
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -205,7 +236,8 @@ pub fn run() {
             get_assets_dir,
             read_image,
             get_shortcuts,
-            get_theme
+            get_theme,
+            set_theme
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

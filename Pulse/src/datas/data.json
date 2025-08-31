@@ -1,19 +1,19 @@
 {
-    "recent_files_paths": [
-        "/Users/baptiste/Desktop/test.md",
-        "/Users/baptiste/Desktop/test.md",
-        "/Users/baptiste/Desktop/test.md",
-        "/Users/baptiste/Desktop/test.md"
-    ],
-    "recent_files_titles": [
-        "test.md",
-        "test.md",
-        "test.md",
-        "test.md"
-    ],
-    "shortcuts": {
-        "open_overlay": "o",
-        "go_home": "h"
-    },
-    "theme": "0"
+  "recent_files_paths": [
+    "/Users/baptiste/Desktop/test.md",
+    "/Users/baptiste/Desktop/test.md",
+    "/Users/baptiste/Desktop/test.md",
+    "/Users/baptiste/Desktop/test.md"
+  ],
+  "recent_files_titles": [
+    "test.md",
+    "test.md",
+    "test.md",
+    "test.md"
+  ],
+  "shortcuts": {
+    "go_home": "h",
+    "open_overlay": "o"
+  },
+  "theme": "1"
 }
