@@ -1,0 +1,55 @@
+/* Fond général */
+body {
+  background-color: #ffffff;
+  color: #000000;
+  font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+/* Éditeur */
+#editor {
+  background-color: #f8f8f8; /* fond clair */
+  color: #000000;            /* texte noir */
+}
+
+.cm-editor{
+    border: none;
+}
+
+/* Curseur d’insertion CodeMirror */
+.cm-cursor {
+  border-left: 2px solid #000000 !important; /* curseur noir bien visible */
+}
+
+/* Ligne active */
+.cm-activeLine {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Gutter (numéros de ligne) */
+.cm-gutters {
+  background-color: #f8f8f8 !important;
+  color: #000000 !important;
+}
+
+/* Ligne active dans le gutter (indicateur de position) */
+.cm-activeLineGutter {
+  background-color: #000000 !important; /* curseur de position visible */
+}
+
+/* Scrollbar */
+.cm-scroller::-webkit-scrollbar {
+  width: 12px;
+}
+.cm-scroller::-webkit-scrollbar-thumb {
+  background-color: #999999;
+  border-radius: 6px;
+}
+.cm-scroller::-webkit-scrollbar-track {
+  background-color: #f8f8f8;
+}
+
+/* Preview Markdown */
+#preview {
+  background-color: #f0f0f0;
+  color: #000000;
+}
