@@ -7,6 +7,9 @@ const { invoke } = window.__TAURI__.core;
 const colorMode = new ColorMode("presentation");
 const markdownParser = new MarkdownParser(invoke);
 
+const shortcuts = await invoke("get_shortcuts");
+console.log(shortcuts);
+
 let toggleOverlay = 0;
 let actualSlide = 0;
 

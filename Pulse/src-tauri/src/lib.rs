@@ -2,6 +2,8 @@
 use std::process::Command;
 use std::fs;
 use std::path::Path;
+use std::collections::HashMap;
+use serde_json::Value;
 
 #[tauri::command]
 fn select_file(script_path: &str) -> Result<String, String> {
@@ -144,6 +146,32 @@ fn read_image(path: String) -> Result<Vec<u8>, String> {
     std::fs::read(&path).map_err(|e| e.to_string())
 }
 
+#[tauri::command]
+fn get_shortcuts() -> Result<HashMap<String, String>, String> {
+    // Chemin vers le fichier JSON
+    let file_path = "../src/datas/data.json";
+
+    // Lire le contenu du fichier
+    let content = fs::read_to_string(file_path).map_err(|e| e.to_string())?;
+
+    // Parser en JSON
+    let json: Value = serde_json::from_str(&content).map_err(|e| e.to_string())?;
+
+    // Récupérer l'objet "shortcuts"
+    let shortcuts = json.get("shortcuts")
+        .and_then(|s| s.as_object())
+        .ok_or("Impossible de trouver 'shortcuts' dans le JSON")?;
+
+    // Convertir en HashMap<String, String>
+    let mut map = HashMap::new();
+    for (key, value) in shortcuts {
+        if let Some(val_str) = value.as_str() {
+            map.insert(key.clone(), val_str.to_string());
+        }
+    }
+
+    Ok(map)
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -156,7 +184,8 @@ pub fn run() {
             get_presentation_path,
             copy_image,
             get_assets_dir,
-            read_image
+            read_image,
+            get_shortcuts
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
