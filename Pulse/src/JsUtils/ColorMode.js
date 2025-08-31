@@ -19,7 +19,6 @@ export default class ColorMode {
 
         this.sidebar.classList.remove("bg-gray-800");
         this.sidebar.classList.add("bg-gray-100");
-        this.sidebar.classList.add("h-screen");
 
         this.footer.classList.remove("text-gray-400");
         this.footer.classList.add("text-gray-600");
@@ -43,7 +42,6 @@ export default class ColorMode {
 
         this.sidebar.classList.remove("bg-gray-100");
         this.sidebar.classList.add("bg-gray-800");
-        this.sidebar.classList.add("h-screen");
 
         this.footer.classList.remove("text-gray-600");
         this.footer.classList.add("text-gray-400");
@@ -73,6 +71,8 @@ export default class ColorMode {
     // create or update the light style element
     let style = document.getElementById("presentation-light-styles");
     const css = `
+  /* Sidebar */
+    
 /* Presentation light mode overrides */
 body.presentation-light {
   background: #ffffff !important;
@@ -182,6 +182,7 @@ body.settings-light {
 /* Sidebar */
 body.settings-light aside {
   background-color: #f3f4f6 !important;
+  height: 100vh;
 }
 
 /* Sidebar links */

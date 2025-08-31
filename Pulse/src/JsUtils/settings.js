@@ -59,3 +59,11 @@ window.changeTheme = async function (val) {
 
 // Initialisation
 updateTheme();
+
+const temp = document.querySelector("app-sidebar");
+
+temp.addEventListener("rendered", () => {
+  document.getElementById("home").addEventListener("click", () => {
+    window.location.href = "../index.html";
+  });
+});
