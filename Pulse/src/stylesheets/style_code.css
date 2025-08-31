@@ -53,3 +53,8 @@ body {
   background-color: #f0f0f0;
   color: #000000;
 }
+
+#preview h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
