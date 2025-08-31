@@ -1,124 +1,107 @@
 export default class ColorMode {
     constructor(type) {
         if (type === "index") {
-          const temp = document.querySelector("app-sidebar");
-
-          temp.addEventListener("rendered", () => {
-              // Maintenant que le composant a rendu son contenu
-              this.sidebar = temp.querySelector("aside");
-              this.footer = this.sidebar.querySelector("div.mt-6");
-              this.mainCard = document.querySelector("main > div");
-              this.button = document.getElementById("openFileButton");
-          });
+            const temp = document.querySelector("app-sidebar");
+            temp.addEventListener("rendered", () => {
+                this.sidebar = temp.querySelector("aside");
+                this.footer = this.sidebar.querySelector("div.mt-6");
+                this.mainCard = document.querySelector("main > div");
+                this.button = document.getElementById("openFileButton");
+            });
         }
     }
 
-    lightMode() {
-        document.body.classList.remove("bg-gray-900", "text-white");
-        document.body.classList.add("bg-white", "text-gray-900");
+    // Configuration centralisée des thèmes
+    static themes = {
+        light: {
+            body: { add: ["bg-white", "text-gray-900"], remove: ["bg-gray-900", "text-white"] },
+            sidebar: { add: ["bg-gray-100"], remove: ["bg-gray-800"] },
+            footer: { add: ["text-gray-600"], remove: ["text-gray-400"] },
+            mainCard: { add: ["bg-gray-50"], remove: ["bg-gray-800"] },
+            button: { add: ["bg-blue-500"], remove: ["bg-blue-600"] },
+            recentFiles: { add: ["bg-gray-200", "text-gray-900"], remove: ["bg-gray-700", "text-white"] }
+        },
+        dark: {
+            body: { add: ["bg-gray-900", "text-white"], remove: ["bg-white", "text-gray-900"] },
+            sidebar: { add: ["bg-gray-800"], remove: ["bg-gray-100"] },
+            footer: { add: ["text-gray-400"], remove: ["text-gray-600"] },
+            mainCard: { add: ["bg-gray-800"], remove: ["bg-gray-50"] },
+            button: { add: ["bg-blue-600"], remove: ["bg-blue-500"] },
+            recentFiles: { add: ["bg-gray-700", "text-white"], remove: ["bg-gray-200", "text-gray-900"] }
+        }
+    };
 
-        this.sidebar.classList.remove("bg-gray-800");
-        this.sidebar.classList.add("bg-gray-100");
+    // Méthode générique pour appliquer un thème
+    applyTheme(themeName) {
+        const theme = ColorMode.themes[themeName];
+        if (!theme) return;
 
-        this.footer.classList.remove("text-gray-400");
-        this.footer.classList.add("text-gray-600");
+        // Application sur les éléments principaux
+        const elements = {
+            body: document.body,
+            sidebar: this.sidebar,
+            footer: this.footer,
+            mainCard: this.mainCard,
+            button: this.button
+        };
 
-        this.mainCard.classList.remove("bg-gray-800");
-        this.mainCard.classList.add("bg-gray-50");
-
-        this.button.classList.remove("bg-blue-600");
-        this.button.classList.add("bg-blue-500");
-
-        // 🔥 Fichiers récents
-        document.querySelectorAll(".recent-file").forEach(el => {
-            el.classList.remove("bg-gray-700", "text-white");
-            el.classList.add("bg-gray-200", "text-gray-900");
+        Object.entries(elements).forEach(([key, element]) => {
+            if (element && theme[key]) {
+                element.classList.remove(...theme[key].remove);
+                element.classList.add(...theme[key].add);
+            }
         });
+
+        // Fichiers récents
+        if (theme.recentFiles) {
+            document.querySelectorAll(".recent-file").forEach(el => {
+                el.classList.remove(...theme.recentFiles.remove);
+                el.classList.add(...theme.recentFiles.add);
+            });
+        }
     }
 
-    darkMode() {
-        document.body.classList.remove("bg-white", "text-gray-900");
-        document.body.classList.add("bg-gray-900", "text-white");
+    lightMode() { this.applyTheme('light'); }
+    darkMode() { this.applyTheme('dark'); }
 
-        this.sidebar.classList.remove("bg-gray-100");
-        this.sidebar.classList.add("bg-gray-800");
-
-        this.footer.classList.remove("text-gray-600");
-        this.footer.classList.add("text-gray-400");
-
-        this.mainCard.classList.remove("bg-gray-50");
-        this.mainCard.classList.add("bg-gray-800");
-
-        this.button.classList.remove("bg-blue-500");
-        this.button.classList.add("bg-blue-600");
-
-        // 🔥 Fichiers récents
-        document.querySelectorAll(".recent-file").forEach(el => {
-            el.classList.remove("bg-gray-200", "text-gray-900");
-            el.classList.add("bg-gray-700", "text-white");
-        });
-    }
-
-    lightModePresentation() {
-    // toggle class on body
-    document.body.classList.add("presentation-light");
-    document.body.classList.remove("presentation-dark");
-
-    // remove existing dark presentation styles if present
-    const darkStyle = document.getElementById("presentation-dark-styles");
-    if (darkStyle) darkStyle.remove();
-
-    // create or update the light style element
-    let style = document.getElementById("presentation-light-styles");
-    const css = `
-  /* Sidebar */
-    
-/* Presentation light mode overrides */
+    // Configuration des styles CSS pour les modes présentation et settings
+    static styles = {
+        presentation: {
+            light: `
 body.presentation-light {
   background: #ffffff !important;
-  color: #111827 !important; /* gray-900 */
+  color: #111827 !important;
 }
 
-/* sections inherit background and text color */
 body.presentation-light section {
   background: transparent !important;
   color: inherit !important;
 }
 
-/* Headings */
-body.presentation-light h1,
-body.presentation-light h2,
-body.presentation-light h3,
-body.presentation-light h4,
-body.presentation-light h5,
-body.presentation-light h6 {
-  color: #0f172a !important; /* a dark color for headings */
-}
-
-/* Paragraphs and lists */
-body.presentation-light p,
-body.presentation-light li {
+body.presentation-light h1, body.presentation-light h2, body.presentation-light h3,
+body.presentation-light h4, body.presentation-light h5, body.presentation-light h6 {
   color: #0f172a !important;
 }
 
-/* Code blocks */
-body.presentation-light code,
-body.presentation-light pre {
-  background: #f3f4f6 !important; /* gray-100 */
-  color: #7b1e1b !important; /* warm color for code text */
+body.presentation-light p, body.presentation-light li {
+  color: #0f172a !important;
+}
+
+body.presentation-light code, body.presentation-light pre {
+  background: #f3f4f6 !important;
+  color: #7b1e1b !important;
   border-radius: 6px;
 }
 
-/* Tables */
 body.presentation-light table {
-  background: #f8fafc !important; /* very light */
+  background: #f8fafc !important;
   color: #0f172a !important;
   border-radius: 8px;
   overflow: hidden;
 }
 
 body.presentation-light th {
-  background: #e6e9ee !important; /* light header */
+  background: #e6e9ee !important;
   color: #0f172a !important;
   font-weight: 600;
   border-bottom: 2px solid #e2e8f0 !important;
@@ -134,98 +117,97 @@ body.presentation-light tr:nth-child(even) td {
   background: #fbfdff !important;
 }
 
-/* hr */
 body.presentation-light hr {
   border-top: 2px solid #e6e9ee !important;
 }
 
 body.presentation-light hr::after {
-  color: #6b7280 !important; /* gray-500 */
+  color: #6b7280 !important;
 }
 
-/* Images */
 body.presentation-light section img {
   box-shadow: 0 6px 18px rgba(16,24,40,0.06) !important;
 }
 
-/* Keep presentation navigation classes unchanged */
 body.presentation-light .hidden { display: none !important; }
-body.presentation-light .active { display: flex !important; }
-`;
-
-    if (!style) {
-      style = document.createElement("style");
-      style.id = "presentation-light-styles";
-      style.textContent = css;
-      document.head.appendChild(style);
-    } else {
-      style.textContent = css; // update if exists
-    }
-  }
-
-  lightModeSettings() {
-    document.body.classList.add("settings-light");
-    document.body.classList.remove("settings-dark");
-
-    // Supprime l'ancien style dark si présent
-    const darkStyle = document.getElementById("settings-dark-styles");
-    if (darkStyle) darkStyle.remove();
-
-    // Crée ou met à jour le style pour le thème clair
-    let style = document.getElementById("settings-light-styles");
-    const css = `
+body.presentation-light .active { display: flex !important; }`
+        },
+        settings: {
+            light: `
 body.settings-light {
   background: #ffffff !important;
   color: #111827 !important;
 }
 
-/* Sidebar */
 body.settings-light aside {
   background-color: #f3f4f6 !important;
   height: 100vh;
 }
 
-/* Sidebar links */
 body.settings-light aside a:hover {
-  color: #1e40af !important; /* bleu foncé au hover */
+  color: #1e40af !important;
 }
 
-/* Footer */
 body.settings-light aside .mt-6 {
-  color: #6b7280 !important; /* gris-500 */
+  color: #6b7280 !important;
 }
 
-/* Main content headings */
-body.settings-light h2,
-body.settings-light h3 {
+body.settings-light h2, body.settings-light h3 {
   color: #111827 !important;
 }
 
-/* Toggle switches */
 body.settings-light .toggle-switch.active {
-  background-color: #3b82f6 !important; /* blue-500 */
+  background-color: #3b82f6 !important;
 }
 
-/* Radio buttons */
 body.settings-light .radio-button.active {
   border: 2px solid #3b82f6 !important;
 }
 
-/* Language tags */
 body.settings-light span[style*="background-color: #374151"] {
   background-color: #e5e7eb !important;
   color: #111827 !important;
   border: 1px solid #d1d5db !important;
-}
-`;
+}`
+        }
+    };
 
-    if (!style) {
-        style = document.createElement("style");
-        style.id = "settings-light-styles";
-        style.textContent = css;
-        document.head.appendChild(style);
-    } else {
-        style.textContent = css;
+    // Méthode générique pour appliquer des styles CSS
+    applyStyleMode(mode, type, oppositeModeClass, styleId, darkStyleId) {
+        document.body.classList.add(`${mode}-light`);
+        document.body.classList.remove(`${mode}-dark`);
+
+        // Supprime l'ancien style dark
+        const darkStyle = document.getElementById(darkStyleId);
+        if (darkStyle) darkStyle.remove();
+
+        // Crée ou met à jour le style
+        let style = document.getElementById(styleId);
+        if (!style) {
+            style = document.createElement("style");
+            style.id = styleId;
+            document.head.appendChild(style);
+        }
+        style.textContent = ColorMode.styles[type].light;
     }
-}
+
+    lightModePresentation() {
+        this.applyStyleMode(
+            'presentation',
+            'presentation',
+            'presentation-dark',
+            'presentation-light-styles',
+            'presentation-dark-styles'
+        );
+    }
+
+    lightModeSettings() {
+        this.applyStyleMode(
+            'settings',
+            'settings',
+            'settings-dark',
+            'settings-light-styles',
+            'settings-dark-styles'
+        );
+    }
 }
