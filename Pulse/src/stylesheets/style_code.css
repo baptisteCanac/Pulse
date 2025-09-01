@@ -129,7 +129,7 @@ body {
   width: 80%;
   max-width: 900px;
   font-size: 1.1rem;
-  background: #2a2a2a;
+  background: #f8fafc;
   border-radius: 8px;
   overflow: hidden;
 }
@@ -140,22 +140,22 @@ body {
 }
 
 #preview th {
-  background: #333;
-  color: #fff;
+  background: #f8fafc;
+  color: #333;
   font-weight: 600;
-  border-bottom: 2px solid #444;
+  border-bottom: 2px solid #fff;
 }
 
 #preview td {
-  border-bottom: 1px solid #444;
+  border-bottom: 1px solid #fff;
 }
 
 #preview tr:last-child td {
   border-bottom: none;
 }
-
+#f8fafc
 #preview tr:nth-child(even) td {
-  background: #252525;
+  background: #f8fafc;
 }
 
 /* Séparateur <hr> */
