@@ -26,7 +26,7 @@ async function updatePreview() {
   const mdContent = editor.state.doc.toString();
   let html = await parser.parseAll(mdContent, "/dummy/path");
 
-  html = html.replace(/^\s*---\s*$/gm, '<hr class="separation">');
+  html = html.replace(/^\s*---\s*$/gm, '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">');
 
   previewParent.innerHTML = html;
 }

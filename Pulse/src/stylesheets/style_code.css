@@ -9,6 +9,8 @@ body {
 #editor {
   background-color: #f8f8f8; /* fond clair */
   color: #000000;            /* texte noir */
+  height: 100%;              /* remplir la hauteur du conteneur parent */
+  overflow: auto;            /* scroll interne si le contenu dépasse */
 }
 
 .cm-editor{
