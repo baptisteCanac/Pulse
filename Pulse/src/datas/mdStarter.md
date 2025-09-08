@@ -1,4 +1,4 @@
-# 🎉 Découvrez Pulse
+# 🎉 bienvenue sur Pulse
 
 **Pulse simplifie la création et l'affichage de présentations Markdown (Marp)**
 pour les conférenciers et formateurs.

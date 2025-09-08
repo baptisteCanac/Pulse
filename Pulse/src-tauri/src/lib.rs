@@ -4,6 +4,9 @@ use std::fs;
 use std::path::Path;
 use std::collections::HashMap;
 use serde_json::Value;
+use std::io::Write;
+use std::process::Stdio;
+use tauri::command;
 
 #[tauri::command]
 fn select_file(script_path: &str) -> Result<String, String> {
@@ -29,7 +32,7 @@ fn select_file(script_path: &str) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn run_python_script() -> Result<(String, String), String> {
+fn open_new_file() -> Result<(String, String), String> {
     // 1️⃣ Lancer le script Python pour récupérer le chemin du fichier
     let output = Command::new("python3")
         .arg("../src/scripts/pick_file.py")
@@ -56,6 +59,38 @@ fn run_python_script() -> Result<(String, String), String> {
 
     // 4️⃣ Retourner un tuple (chemin, contenu)
     Ok((choosen_file_path, file_content))
+}
+
+#[command]
+fn save_existing_file(path: String, text: String) -> Result<String, String> {
+    let mut child = Command::new("python3")
+        .arg("../src/scripts/save_existing_file.py")
+        .arg(&path)           // uniquement le chemin
+        .stdin(Stdio::piped()) // pour envoyer le texte
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| e.to_string())?;
+
+    // Écrire le texte dans stdin
+    if let Some(stdin) = child.stdin.as_mut() {
+        stdin.write_all(text.as_bytes()).map_err(|e| e.to_string())?;
+    }
+
+    let output = child.wait_with_output().map_err(|e| e.to_string())?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur Python : {}", stderr);
+    }
+
+    if stdout.is_empty() {
+        Err("Erreur lors de la sauvegarde".into())
+    } else {
+        Ok(stdout)
+    }
 }
 
 #[tauri::command]
@@ -301,7 +336,8 @@ pub fn run() {
             set_theme,
             get_version,
             get_md_starter,
-            run_python_script
+            open_new_file,
+            save_existing_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

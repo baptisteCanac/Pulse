@@ -56,13 +56,13 @@ async function getStarter() {
         console.log("File not existing");
       }else{
         // File existing
-        console.log("file existing");
+        const test = await invoke("save_existing_file", {path: choosen_file_path, text: editor.getValue()});
       }
     }
 
     async function openNewFileSource(source) {
       try {
-        const [path, content] = await invoke("run_python_script");
+        const [path, content] = await invoke("open_new_file");
         console.log("Chemin :", path);
         choosen_file_path = path;
         console.log("Contenu :", content);
