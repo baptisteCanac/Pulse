@@ -5,6 +5,16 @@ const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
 const loader = document.getElementById("loader");
 
+/* 
+Say if the document actually in modification is saved or not
+
+By default is the starter so he is not saved
+
+0 : File not existing
+1: File existing
+*/
+let editor_type = 0;
+
 let choosen_file_path = null;
 const parser = new MarkdownParser(invoke);
 
@@ -36,6 +46,18 @@ async function getStarter() {
       if (typeof updatePreview === 'function') {
         await updatePreview();
       }
+
+      editor_type = 0;
+    }
+
+    async function saveFile(){
+      if (editor_type === 0){
+        // File not existing
+        console.log("File not existing");
+      }else{
+        // File existing
+        console.log("file existing");
+      }
     }
 
     async function openNewFileSource(source) {
@@ -55,6 +77,8 @@ async function getStarter() {
       } catch (err) {
         console.error("Erreur :", err);
       }
+
+      editor_type = 1;
     }
 
     // 1) Interception dans Monaco (quand l'éditeur a le focus)
@@ -67,6 +91,10 @@ async function getStarter() {
         e.preventDefault();
         e.stopPropagation();
         createNewFile();
+      }else if ((e.ctrlKey || e.metaKey) && e.keyCode === monaco.KeyCode.KeyS){
+        e.preventDefault();
+        e.stopPropagation();
+        saveFile();
       }
     });
 
