@@ -20,6 +20,22 @@ const parser = new MarkdownParser(invoke);
 
 require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
 
+function redirections() {
+  const temp = document.querySelector("app-sidebar");
+  temp.addEventListener("rendered", () => {
+    document.getElementById("home").addEventListener("click", () => {
+      window.location.href = "../index.html";
+    });
+    document.getElementById("exportToPdf").addEventListener("click", () => {
+      window.location.href = "pdfExport.html";
+    });
+    document.getElementById("settings").addEventListener("click", () => {
+      window.location.href = "settings.html";
+    });
+  });
+}
+redirections();
+
 async function getStarter() {
   try {
     return await invoke('get_md_starter');
