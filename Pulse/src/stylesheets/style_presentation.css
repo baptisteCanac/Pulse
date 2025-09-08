@@ -264,3 +264,8 @@ span.quote {
   width: 20px;
   height: 20px;
 }
+
+.bullet-list{
+  list-style-type: disc; /* ou circle, square */
+  margin-left: 20px;
+}

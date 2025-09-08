@@ -4,15 +4,22 @@ export default class MarkdownParser {
   }
 
   parseMarkdownHeadings(md) {
-    return String(md)
-      .replace(/^######\s+(.*)$/gm, '<h6>$1</h6>')
-      .replace(/^#####\s+(.*)$/gm, '<h5>$1</h5>')
-      .replace(/^####\s+(.*)$/gm, '<h4>$1</h4>')
-      .replace(/^###\s+(.*)$/gm,  '<h3>$1</h3>')
-      .replace(/^##\s+(.*)$/gm,   '<h2>$1</h2>')
-      .replace(/^#\s+(.*)$/gm,    '<h1>$1</h1>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  }
+  return String(md)
+    // Titres
+    .replace(/^######\s+(.*)$/gm, '<h6>$1</h6>')
+    .replace(/^#####\s+(.*)$/gm, '<h5>$1</h5>')
+    .replace(/^####\s+(.*)$/gm, '<h4>$1</h4>')
+    .replace(/^###\s+(.*)$/gm,  '<h3>$1</h3>')
+    .replace(/^##\s+(.*)$/gm,   '<h2>$1</h2>')
+    .replace(/^#\s+(.*)$/gm,    '<h1>$1</h1>')
+    // Gras
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    // Transformer les lignes qui commencent par * en <li>
+    .replace(/^\*\s+(.*)$/gm, '<li>$1</li>')
+    // Regrouper les <li> consécutifs dans un <ul> avec une classe
+    .replace(/(<li>.*<\/li>(\r?\n)?)+/g, match => `<ul class="bullet-list">\n${match.trim()}\n</ul>`);
+}
+
 
   parseMarkdownLists(md) {
     const lines = md.split("\n");
