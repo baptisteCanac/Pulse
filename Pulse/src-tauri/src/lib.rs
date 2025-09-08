@@ -29,6 +29,36 @@ fn select_file(script_path: &str) -> Result<String, String> {
 }
 
 #[tauri::command]
+fn run_python_script() -> Result<(String, String), String> {
+    // 1️⃣ Lancer le script Python pour récupérer le chemin du fichier
+    let output = Command::new("python3")
+        .arg("../src/scripts/pick_file.py")
+        .output()
+        .map_err(|e| e.to_string())?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur Python : {}", stderr);
+    }
+
+    // 2️⃣ Vérifier que stdout n’est pas vide
+    if stdout.is_empty() {
+        return Err("Aucun fichier sélectionné".into());
+    }
+
+    let choosen_file_path = stdout;
+
+    // 3️⃣ Lire le contenu du fichier choisi
+    let file_content = fs::read_to_string(&choosen_file_path)
+        .map_err(|e| format!("Erreur lecture fichier : {}", e))?;
+
+    // 4️⃣ Retourner un tuple (chemin, contenu)
+    Ok((choosen_file_path, file_content))
+}
+
+#[tauri::command]
 fn new_recent_file(new_recent_file_path: &str) -> Result<String, String> {
     // Chemin vers ton script Python
     let script_path = "../src/scripts/new_recent_file.py";
@@ -270,7 +300,8 @@ pub fn run() {
             get_theme,
             set_theme,
             get_version,
-            get_md_starter
+            get_md_starter,
+            run_python_script
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
