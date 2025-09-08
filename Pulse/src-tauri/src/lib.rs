@@ -62,6 +62,38 @@ fn open_new_file() -> Result<(String, String), String> {
 }
 
 #[command]
+fn create_new_file(text: String) -> Result<String, String> {
+    // Lancer le script Python pour créer un nouveau fichier
+    let mut child = Command::new("python3")
+        .arg("../src/scripts/create_new_file.py")
+        .stdin(Stdio::piped())  // on envoie le texte via stdin
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| e.to_string())?;
+
+    // Écrire le texte de l'éditeur dans stdin
+    if let Some(stdin) = child.stdin.as_mut() {
+        stdin.write_all(text.as_bytes()).map_err(|e| e.to_string())?;
+    }
+
+    let output = child.wait_with_output().map_err(|e| e.to_string())?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur Python : {}", stderr);
+    }
+
+    if stdout.is_empty() {
+        Err("Erreur lors de la création du fichier".into())
+    } else {
+        Ok(stdout)  // Retourne le chemin complet du fichier créé
+    }
+}
+
+#[command]
 fn save_existing_file(path: String, text: String) -> Result<String, String> {
     let mut child = Command::new("python3")
         .arg("../src/scripts/save_existing_file.py")
@@ -337,7 +369,8 @@ pub fn run() {
             get_version,
             get_md_starter,
             open_new_file,
-            save_existing_file
+            save_existing_file,
+            create_new_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

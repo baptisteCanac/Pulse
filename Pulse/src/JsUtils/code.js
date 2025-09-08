@@ -52,8 +52,15 @@ async function getStarter() {
 
     async function saveFile(){
       if (editor_type === 0){
-        // File not existing
-        console.log("File not existing");
+        const text = editor.getValue(); // texte actuel de l'éditeur
+        try {
+          const newFilePath = await invoke("create_new_file", { text });
+          console.log("Nouveau fichier créé :", newFilePath);
+          choosen_file_path = newFilePath;
+          editor_type = 1;
+        } catch (err) {
+          console.error("Erreur création nouveau fichier :", err);
+        }
       }else{
         // File existing
         const test = await invoke("save_existing_file", {path: choosen_file_path, text: editor.getValue()});
