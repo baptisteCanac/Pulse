@@ -4,6 +4,9 @@ use std::fs;
 use std::path::Path;
 use std::collections::HashMap;
 use serde_json::Value;
+use std::io::Write;
+use std::process::Stdio;
+use tauri::command;
 
 #[tauri::command]
 fn select_file(script_path: &str) -> Result<String, String> {
@@ -23,6 +26,100 @@ fn select_file(script_path: &str) -> Result<String, String> {
 
     if stdout.is_empty() {
         Err("Aucun fichier sélectionné".into())
+    } else {
+        Ok(stdout)
+    }
+}
+
+#[tauri::command]
+fn open_new_file() -> Result<(String, String), String> {
+    // 1️⃣ Lancer le script Python pour récupérer le chemin du fichier
+    let output = Command::new("python3")
+        .arg("../src/scripts/pick_file.py")
+        .output()
+        .map_err(|e| e.to_string())?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur Python : {}", stderr);
+    }
+
+    // 2️⃣ Vérifier que stdout n’est pas vide
+    if stdout.is_empty() {
+        return Err("Aucun fichier sélectionné".into());
+    }
+
+    let choosen_file_path = stdout;
+
+    // 3️⃣ Lire le contenu du fichier choisi
+    let file_content = fs::read_to_string(&choosen_file_path)
+        .map_err(|e| format!("Erreur lecture fichier : {}", e))?;
+
+    // 4️⃣ Retourner un tuple (chemin, contenu)
+    Ok((choosen_file_path, file_content))
+}
+
+#[command]
+fn create_new_file(text: String) -> Result<String, String> {
+    // Lancer le script Python pour créer un nouveau fichier
+    let mut child = Command::new("python3")
+        .arg("../src/scripts/create_new_file.py")
+        .stdin(Stdio::piped())  // on envoie le texte via stdin
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| e.to_string())?;
+
+    // Écrire le texte de l'éditeur dans stdin
+    if let Some(stdin) = child.stdin.as_mut() {
+        stdin.write_all(text.as_bytes()).map_err(|e| e.to_string())?;
+    }
+
+    let output = child.wait_with_output().map_err(|e| e.to_string())?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur Python : {}", stderr);
+    }
+
+    if stdout.is_empty() {
+        Err("Erreur lors de la création du fichier".into())
+    } else {
+        Ok(stdout)  // Retourne le chemin complet du fichier créé
+    }
+}
+
+#[command]
+fn save_existing_file(path: String, text: String) -> Result<String, String> {
+    let mut child = Command::new("python3")
+        .arg("../src/scripts/save_existing_file.py")
+        .arg(&path)           // uniquement le chemin
+        .stdin(Stdio::piped()) // pour envoyer le texte
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .map_err(|e| e.to_string())?;
+
+    // Écrire le texte dans stdin
+    if let Some(stdin) = child.stdin.as_mut() {
+        stdin.write_all(text.as_bytes()).map_err(|e| e.to_string())?;
+    }
+
+    let output = child.wait_with_output().map_err(|e| e.to_string())?;
+
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur Python : {}", stderr);
+    }
+
+    if stdout.is_empty() {
+        Err("Erreur lors de la sauvegarde".into())
     } else {
         Ok(stdout)
     }
@@ -270,7 +367,10 @@ pub fn run() {
             get_theme,
             set_theme,
             get_version,
-            get_md_starter
+            get_md_starter,
+            open_new_file,
+            save_existing_file,
+            create_new_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
