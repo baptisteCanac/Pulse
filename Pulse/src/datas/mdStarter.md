@@ -65,6 +65,12 @@ def bonjour(nom: str) -> str:
    return f"Bonjour {nom}"
 ```
 
+## Exemple de code javascript
+```javascript
+function bonjour(nom) {
+    return `Bonjour ${nom}`;
+}
+```
 ---
 
 ## 🖋️ Exemple de diagramme Mermaid
