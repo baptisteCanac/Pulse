@@ -1,14 +1,22 @@
+const { invoke } = window.__TAURI__.core;
+
 import MarkdownParser from "./MarkdownParser.js";
+
+let starter;
 
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
 const loader = document.getElementById("loader");
 
-// Dummy invoke
-async function invoke(cmd, args) {
-  if (cmd === "read_image") return new Uint8Array();
-  return null;
+async function fetchMd() {
+  try {
+    starter = await invoke('get_md_starter');
+  } catch (error) {
+    console.error(error);
+  }
 }
+
+fetchMd();
 
 const parser = new MarkdownParser(invoke);
 
@@ -35,7 +43,7 @@ function redirections() {
 
 require(['vs/editor/editor.main'], function() {
   const editor = monaco.editor.create(editorParent, {
-    value: "# Titre 1\n## Titre 2\n\n- Item 1\n- Item 2\n\n`Code inline`",
+    value: starter,
     language: 'markdown',
     theme: 'vs-dark',
     automaticLayout: true, // s'adapte à la taille

@@ -242,6 +242,18 @@ fn set_theme(new_theme: i32) -> Result<(), String> {
     Ok(())
 }
 
+#[tauri::command]
+fn get_md_starter() -> Result<String, String> {
+    // Chemin vers le fichier Markdown
+    let file_path = "../src/datas/mdStarter.md";
+
+    // Lire le contenu du fichier
+    let content = fs::read_to_string(file_path)
+        .map_err(|e| format!("Erreur lecture du fichier {} : {}", file_path, e))?;
+
+    Ok(content)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -257,7 +269,8 @@ pub fn run() {
             get_shortcuts,
             get_theme,
             set_theme,
-            get_version
+            get_version,
+            get_md_starter
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
