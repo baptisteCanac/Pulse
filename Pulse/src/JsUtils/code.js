@@ -1,71 +1,82 @@
 const { invoke } = window.__TAURI__.core;
 import MarkdownParser from "./MarkdownParser.js";
-let starter;
+
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
 const loader = document.getElementById("loader");
 
-async function fetchMd() {
-  try {
-    starter = await invoke('get_md_starter');
-  } catch (error) {
-    console.error(error);
-  }
-}
-fetchMd();
-
 const parser = new MarkdownParser(invoke);
 
-// Charger Monaco
-require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
+require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
 
-function redirections() {
-  const temp = document.querySelector("app-sidebar");
-  temp.addEventListener("rendered", () => {
-    document.getElementById("home").addEventListener("click", () => {
-      window.location.href = "../index.html";
-    });
-    document.getElementById("exportToPdf").addEventListener("click", () => {
-      window.location.href = "pdfExport.html";
-    });
-    document.getElementById("settings").addEventListener("click", () => {
-      window.location.href = "settings.html";
-    });
-  });
+async function getStarter() {
+  try {
+    return await invoke('get_md_starter');
+  } catch (e) {
+    console.error("get_md_starter error:", e);
+    return "";
+  }
 }
-redirections();
 
-require(['vs/editor/editor.main'], function() {
-  const editor = monaco.editor.create(editorParent, {
-    value: starter,
-    language: 'markdown',
-    theme: 'vs-dark',
-    automaticLayout: true, // s'adapte à la taille
-  });
+(async function init() {
+  const starter = await getStarter();
 
-  async function updatePreview() {
-    const mdContent = editor.getValue();
-    let html = await parser.parseAll(mdContent, "/dummy/path");
-    html = html.replace(/^\s*---\s*$/gm, '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">');
-    previewParent.innerHTML = html;
-    
-    // Appliquer Prism.js après la mise à jour du contenu
-    if (typeof Prism !== 'undefined') {
-      Prism.highlightAllUnder(previewParent);
+  require(['vs/editor/editor.main'], function() {
+    const editor = monaco.editor.create(editorParent, {
+      value: starter || '',
+      language: 'markdown',
+      theme: 'vs-dark',
+      automaticLayout: true,
+    });
+
+    async function openNewFileSource(source) {
+      console.log("coucou");
     }
-  }
 
-  // Premier rendu
-  (async () => {
-    await updatePreview();
-    hideLoader();
-  })();
+    // 1) Interception dans Monaco (quand l'éditeur a le focus)
+    editor.onKeyDown((e) => {
+      if ((e.ctrlKey || e.metaKey) && e.keyCode === monaco.KeyCode.KeyO) {
+        e.preventDefault();
+        e.stopPropagation();
+        openNewFileSource('monaco.onKeyDown');
+      }
+    });
 
-  // Update live
-  editor.onDidChangeModelContent(updatePreview);
+    // 2) Action Monaco (redondante mais utile pour la palette de commandes)
+    editor.addAction({
+      id: 'open-new-file-action',
+      label: 'Ouvrir un nouveau fichier',
+      keybindings: [monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyO],
+      run: () => { openNewFileSource('monaco.addAction'); return null; }
+    });
 
-  function hideLoader() {
-    loader.classList.add("opacity-0");
-    setTimeout(() => loader.style.display = "none", 500);
-  }
-});
+    // 3) Listener global en capture (doit s'exécuter AVANT la plupart des handlers)
+    document.addEventListener('keydown', (ev) => {
+      // use 'code' pour la touche physique (KeyO), plus fiable que .key sur certains layouts
+      if ((ev.ctrlKey || ev.metaKey) && ev.code === 'KeyO') {
+        ev.preventDefault();
+        ev.stopPropagation();
+        openNewFileSource('document.capture');
+      }
+    }, true); // <-- important: capture = true
+
+    // Preview / update (ton code existant)
+    async function updatePreview() {
+      const mdContent = editor.getValue();
+      let html = await parser.parseAll(mdContent, "/dummy/path");
+      html = html.replace(/^\s*---\s*$/gm, '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">');
+      previewParent.innerHTML = html;
+      if (typeof Prism !== 'undefined') Prism.highlightAllUnder(previewParent);
+    }
+
+    (async () => { await updatePreview(); hideLoader(); })();
+    editor.onDidChangeModelContent(updatePreview);
+
+    function hideLoader() {
+      loader.classList.add("opacity-0");
+      setTimeout(() => loader.style.display = "none", 500);
+    }
+
+    window._monacoEditor = editor; // debug
+  });
+})();
