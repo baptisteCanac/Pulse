@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PULSE</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs/loader.js"></script>
   <script type="module" src="../JsUtils/code.js" defer></script>
   <script type="module" src="../components/appSidebar.js" defer></script>
   <link rel="stylesheet" type="text/css" href="../stylesheets/style_code.css">
@@ -14,8 +15,8 @@
   <div class="flex flex-col md:flex-row h-screen">
     <app-sidebar active="code"></app-sidebar>
 
-    <!-- Conteneur CodeMirror -->
-    <div id="editor" style="flex: 1; border-right: 1px solid #ccc; background: #f5f5f5; color: #1a1a1a"></div>
+    <!-- Conteneur Monaco -->
+    <div id="editor" style="flex: 1; min-height: 100vh; border-right: 1px solid #ccc;"></div>
     <!-- Preview -->
     <div id="preview" style="flex: 1; padding: 1rem; overflow: auto"></div>
 
