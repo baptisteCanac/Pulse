@@ -1,9 +1,6 @@
 const { invoke } = window.__TAURI__.core;
-
 import MarkdownParser from "./MarkdownParser.js";
-
 let starter;
-
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
 const loader = document.getElementById("loader");
@@ -15,7 +12,6 @@ async function fetchMd() {
     console.error(error);
   }
 }
-
 fetchMd();
 
 const parser = new MarkdownParser(invoke);
@@ -24,22 +20,20 @@ const parser = new MarkdownParser(invoke);
 require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
 
 function redirections() {
-    const temp = document.querySelector("app-sidebar");
-
-    temp.addEventListener("rendered", () => {
-      document.getElementById("home").addEventListener("click", () => {
-        window.location.href = "../index.html";
-      });
-      document.getElementById("exportToPdf").addEventListener("click", () => {
-        window.location.href = "pdfExport.html";
-      });
-      document.getElementById("settings").addEventListener("click", () => {
-        window.location.href = "settings.html";
-      });
+  const temp = document.querySelector("app-sidebar");
+  temp.addEventListener("rendered", () => {
+    document.getElementById("home").addEventListener("click", () => {
+      window.location.href = "../index.html";
     });
-  }
-
-  redirections();
+    document.getElementById("exportToPdf").addEventListener("click", () => {
+      window.location.href = "pdfExport.html";
+    });
+    document.getElementById("settings").addEventListener("click", () => {
+      window.location.href = "settings.html";
+    });
+  });
+}
+redirections();
 
 require(['vs/editor/editor.main'], function() {
   const editor = monaco.editor.create(editorParent, {
@@ -52,10 +46,13 @@ require(['vs/editor/editor.main'], function() {
   async function updatePreview() {
     const mdContent = editor.getValue();
     let html = await parser.parseAll(mdContent, "/dummy/path");
-
     html = html.replace(/^\s*---\s*$/gm, '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">');
-
     previewParent.innerHTML = html;
+    
+    // Appliquer Prism.js après la mise à jour du contenu
+    if (typeof Prism !== 'undefined') {
+      Prism.highlightAllUnder(previewParent);
+    }
   }
 
   // Premier rendu

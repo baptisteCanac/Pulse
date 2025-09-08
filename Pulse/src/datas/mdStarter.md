@@ -58,6 +58,15 @@ pour les conférenciers et formateurs.
 
 ---
 
+## Exemple de code python
+
+```python
+def bonjour(nom: str) -> str:
+   return f"Bonjour {nom}"
+```
+
+---
+
 ## 🖋️ Exemple de diagramme Mermaid
 
 ```mermaid
