@@ -4,6 +4,7 @@ import MarkdownParser from "./MarkdownParser.js";
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
 const loader = document.getElementById("loader");
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
 /* 
 Say if the document actually in modification is saved or not
@@ -141,12 +142,30 @@ async function getStarter() {
 
     // Preview / update (ton code existant)
     async function updatePreview() {
-      const mdContent = editor.getValue();
-      let html = await parser.parseAll(mdContent, "/dummy/path");
-      html = html.replace(/^\s*---\s*$/gm, '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">');
-      previewParent.innerHTML = html;
-      if (typeof Prism !== 'undefined') Prism.highlightAllUnder(previewParent);
+  const mdContent = editor.getValue();
+
+  // Transformation Markdown -> HTML
+  let html = await parser.parseAll(mdContent, "/dummy/path");
+
+  // Remplacement des séparateurs --- par des <hr>
+  html = html.replace(/^\s*---\s*$/gm, '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">');
+
+  // Injection dans le preview
+  previewParent.innerHTML = html;
+
+  // Initialisation Prism pour le code
+  if (typeof Prism !== 'undefined') Prism.highlightAllUnder(previewParent);
+
+  // Initialisation Mermaid uniquement dans le preview
+  if (typeof mermaid !== 'undefined') {
+    const mermaidBlocks = previewParent.querySelectorAll('pre.mermaid, div.mermaid');
+    if (mermaidBlocks.length > 0) {
+      mermaid.initialize({ startOnLoad: false, theme: 'default' });
+      mermaidBlocks.forEach(block => mermaid.init(undefined, block));
     }
+  }
+}
+
 
     (async () => { await updatePreview(); hideLoader(); })();
     editor.onDidChangeModelContent(updatePreview);
