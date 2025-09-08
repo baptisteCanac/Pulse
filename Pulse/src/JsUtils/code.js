@@ -30,6 +30,14 @@ async function getStarter() {
       automaticLayout: true,
     });
 
+    async function createNewFile(){
+      editor.setValue("");
+
+      if (typeof updatePreview === 'function') {
+        await updatePreview();
+      }
+    }
+
     async function openNewFileSource(source) {
       try {
         const [path, content] = await invoke("run_python_script");
@@ -55,6 +63,10 @@ async function getStarter() {
         e.preventDefault();
         e.stopPropagation();
         openNewFileSource('monaco.onKeyDown');
+      }else if ((e.ctrlKey || e.metaKey) && e.keyCode === monaco.KeyCode.KeyN){
+        e.preventDefault();
+        e.stopPropagation();
+        createNewFile();
       }
     });
 
