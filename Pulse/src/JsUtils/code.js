@@ -5,6 +5,7 @@ const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
 const loader = document.getElementById("loader");
 
+let choosen_file_path = null;
 const parser = new MarkdownParser(invoke);
 
 require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
@@ -30,23 +31,23 @@ async function getStarter() {
     });
 
     async function openNewFileSource(source) {
-  try {
-    const [path, content] = await invoke("run_python_script");
-    console.log("Chemin :", path);
-    console.log("Contenu :", content);
+      try {
+        const [path, content] = await invoke("run_python_script");
+        console.log("Chemin :", path);
+        choosen_file_path = path;
+        console.log("Contenu :", content);
 
-    // ✅ Remplacer le contenu de l'éditeur
-    editor.setValue(content);
+        // ✅ Remplacer le contenu de l'éditeur
+        editor.setValue(content);
 
-    // ✅ Mettre à jour la preview après changement
-    if (typeof updatePreview === 'function') {
-      await updatePreview();
+        // ✅ Mettre à jour la preview après changement
+        if (typeof updatePreview === 'function') {
+          await updatePreview();
+        }
+      } catch (err) {
+        console.error("Erreur :", err);
+      }
     }
-  } catch (err) {
-    console.error("Erreur :", err);
-  }
-}
-
 
     // 1) Interception dans Monaco (quand l'éditeur a le focus)
     editor.onKeyDown((e) => {
