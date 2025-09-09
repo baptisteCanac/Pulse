@@ -30,6 +30,23 @@ npm install
 npm run tauri dev
 ```
 
+If you get an error like: "Cannot find native binding. npm has a bug related to optional dependencies"
+
+You must unninstall the npm nodes modules and packages-lock with this command:
+`bash
+rm -rf node_modules package-lock.json
+`
+
+Then install the dependaces:
+`bash
+npm install
+`
+
+Then launch another time the app with 
+`bash
+npm run tauri dev
+`
+
 ⸻
 
 🎯 Usage
