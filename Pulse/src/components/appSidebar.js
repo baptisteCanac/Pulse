@@ -23,7 +23,7 @@ class appSidebar extends HTMLElement{
           </a>
           <a id="export" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'export' ? 'text-blue-400' : ''}">
             <span>💾</span>
-            ${!isCode ? `<span id='export_to_html_text_sidebar'>Export</span>` : ""}
+            ${!isCode ? `<span id='export_text_sidebar'>Export</span>` : ""}
           </a>
           <a href="#" id='code' class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'code' ? 'text-blue-400' : ''}">
             <span>🧑‍💻</span>

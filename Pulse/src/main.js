@@ -76,8 +76,8 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("openFileButton").addEventListener("click", selectFile);
 
-  document.getElementById("exportToHtml").addEventListener("click", () => {
-    window.location.href = "html/htmlExport.html";
+  document.getElementById("export").addEventListener("click", () => {
+    window.location.href = "html/export.html";
   });
 
   document.getElementById("code").addEventListener("click", () => {
