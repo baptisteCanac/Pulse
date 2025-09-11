@@ -83,13 +83,11 @@
                             <div class="flex items-center bg-white border border-gray-300 rounded-md px-3 py-2">
                                 <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-300 rounded font-mono">Ctrl</kbd>
                                 <span class="mx-2 text-gray-500">+</span>
-                                <input 
+                                <input
+                                    id="overlay_input"
                                     type="text" 
                                     maxlength="1" 
-                                    value="O"
                                     class="shortcut-input w-8 h-8 text-center text-sm font-semibold border border-gray-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono"
-                                    onkeypress="handleKeyPress(event)"
-                                    onchange="updateShortcut('overlay', this.value)"
                                 >
                             </div>
                         </div>
@@ -106,12 +104,10 @@
                                 <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-300 rounded font-mono">Ctrl</kbd>
                                 <span class="mx-2 text-gray-500">+</span>
                                 <input 
+                                    id="home_input"
                                     type="text" 
                                     maxlength="1" 
-                                    value="P"
                                     class="shortcut-input w-8 h-8 text-center text-sm font-semibold border border-gray-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono"
-                                    onkeypress="handleKeyPress(event)"
-                                    onchange="updateShortcut('settings', this.value)"
                                 >
                             </div>
                         </div>
@@ -124,13 +120,10 @@
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-3">
                         <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" id="default_values"></button>
-                        <button 
-                            onclick="saveShortcuts()"
+                        <button
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                             id="saveBtn"
-                        >
-                            
-                        </button>
+                        ></button>
                     </div>
                 </div>
             </div>
