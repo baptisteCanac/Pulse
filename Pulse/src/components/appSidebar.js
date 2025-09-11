@@ -41,8 +41,8 @@ class appSidebar extends HTMLElement{
       </div>
 
       <!-- Footer -->
-      <div class="mt-6 text-sm text-gray-400">
-        ${!isCode ? `version <span id="version"></span>` : ""}
+      <div class="mt-6 text-sm text-gray-400" id='versionContainer'>
+        ${!isCode ? `<span id='version_text'>version</span> <span id="version"></span>` : ""}
       </div>
     </aside>
   `;

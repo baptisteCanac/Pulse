@@ -14,7 +14,7 @@ async function syncVersion(){
   const version = await invoke("get_version");
   document.getElementById("version").innerText = version;
 }
-syncVersion();
+// syncVersion();
 
 // Fonction pour appliquer le thème actuel
 async function applyTheme() {

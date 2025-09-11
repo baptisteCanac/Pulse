@@ -86,6 +86,10 @@
         "save": [
             "Enregistrer",
             "Save"
+        ],
+        "version": [
+            "version",
+            "version"
         ]
     },
     "home": {
