@@ -88,6 +88,21 @@ graph TD
 
 ---
 
+## Exemple de formule LateX
+
+
+$$
+\int_0^\infty e^{-x}\, dx = 1
+$$
+
+---
+
+$$
+\frac{d}{dx} \Big( \sin(x) \Big) = \cos(x)
+$$
+
+---
+
 
 ## 🎉 Conclusion
 

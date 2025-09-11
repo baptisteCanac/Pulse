@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PULSE</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs/loader.js"></script>
     <script type="module" src="../JsUtils/code.js" defer></script>
     <script type="module" src="../components/appSidebar.js" defer></script>
@@ -13,7 +17,7 @@
     <!-- Prism.js CSS -->
     <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" rel="stylesheet">
   </head>
-  <body class="bg-gray-900 text-white font-sans">
+  <body class="bg-gray-900 text-white font-sans" style="overflow: hidden;">
     <div class="flex flex-col md:flex-row h-screen">
     <app-sidebar active="code"></app-sidebar>
     <!-- Conteneur Monaco -->
