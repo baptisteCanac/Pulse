@@ -1,4 +1,5 @@
 {
+    "choosen_language": 1,
     "disponibles_languages": ["Francais", "English"],
     "settings": {
         "title": ["Apparence", "Appearance"],
