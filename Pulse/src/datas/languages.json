@@ -1,0 +1,19 @@
+{
+    "disponibles_languages": ["Francais", "English"],
+    "settings": {
+        "title": ["Apparence", "Appearance"],
+        "theme_title": ["Thème", "Theme"],
+        "auto_mode": ["Auto", "Auto"],
+        "light_mode": ["Clair", "Light"],
+        "dark_mode": ["Sombre", "Dark"],
+        "diagrams_and_code_title": ["Code & Diagrammes", "Diagrams & Code"],
+        "languages_highlighted": ["Langages supportés", "Languages highlighted"],
+        "shortcuts_title": ["Raccourcis", "Shortcuts"],
+        "open_overlay": ["Ouvrir l'overlay", "Open overlay"],
+        "open_overlay_subtitle": ["Ouvrir l'overlay dans le mode présentation", "open overlay in presentation mode"],
+        "go_home": ["Retourner au menu", "Go Home"],
+        "go_home_shortcut": ["Raccourcis pour revenir au menu", "Go home shortcut"],
+        "default_values": ["Valeurs par défaut", "Default values"],
+        "save": ["Enregistrer", "Save"]
+    }
+}
