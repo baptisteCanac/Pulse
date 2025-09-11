@@ -9,13 +9,9 @@
             "Menu",
             "Home"
         ],
-        "export_to_html": [
-            "Exporter en html",
-            "Export to html"
-        ],
-        "export_to_pdf": [
-            "Exporter en pdf",
-            "Export to pdf"
+        "export": [
+            "Exporter",
+            "Export"
         ],
         "code": [
             "Editeur de code",

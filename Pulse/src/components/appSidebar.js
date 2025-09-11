@@ -21,13 +21,9 @@ class appSidebar extends HTMLElement{
             <span>🏠</span>
             ${!isCode ? `<span id='home_text_sidebar'>Home</span>` : ""}
           </a>
-          <a id="exportToHtml" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'exportToHtml' ? 'text-blue-400' : ''}">
-            <span>🌐</span>
-            ${!isCode ? `<span id='export_to_html_text_sidebar'>Export to HTML</span>` : ""}
-          </a>
-          <a href="#" id='exportToPdf' class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'exportToPdf' ? 'text-blue-400' : ''}">
-            <span>📄</span>
-            ${!isCode ? `<span id='export_to_pdf_text_sidebar'>Export to PDF</span>` : ""}
+          <a id="export" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'export' ? 'text-blue-400' : ''}">
+            <span>💾</span>
+            ${!isCode ? `<span id='export_text_sidebar'>Export</span>` : ""}
           </a>
           <a href="#" id='code' class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'code' ? 'text-blue-400' : ''}">
             <span>🧑‍💻</span>
