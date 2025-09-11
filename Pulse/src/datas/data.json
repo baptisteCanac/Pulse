@@ -1,20 +1,20 @@
 {
-    "recent_files_paths": [
-        "/Users/baptiste/Desktop/souverainete-numerique-conference-ht-main/slides/slides.md",
-        "/Users/baptiste/Desktop/souverainete-numerique-conference-ht-main/slides/slides.md",
-        "/Users/baptiste/Desktop/souverainete-numerique-conference-ht-main/slides/slides.md",
-        "/Users/baptiste/Desktop/souverainete-numerique-conference-ht-main/slides/slides.md"
-    ],
-    "recent_files_titles": [
-        "slides.md",
-        "slides.md",
-        "slides.md",
-        "slides.md"
-    ],
-    "shortcuts": {
-        "go_home": "h",
-        "open_overlay": "o"
-    },
-    "theme": "1",
-    "version": "2.0.0"
+  "recent_files_paths": [
+    "/Users/baptiste/Desktop/souverainete-numerique-conference-ht-main/slides/slides.md",
+    "/Users/baptiste/Desktop/souverainete-numerique-conference-ht-main/slides/slides.md",
+    "/Users/baptiste/Desktop/souverainete-numerique-conference-ht-main/slides/slides.md",
+    "/Users/baptiste/Desktop/souverainete-numerique-conference-ht-main/slides/slides.md"
+  ],
+  "recent_files_titles": [
+    "slides.md",
+    "slides.md",
+    "slides.md",
+    "slides.md"
+  ],
+  "shortcuts": {
+    "go_home": "h",
+    "open_overlay": "o"
+  },
+  "theme": "1",
+  "version": "2.0.0"
 }

@@ -21,14 +21,31 @@ const parser = new MarkdownParser(invoke);
 
 require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
 
+function applyMonacoTheme(theme) {
+  if (!window._monacoEditor) return;
+
+  switch(theme) {
+    case 1: // Light
+      monaco.editor.setTheme('vs'); // thème clair
+      break;
+    case 2: // Dark
+      monaco.editor.setTheme('vs-dark'); // thème sombre
+      break;
+    default: // Auto
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        monaco.editor.setTheme('vs-dark');
+      } else {
+        monaco.editor.setTheme('vs');
+      }
+      break;
+  }
+}
+
 function redirections() {
   const temp = document.querySelector("app-sidebar");
   temp.addEventListener("rendered", () => {
     document.getElementById("home").addEventListener("click", () => {
       window.location.href = "../index.html";
-    });
-    document.getElementById("exportToPdf").addEventListener("click", () => {
-      window.location.href = "pdfExport.html";
     });
     document.getElementById("settings").addEventListener("click", () => {
       window.location.href = "settings.html";
@@ -198,8 +215,6 @@ function renderMath(container) {
   walk(container);
 }
 
-
-
 async function updatePreview() {
   const mdContent = editor.getValue();
   let html = await parser.parseAll(mdContent, "/dummy/path");
@@ -237,5 +252,16 @@ async function updatePreview() {
     }
 
     window._monacoEditor = editor; // debug
+
+    // Récupérer le thème depuis Tauri et l'appliquer à Monaco
+(async () => {
+    try {
+        const theme = parseInt(await invoke("get_theme"), 10);
+        applyMonacoTheme(theme);
+    } catch(err) {
+        console.error("Impossible de récupérer le thème pour Monaco :", err);
+    }
+})();
+
   });
 })();
