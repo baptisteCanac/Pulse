@@ -4,9 +4,7 @@ import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.mi
 
 const { invoke } = window.__TAURI__.core;
 
-/*
-Settings
-*/
+/* Settings */
 // 0: auto, 1: Light, 2: Dark
 const theme = await invoke("get_theme");
 
@@ -31,6 +29,46 @@ let slideStrings = code.split(/^\s*---\s*$/gm);
 let currentSlide = 0;
 let slideElements = [];
 
+function renderMath(container) {
+  if (typeof katex === "undefined") {
+    console.warn("KaTeX introuvable");
+    return;
+  }
+
+  const displayRegex = /\$\$([\s\S]+?)\$\$/g;
+  const inlineRegex = /(^|[^\\])\$(.+?)\$/g;
+
+  function processNode(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      let text = node.textContent;
+      text = text.replace(displayRegex, (match, g1) => {
+        try {
+          return katex.renderToString(g1, { displayMode: true, throwOnError: false });
+        } catch (err) {
+          console.error("Erreur KaTeX:", err);
+          return match;
+        }
+      });
+      text = text.replace(inlineRegex, (match, p1, g2) => {
+        try {
+          return p1 + katex.renderToString(g2, { displayMode: false, throwOnError: false });
+        } catch (err) {
+          console.error("Erreur KaTeX:", err);
+          return match;
+        }
+      });
+      const span = document.createElement('span');
+      span.innerHTML = text;
+      node.replaceWith(span);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      node.childNodes.forEach(child => processNode(child));
+    }
+  }
+
+  processNode(container);
+}
+
+
 slideStrings.forEach(element => {
   const new_section = document.createElement("section");
   const wrapper = document.createElement("div");
@@ -41,6 +79,15 @@ slideStrings.forEach(element => {
   new_section.style.display = "none";
   document.body.appendChild(new_section);
   slideElements.push(new_section);
+
+  // Mermaid
+  const mermaidBlocks = wrapper.querySelectorAll('pre.mermaid');
+  if (mermaidBlocks.length > 0) {
+      mermaid.init(undefined, mermaidBlocks);
+  }
+
+  // KaTeX
+  renderMath(wrapper);
 });
 
 // Affiche première slide
@@ -61,7 +108,7 @@ function goToPreviousSlide() {
   if (currentSlide > 0) {
     currentSlide--;
     showSlide(currentSlide);
-    actualSlide --;
+    actualSlide--;
   }
 }
 
@@ -69,13 +116,11 @@ function goToNextSlide() {
   if (currentSlide < slideElements.length - 1) {
     currentSlide++;
     showSlide(currentSlide);
-    actualSlide ++;
+    actualSlide++;
   }
 }
 
-/* 
-Shortcuts
-*/
+/* Shortcuts */
 
 // go home
 document.addEventListener("keydown", (event) => {
@@ -86,77 +131,64 @@ document.addEventListener("keydown", (event) => {
 
 // CTRL+O pour l'overlay
 document.addEventListener("keydown", (event) => {
-  if (event.ctrlKey && event.key.toLocaleLowerCase() === shortcuts["open_overlay"]){
-    if (toggleOverlay === 0 ){
-      toggleOverlay ++;
+  if (event.ctrlKey && event.key.toLocaleLowerCase() === shortcuts["open_overlay"]) {
+    if (toggleOverlay === 0) {
+      toggleOverlay++;
       activateOverlay();
-    }else{
+    } else {
       deactivateOverlay();
-      toggleOverlay --;
+      toggleOverlay--;
     }
   }
 });
 
 deactivateOverlay();
 
-function activateOverlay(){
-  console.log("activation de l'overlay");
+function activateOverlay() {
+  console.log("Activation de l'overlay");
   document.querySelector(".media-player-overlay").style.display = "flex";
 }
-function deactivateOverlay(){
-  console.log("Desactivation de l'overlay");
+function deactivateOverlay() {
+  console.log("Désactivation de l'overlay");
   document.querySelector(".media-player-overlay").style.display = "none";
 }
 
 // Mode clair/sombre
-if (theme === "0"){
+if (theme === "0") {
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   if (!prefersDark) {
     colorMode.lightModePresentation();
   }
-}else if (theme === "1"){
+} else if (theme === "1") {
   colorMode.lightModePresentation();
 }
 
-// mermaid
-
+// Mermaid global
 mermaid.initialize({
-    startOnLoad: true, // Scanne toute la page et convertit automatiquement
-    theme: 'default'   // Tu peux changer: 'dark', 'neutral', etc.
-  });
-
-slideElements.forEach(section => {
-    const mermaidBlocks = section.querySelectorAll('pre.mermaid');
-    if (mermaidBlocks.length > 0) {
-        mermaid.init(undefined, mermaidBlocks);
-    }
+  startOnLoad: true,
+  theme: 'default'
 });
 
-// text coloration
-
+// Prism
 Prism.highlightAll();
 
-// Remplacez la partie du media player dans votre code par ceci :
-
+// Media Player
 (function() {
-  // Encapsulation pour éviter les conflits de variables globales
   const playBtn = document.querySelector('.media-player-play-btn');
   const timeDisplay = document.querySelector('.media-player-time-display');
   const progressInfo = document.querySelector('.media-player-progress-info');
-            
+
   let isPlaying = false;
-  let currentTime = 0; // temps en secondes
-  let slideStartTime = 0; // temps de début de la slide actuelle
+  let currentTime = 0;
 
   function formatTime(seconds) {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-                
     if (hours > 0) {
-      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      return `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
     } else {
-      return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      return `${minutes.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
     }
   }
 
@@ -165,7 +197,6 @@ Prism.highlightAll();
     progressInfo.textContent = `${currentSlide + 1}/${slideElements.length}`;
   }
 
-  // Fonction pour synchroniser le player avec les slides
   function syncWithCurrentSlide() {
     updateDisplay();
   }
@@ -173,22 +204,16 @@ Prism.highlightAll();
   playBtn.addEventListener('click', () => {
     isPlaying = !isPlaying;
     if (isPlaying) {
-      slideStartTime = currentTime; // Marque le temps de début de lecture
-      playBtn.innerHTML = `
-        <svg class="media-player-icon media-player-play-icon" viewBox="0 0 24 24">
-          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-        </svg>
-      `;
+      playBtn.innerHTML = `<svg class="media-player-icon media-player-play-icon" viewBox="0 0 24 24">
+        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+      </svg>`;
     } else {
-      playBtn.innerHTML = `
-        <svg class="media-player-icon media-player-play-icon" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z"/>
-        </svg>
-      `;
+      playBtn.innerHTML = `<svg class="media-player-icon media-player-play-icon" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>`;
     }
   });
 
-  // Simulation du temps qui passe
   setInterval(() => {
     if (isPlaying) {
       currentTime++;
@@ -196,58 +221,25 @@ Prism.highlightAll();
     }
   }, 1000);
 
-  // Gestion des boutons précédent/suivant
   document.querySelectorAll('.media-player-control-btn').forEach((btn, index) => {
-    if (index === 2) { // Bouton précédent
-      btn.addEventListener('click', () => {
-        goToPreviousSlide();
-        syncWithCurrentSlide();
-      });
-    } else if (index === 3) { // Bouton suivant
-      btn.addEventListener('click', () => {
-        goToNextSlide();
-        syncWithCurrentSlide();
-      });
-    } else if (index === 1) { // Bouton actualiser/reset
-      btn.addEventListener('click', () => {
-        currentTime = 0;
-        slideStartTime = 0;
-        updateDisplay();
-      });
-    }
+    if (index === 2) { btn.addEventListener('click', () => { goToPreviousSlide(); syncWithCurrentSlide(); }); }
+    else if (index === 3) { btn.addEventListener('click', () => { goToNextSlide(); syncWithCurrentSlide(); }); }
+    else if (index === 1) { btn.addEventListener('click', () => { currentTime=0; updateDisplay(); }); }
   });
 
-  // Écouteur pour synchroniser quand on change de slide avec le clavier
-  function onSlideChange() {
-    syncWithCurrentSlide();
-  }
-
-  // Ajouter l'écouteur aux fonctions de navigation existantes
+  function onSlideChange() { syncWithCurrentSlide(); }
   const originalGoToPrevious = window.goToPreviousSlide || goToPreviousSlide;
   const originalGoToNext = window.goToNextSlide || goToNextSlide;
 
-  window.goToPreviousSlide = function() {
-    originalGoToPrevious();
-    onSlideChange();
-  };
+  window.goToPreviousSlide = function() { originalGoToPrevious(); onSlideChange(); };
+  window.goToNextSlide = function() { originalGoToNext(); onSlideChange(); };
 
-  window.goToNextSlide = function() {
-    originalGoToNext();
-    onSlideChange();
-  };
-
-  // Initialisation
   updateDisplay();
 
-  // Export des fonctions pour usage externe si nécessaire
   window.mediaPlayer = {
     play: () => isPlaying || playBtn.click(),
     pause: () => isPlaying && playBtn.click(),
-    reset: () => {
-      currentTime = 0;
-      slideStartTime = 0;
-      updateDisplay();
-    },
+    reset: () => { currentTime=0; updateDisplay(); },
     getCurrentTime: () => currentTime,
     isPlaying: () => isPlaying
   };
