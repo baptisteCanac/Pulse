@@ -90,7 +90,8 @@ update_button();
 
 async function change_language(element, language_id){
   element.classList.add("active");
-  console.log(language_id);
+  const test = await invoke("save_new_language", ({languageId: language_id}));
+  console.log(test);
 }
 
 document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
