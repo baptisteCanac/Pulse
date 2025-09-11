@@ -120,8 +120,10 @@ document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
   });
 })
 
-const translateManager = await new TranslateManager().init();
-translateManager.translateSidebar();
-translateManager.translateSettings();
+async function translate(){
+  const translateManager = await new TranslateManager().init();
+  translateManager.translateSidebar();
+  translateManager.translateSettings();
+}
 
-updateTexts();
+translate();
