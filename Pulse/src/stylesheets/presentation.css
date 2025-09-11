@@ -125,3 +125,24 @@
   margin: 0.5rem 0;
   white-space: pre-wrap;     /* conserver les retours à la ligne */
 }
+
+section {
+  display: flex;
+  flex-direction: column; /* empile verticalement */
+  align-items: center;    /* centre horizontalement tous les enfants */
+}
+
+section > * {
+  max-width: 90%; /* limite la largeur de tous les enfants */
+  width: 100%;    /* occupe toute la largeur disponible */
+  margin: 1rem 0; /* espace vertical */
+}
+
+/* Images spécifiques */
+section img {
+  display: block;
+  max-width: 50vw;  /* taille maximale pour ne pas tout remplir l'écran */
+  width: 100%;       /* largeur adaptative si l'image est plus petite */
+  height: auto;      /* conserve les proportions */
+  margin: 1rem auto; /* espace vertical et centrage horizontal */
+}
