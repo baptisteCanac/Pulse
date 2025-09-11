@@ -1,6 +1,7 @@
 const { invoke } = window.__TAURI__.core;
 import ColorMode from "./JsUtils/ColorMode.js";
 import JsonManager from "./JsUtils/JsonManager.js";
+import TranslateManager from "./JsUtils/TranslateManager.js";
 
 const jsonManager = new JsonManager("datas/data.json");
 const recent_files_container = document.getElementById("recent_files_container");
@@ -93,3 +94,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "html/settings.html";
   });
 });
+
+async function translate(){
+  const translateManager = await new TranslateManager().init();
+  translateManager.translateSidebar();
+  translateManager.translateHome();
+}
+
+translate();

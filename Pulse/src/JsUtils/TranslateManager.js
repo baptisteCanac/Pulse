@@ -1,3 +1,5 @@
+const { invoke } = window.__TAURI__.core;
+
 export default class TranslateManager {
     constructor() {
         this.data = null;
@@ -46,7 +48,7 @@ export default class TranslateManager {
             "open_overlay_subtitle",
             "go_home",
             "go_home_shortcut",
-            "default_values"
+            "default_values",
         ];
 
         keys.forEach(key => {
@@ -57,5 +59,10 @@ export default class TranslateManager {
         });
         
         document.getElementById("saveBtn").innerText = this.data["settings"]["save"][this.choosen_language];
+    }
+
+    translateHome(){
+        document.getElementById("openFileButton").innerText = this.data["home"]["open_a_file"][this.choosen_language];
+        document.getElementById("recent_file_text").innerText = this.data["home"]["recent_files"][this.choosen_language];
     }
 }
