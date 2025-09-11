@@ -33,6 +33,12 @@ export default class TranslateManager {
         document.getElementById("settings_text_sidebar").innerText = this.data["sidebar"]["settings"][this.choosen_language];
 
         document.getElementById("version_text").innerHTML = this.data["sidebar"]["version"][this.choosen_language];
+
+        async function syncVersion(){
+            const version = await invoke("get_version");
+            document.getElementById("version").innerText = version;
+        }
+        syncVersion();
     }
 
     translateSettings() {
