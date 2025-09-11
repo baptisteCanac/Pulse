@@ -210,4 +210,58 @@ body.settings-light span[style*="background-color: #374151"] {
             'settings-dark-styles'
         );
     }
+
+    // Nouvelle méthode dans la classe ColorMode
+darkModeSidebar() {
+    if (!this.sidebar) return; // sécurité si la sidebar n'est pas encore rendue
+
+    const theme = ColorMode.themes.dark;
+
+    // Appliquer uniquement le style sidebar
+    if (theme.sidebar) {
+        this.sidebar.classList.remove(...theme.sidebar.remove);
+        this.sidebar.classList.add(...theme.sidebar.add);
+    }
+
+    // Footer dans la sidebar
+    if (this.footer && theme.footer) {
+        this.footer.classList.remove(...theme.footer.remove);
+        this.footer.classList.add(...theme.footer.add);
+    }
+
+    // Fichiers récents
+    if (theme.recentFiles) {
+        document.querySelectorAll(".recent-file").forEach(el => {
+            el.classList.remove(...theme.recentFiles.remove);
+            el.classList.add(...theme.recentFiles.add);
+        });
+    }
+}
+
+// Méthode pour mettre uniquement la sidebar en light mode
+applyLightModeSidebar() {
+    if (!this.sidebar) return; // sécurité si sidebar pas encore rendue
+    const theme = ColorMode.themes.light;
+
+    // Sidebar
+    if (theme.sidebar) {
+        this.sidebar.classList.remove(...theme.sidebar.remove);
+        this.sidebar.classList.add(...theme.sidebar.add);
+    }
+
+    // Footer
+    if (this.footer && theme.footer) {
+        this.footer.classList.remove(...theme.footer.remove);
+        this.footer.classList.add(...theme.footer.add);
+    }
+
+    // Si tu veux, tu peux aussi mettre à jour les fichiers récents
+    if (theme.recentFiles) {
+        document.querySelectorAll(".recent-file").forEach(el => {
+            el.classList.remove(...theme.recentFiles.remove);
+            el.classList.add(...theme.recentFiles.add);
+        });
+    }
+}
+
 }

@@ -1,5 +1,6 @@
 const { invoke } = window.__TAURI__.core;
 import MarkdownParser from "./MarkdownParser.js";
+import ColorMode from "./ColorMode.js";
 
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
@@ -265,3 +266,30 @@ async function updatePreview() {
 
   });
 })();
+
+const colorMode = new ColorMode("index");
+
+async function applyTheme() {
+  const theme = parseInt(await invoke("get_theme"), 10);
+
+  try {
+
+    // Appliquer le thème
+    if (theme === 1) {
+      colorMode.applyLightModeSidebar();
+    } else if (theme === 2) {
+      colorMode.darkModeSidebar();
+    } else {
+      // Auto : détecter le système
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        colorMode.darkModeSidebar();
+      } else {
+        colorMode.applyLightModeSidebar();
+      }
+    }
+  } catch (err) {
+    console.error("Erreur lors de l'application du thème :", err);
+  }
+}
+
+applyTheme();
