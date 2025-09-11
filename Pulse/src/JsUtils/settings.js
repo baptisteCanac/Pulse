@@ -67,3 +67,13 @@ temp.addEventListener("rendered", () => {
     window.location.href = "../index.html";
   });
 });
+
+function change_language(language_id){
+  console.log(language_id);
+}
+
+document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
+  element.addEventListener("click", () => {
+    change_language(i);
+  });
+})
