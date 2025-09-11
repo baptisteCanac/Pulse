@@ -24,6 +24,10 @@
         "settings": [
             "Paramètres",
             "Settings"
+        ],
+        "version": [
+            "version",
+            "version"
         ]
     },
     "settings": {
@@ -86,10 +90,6 @@
         "save": [
             "Enregistrer",
             "Save"
-        ],
-        "version": [
-            "version",
-            "version"
         ]
     },
     "home": {
