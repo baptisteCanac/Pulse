@@ -140,23 +140,77 @@ async function getStarter() {
       }
     }, true); // <-- important: capture = true
 
-    // Preview / update (ton code existant)
-    async function updatePreview() {
-  const mdContent = editor.getValue();
+function renderMath(container) {
+  if (typeof katex === "undefined") {
+    console.warn("KaTeX introuvable");
+    return;
+  }
 
-  // Transformation Markdown -> HTML
+  // Regex
+  const displayRegex = /\$\$([^$]+)\$\$/g;
+  const inlineRegex = /(?<!\\)\$([^$]+)\$/g;
+
+  function processTextNode(node) {
+    const text = node.textContent;
+    let newHtml = text;
+
+    // Remplacer display $$...$$
+    newHtml = newHtml.replace(displayRegex, (match, tex) => {
+      try {
+        return katex.renderToString(tex.trim(), {
+          displayMode: true,
+          throwOnError: false
+        });
+      } catch (err) {
+        console.error("Erreur KaTeX display:", err);
+        return match;
+      }
+    });
+
+    // Remplacer inline $...$
+    newHtml = newHtml.replace(inlineRegex, (match, tex) => {
+      try {
+        return katex.renderToString(tex.trim(), {
+          displayMode: false,
+          throwOnError: false
+        });
+      } catch (err) {
+        console.error("Erreur KaTeX inline:", err);
+        return match;
+      }
+    });
+
+    if (newHtml !== text) {
+      const span = document.createElement("span");
+      span.innerHTML = newHtml;
+      node.replaceWith(span);
+    }
+  }
+
+  function walk(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      processTextNode(node);
+    } else {
+      node.childNodes.forEach(walk);
+    }
+  }
+
+  walk(container);
+}
+
+
+
+async function updatePreview() {
+  const mdContent = editor.getValue();
   let html = await parser.parseAll(mdContent, "/dummy/path");
 
-  // Remplacement des séparateurs --- par des <hr>
-  html = html.replace(/^\s*---\s*$/gm, '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">');
+  html = html.replace(/^\s*---\s*$/gm,
+    '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">'
+  );
 
-  // Injection dans le preview
   previewParent.innerHTML = html;
 
-  // Initialisation Prism pour le code
-  if (typeof Prism !== 'undefined') Prism.highlightAllUnder(previewParent);
-
-  // Initialisation Mermaid uniquement dans le preview
+  // Mermaid
   if (typeof mermaid !== 'undefined') {
     const mermaidBlocks = previewParent.querySelectorAll('pre.mermaid, div.mermaid');
     if (mermaidBlocks.length > 0) {
@@ -164,7 +218,14 @@ async function getStarter() {
       mermaidBlocks.forEach(block => mermaid.init(undefined, block));
     }
   }
+
+  // KaTeX (notre fonction custom)
+  renderMath(previewParent);
+
+  // Prism
+  if (typeof Prism !== 'undefined') Prism.highlightAllUnder(previewParent);
 }
+
 
 
     (async () => { await updatePreview(); hideLoader(); })();
