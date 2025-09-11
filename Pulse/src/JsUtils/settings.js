@@ -1,5 +1,6 @@
 const { invoke } = window.__TAURI__.core;
 import ColorMode from "../JsUtils/ColorMode.js";
+import TranslateManager from "./TranslateManager.js";
 
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 
@@ -159,4 +160,8 @@ async function updateTexts(){
 
     document.getElementById("saveBtn").innerText = data["settings"]["save"][choosen_language];
 }
+
+const translateManager = await new TranslateManager().init();
+translateManager.translateSidebar();
+
 updateTexts();
