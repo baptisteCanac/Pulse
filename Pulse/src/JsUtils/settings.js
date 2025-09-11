@@ -88,10 +88,29 @@ async function update_button() {
 
 update_button();
 
+function showLoader() {
+  const loader = document.getElementById('loader');
+
+  if (!loader) {
+    // Création du loader seulement si il n'existe pas
+    const newLoader = document.createElement('div');
+    newLoader.id = 'loader';
+    newLoader.className = 'fixed inset-0 flex items-center justify-center bg-white z-50 hidden'; // hidden par défaut
+
+    const spinner = document.createElement('div');
+    spinner.className = 'w-16 h-16 border-4 border-green-700 border-t-transparent rounded-full animate-spin';
+    newLoader.appendChild(spinner);
+
+    document.body.appendChild(newLoader);
+    newLoader.classList.remove('hidden'); // Affiche le loader
+  } else {
+    loader.classList.remove('hidden'); // Affiche si déjà existant
+  }
+}
+
 async function change_language(element, language_id){
-  element.classList.add("active");
+  showLoader();
   const test = await invoke("save_new_language", ({languageId: language_id}));
-  console.log(test);
 }
 
 document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
