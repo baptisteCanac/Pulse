@@ -120,7 +120,7 @@ document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
 })
 
 async function updateTexts(){
-  let data;
+    let data;
     try {
       const response = await fetch("../datas/languages.json");
       if (!response.ok) throw new Error("Erreur réseau");
