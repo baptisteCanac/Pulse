@@ -1,5 +1,6 @@
 const { invoke } = window.__TAURI__.core;
 import MarkdownParser from "./MarkdownParser.js";
+import ColorMode from "./ColorMode.js";
 
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
@@ -21,14 +22,31 @@ const parser = new MarkdownParser(invoke);
 
 require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs' } });
 
+function applyMonacoTheme(theme) {
+  if (!window._monacoEditor) return;
+
+  switch(theme) {
+    case 1: // Light
+      monaco.editor.setTheme('vs'); // thème clair
+      break;
+    case 2: // Dark
+      monaco.editor.setTheme('vs-dark'); // thème sombre
+      break;
+    default: // Auto
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        monaco.editor.setTheme('vs-dark');
+      } else {
+        monaco.editor.setTheme('vs');
+      }
+      break;
+  }
+}
+
 function redirections() {
   const temp = document.querySelector("app-sidebar");
   temp.addEventListener("rendered", () => {
     document.getElementById("home").addEventListener("click", () => {
       window.location.href = "../index.html";
-    });
-    document.getElementById("exportToPdf").addEventListener("click", () => {
-      window.location.href = "pdfExport.html";
     });
     document.getElementById("settings").addEventListener("click", () => {
       window.location.href = "settings.html";
@@ -198,8 +216,6 @@ function renderMath(container) {
   walk(container);
 }
 
-
-
 async function updatePreview() {
   const mdContent = editor.getValue();
   let html = await parser.parseAll(mdContent, "/dummy/path");
@@ -237,5 +253,43 @@ async function updatePreview() {
     }
 
     window._monacoEditor = editor; // debug
+
+    // Récupérer le thème depuis Tauri et l'appliquer à Monaco
+(async () => {
+    try {
+        const theme = parseInt(await invoke("get_theme"), 10);
+        applyMonacoTheme(theme);
+    } catch(err) {
+        console.error("Impossible de récupérer le thème pour Monaco :", err);
+    }
+})();
+
   });
 })();
+
+const colorMode = new ColorMode("index");
+
+async function applyTheme() {
+  const theme = parseInt(await invoke("get_theme"), 10);
+
+  try {
+
+    // Appliquer le thème
+    if (theme === 1) {
+      colorMode.applyLightModeSidebar();
+    } else if (theme === 2) {
+      colorMode.darkModeSidebar();
+    } else {
+      // Auto : détecter le système
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        colorMode.darkModeSidebar();
+      } else {
+        colorMode.applyLightModeSidebar();
+      }
+    }
+  } catch (err) {
+    console.error("Erreur lors de l'application du thème :", err);
+  }
+}
+
+applyTheme();
