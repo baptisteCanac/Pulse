@@ -1,5 +1,6 @@
 const { invoke } = window.__TAURI__.core;
 import ColorMode from "../JsUtils/ColorMode.js";
+import TranslateManager from "./TranslateManager.js";
 
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 
@@ -67,3 +68,62 @@ temp.addEventListener("rendered", () => {
     window.location.href = "../index.html";
   });
 });
+
+async function update_button() {
+  let data;
+  try {
+    const response = await fetch("../datas/languages.json");
+    if (!response.ok) throw new Error("Erreur réseau");
+    data = await response.json();
+  } catch (err) {
+    console.error(err);
+    return; // quitte si erreur
+  }
+
+  document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
+    if (i === data["choosen_language"]) {
+      element.classList.add("active");
+    }
+  });
+}
+
+update_button();
+
+function showLoader() {
+  const loader = document.getElementById('loader');
+
+  if (!loader) {
+    // Création du loader seulement si il n'existe pas
+    const newLoader = document.createElement('div');
+    newLoader.id = 'loader';
+    newLoader.className = 'fixed inset-0 flex items-center justify-center bg-white z-50 hidden'; // hidden par défaut
+
+    const spinner = document.createElement('div');
+    spinner.className = 'w-16 h-16 border-4 border-green-700 border-t-transparent rounded-full animate-spin';
+    newLoader.appendChild(spinner);
+
+    document.body.appendChild(newLoader);
+    newLoader.classList.remove('hidden'); // Affiche le loader
+  } else {
+    loader.classList.remove('hidden'); // Affiche si déjà existant
+  }
+}
+
+async function change_language(element, language_id){
+  showLoader();
+  const test = await invoke("save_new_language", ({languageId: language_id}));
+}
+
+document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
+  element.addEventListener("click", (event) => {
+    change_language(event.currentTarget, i);
+  });
+})
+
+async function translate(){
+  const translateManager = await new TranslateManager().init();
+  translateManager.translateSidebar();
+  translateManager.translateSettings();
+}
+
+translate();

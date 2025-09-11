@@ -19,23 +19,23 @@ class appSidebar extends HTMLElement{
         <nav class="flex md:flex-col space-x-6 md:space-x-0 md:space-y-6">
           <a id='home' href="#" class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'home' ? 'text-blue-400' : ''}">
             <span>🏠</span>
-            ${!isCode ? `<span>Home</span>` : ""}
+            ${!isCode ? `<span id='home_text_sidebar'>Home</span>` : ""}
           </a>
           <a id="exportToHtml" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'exportToHtml' ? 'text-blue-400' : ''}">
             <span>🌐</span>
-            ${!isCode ? `<span>Export to HTML</span>` : ""}
+            ${!isCode ? `<span id='export_to_html_text_sidebar'>Export to HTML</span>` : ""}
           </a>
           <a href="#" id='exportToPdf' class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'exportToPdf' ? 'text-blue-400' : ''}">
             <span>📄</span>
-            ${!isCode ? `<span>Export to PDF</span>` : ""}
+            ${!isCode ? `<span id='export_to_pdf_text_sidebar'>Export to PDF</span>` : ""}
           </a>
           <a href="#" id='code' class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'code' ? 'text-blue-400' : ''}">
             <span>🧑‍💻</span>
-            ${!isCode ? `<span>Code</span>` : ""}
+            ${!isCode ? `<span id='code_text_sidebar'>Code</span>` : ""}
           </a>
           <a id="settings" href="#" class="flex items-center space-x-2 hover:text-blue-400 transition ${active === 'settings' ? 'text-blue-400' : ''}">
             <span>⚙️</span>
-            ${!isCode ? `<span>Settings</span>` : ""}
+            ${!isCode ? `<span id='settings_text_sidebar'>Settings</span>` : ""}
           </a>
         </nav>
       </div>

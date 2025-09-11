@@ -1,0 +1,95 @@
+{
+    "choosen_language": 0,
+    "disponibles_languages": [
+        "Francais",
+        "English"
+    ],
+    "sidebar": {
+        "home": [
+            "Menu",
+            "Home"
+        ],
+        "export_to_html": [
+            "Exporter en html",
+            "Export to html"
+        ],
+        "export_to_pdf": [
+            "Exporter en pdf",
+            "Export to pdf"
+        ],
+        "code": [
+            "Editeur de code",
+            "Code editor"
+        ],
+        "settings": [
+            "Paramètres",
+            "Settings"
+        ]
+    },
+    "settings": {
+        "title": [
+            "Apparence",
+            "Appearance"
+        ],
+        "theme_title": [
+            "Thème",
+            "Theme"
+        ],
+        "auto_mode": [
+            "Auto",
+            "Auto"
+        ],
+        "light_mode": [
+            "Clair",
+            "Light"
+        ],
+        "dark_mode": [
+            "Sombre",
+            "Dark"
+        ],
+        "language_title": [
+            "Langue",
+            "Language"
+        ],
+        "diagrams_and_code_title": [
+            "Code & Diagrammes",
+            "Diagrams & Code"
+        ],
+        "languages_highlighted": [
+            "Langages supportés",
+            "Languages highlighted"
+        ],
+        "shortcuts_title": [
+            "Raccourcis",
+            "Shortcuts"
+        ],
+        "open_overlay": [
+            "Ouvrir l'overlay",
+            "Open overlay"
+        ],
+        "open_overlay_subtitle": [
+            "Ouvrir l'overlay dans le mode présentation",
+            "open overlay in presentation mode"
+        ],
+        "go_home": [
+            "Retourner au menu",
+            "Go Home"
+        ],
+        "go_home_shortcut": [
+            "Raccourci pour revenir au menu",
+            "Go home shortcut"
+        ],
+        "default_values": [
+            "Valeurs par défaut",
+            "Default values"
+        ],
+        "save": [
+            "Enregistrer",
+            "Save"
+        ]
+    },
+    "home": {
+        "open_a_file": ["Ouvrir un fichier", "Open a file"],
+        "recent_files": ["Fichiers recents", "Recents files"]
+    }
+}
