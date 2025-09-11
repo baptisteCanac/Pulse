@@ -1,5 +1,5 @@
 {
-    "choosen_language": 1,
+    "choosen_language": 0,
     "disponibles_languages": [
         "Francais",
         "English"
@@ -24,6 +24,10 @@
         "dark_mode": [
             "Sombre",
             "Dark"
+        ],
+        "language_title": [
+            "Langue",
+            "Language"
         ],
         "diagrams_and_code_title": [
             "Code & Diagrammes",
@@ -50,7 +54,7 @@
             "Go Home"
         ],
         "go_home_shortcut": [
-            "Raccourcis pour revenir au menu",
+            "Raccourci pour revenir au menu",
             "Go home shortcut"
         ],
         "default_values": [

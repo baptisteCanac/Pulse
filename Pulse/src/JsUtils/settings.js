@@ -118,3 +118,45 @@ document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
     change_language(event.currentTarget, i);
   });
 })
+
+async function updateTexts(){
+  let data;
+    try {
+      const response = await fetch("../datas/languages.json");
+      if (!response.ok) throw new Error("Erreur réseau");
+      data = await response.json();
+    } catch (err) {
+      console.error(err);
+      return; // quitte si erreur
+    }
+
+    let choosen_language = data["choosen_language"];
+
+    // update the texts
+    const keys = [
+      "title",
+      "theme_title",
+      "auto_mode",
+      "light_mode",
+      "dark_mode",
+      "language_title",
+      "diagrams_and_code_title",
+      "languages_highlighted",
+      "shortcuts_title",
+      "open_overlay",
+      "open_overlay_subtitle",
+      "go_home",
+      "go_home_shortcut",
+      "default_values"
+    ];
+
+    keys.forEach(key => {
+      const element = document.getElementById(key);
+      if (element && data.settings[key] && data.settings[key][choosen_language]) {
+        element.innerText = data.settings[key][choosen_language];
+      }
+    });
+
+    document.getElementById("saveBtn").innerText = data["settings"]["save"][choosen_language];
+}
+updateTexts();

@@ -16,27 +16,27 @@
 
         <!-- Main Content -->
         <div style="flex: 1; padding: 32px;">
-            <h2 style="font-size: 1.5rem; font-weight: 300; margin-bottom: 32px; margin-top: 0;">Appearance</h2>
+            <h2 style="font-size: 1.5rem; font-weight: 300; margin-bottom: 32px; margin-top: 0;" id="title"></h2>
             
             <!-- Theme Section -->
             <div style="margin-bottom: 32px;" id="themeSection">
-                <h3 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 7px; margin-top: 0;">Theme</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 7px; margin-top: 0;" id="theme_title"></h3>
                 <div style="display: flex; gap: 16px;">
                     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                         <div class="radio-button" onclick="changeTheme(0)"></div>
-                        <span>Auto</span>
+                        <span id="auto_mode">Auto</span>
                     </label>
                     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                         <div class="radio-button" onclick="changeTheme(1)"></div>
-                        <span>Light</span>
+                        <span id="light_mode">Light</span>
                     </label>
                     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                         <div class="radio-button" onclick="changeTheme(2)"></div>
-                        <span>Dark</span>
+                        <span id="dark_mode">Dark</span>
                     </label>
                 </div>
                 <br>
-                <h3 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 7px; margin-top: 0;">Language</h3>
+                <h3 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 7px; margin-top: 0;" id="language_title">Language</h3>
                 <div style="display: flex; gap: 16px;">
                     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
                         <div class="radio-button change_languages_radio"></div>
@@ -50,10 +50,10 @@
             </div>
 
             <!-- Diagrams & Code Section -->
-            <h2 style="font-size: 1.5rem; font-weight: 300; margin-bottom: 24px; margin-top: 0;">Diagrams & Code</h2>
+            <h2 style="font-size: 1.5rem; font-weight: 300; margin-bottom: 24px; margin-top: 0;" id="diagrams_and_code_title"></h2>
                 <!-- Languages -->
                 <div style="margin-bottom: 24px;">
-                    <h3 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 16px; margin-top: 0;">Languages highlighted</h3>
+                    <h3 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 16px; margin-top: 0;" id="languages_highlighted"></h3>
                     <div style="display: flex; flex-wrap: gap: 12px;">
                         <span style="padding: 8px 16px; background-color: #374151; border-radius: 8px; border: 1px solid #4B5563; margin-right: 10px;">Python</span>
                         <span style="padding: 8px 16px; background-color: #374151; border-radius: 8px; border: 1px solid #4B5563; margin-right: 10px;">JavaScript</span>
@@ -67,7 +67,7 @@
                     <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
                     </svg>
-                    Shortcuts
+                    <span id="shortcuts_title"></span>
                 </h2>
             </div>
             
@@ -76,10 +76,8 @@
                     <!-- Open Overlay Shortcut -->
                     <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                         <div class="flex-1">
-                            <label class="block text-sm font-medium text-gray-900 mb-1">
-                                Open overlay
-                            </label>
-                            <p class="text-sm text-gray-600">open overlay in presentation mode</p>
+                            <label class="block text-sm font-medium text-gray-900 mb-1" id="open_overlay"></label>
+                            <p class="text-sm text-gray-600" id="open_overlay_subtitle">open overlay in presentation mode</p>
                         </div>
                         <div class="flex items-center space-x-2 ml-4">
                             <div class="flex items-center bg-white border border-gray-300 rounded-md px-3 py-2">
@@ -100,10 +98,8 @@
                     <!-- Settings Shortcut -->
                     <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                         <div class="flex-1">
-                            <label class="block text-sm font-medium text-gray-900 mb-1">
-                                Go home
-                            </label>
-                            <p class="text-sm text-gray-600">Go home shortcut</p>
+                            <label class="block text-sm font-medium text-gray-900 mb-1" id="go_home"></label>
+                            <p class="text-sm text-gray-600" id="go_home_shortcut">Go home shortcut</p>
                         </div>
                         <div class="flex items-center space-x-2 ml-4">
                             <div class="flex items-center bg-white border border-gray-300 rounded-md px-3 py-2">
@@ -127,15 +123,13 @@
             <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 rounded-b-lg">
                 <div class="flex justify-between items-center">
                     <div class="flex space-x-3">
-                        <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                            Default values
-                        </button>
+                        <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors" id="default_values"></button>
                         <button 
                             onclick="saveShortcuts()"
                             class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                             id="saveBtn"
                         >
-                            Save
+                            
                         </button>
                     </div>
                 </div>
