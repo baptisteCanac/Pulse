@@ -158,7 +158,7 @@ function setupShortcutInput(input) {
     }
     // Caractère imprimable (lettre/chiffre/signe)
     if (e.key.length === 1) {
-      input.value = e.key.toUpperCase();
+      input.value = e.key.toLowerCase();
       return;
     }
     // Quelques touches spéciales lisibles
@@ -205,12 +205,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupShortcutInput(document.getElementById("overlay_input"));
 
   // Enregistrer : lire .value (qui est mis à jour par nos handlers)
-  document.getElementById("saveBtn").addEventListener("click", () => {
+  document.getElementById("saveBtn").addEventListener("click", async () => {
     const newData = {
       go_home: document.getElementById("home_input").value,
       open_overlay: document.getElementById("overlay_input").value
     };
     console.log("Nouvelles données :", newData);
+    const test = await invoke("save_new_shortcuts", ({shortcuts: newData}));
+    console.log(test);
     // ici tu peux ajouter fetch POST / write si tu veux sauvegarder côté serveur
   });
 
