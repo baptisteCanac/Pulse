@@ -30,4 +30,32 @@ export default class TranslateManager {
         document.getElementById("code_text_sidebar").innerText = this.data["sidebar"]["code"][this.choosen_language];
         document.getElementById("settings_text_sidebar").innerText = this.data["sidebar"]["settings"][this.choosen_language];
     }
+
+    translateSettings() {
+        const keys = [
+            "title",
+            "theme_title",
+            "auto_mode",
+            "light_mode",
+            "dark_mode",
+            "language_title",
+            "diagrams_and_code_title",
+            "languages_highlighted",
+            "shortcuts_title",
+            "open_overlay",
+            "open_overlay_subtitle",
+            "go_home",
+            "go_home_shortcut",
+            "default_values"
+        ];
+
+        keys.forEach(key => {
+            const element = document.getElementById(key);
+            if (element && this.data.settings[key] && this.data.settings[key][this.choosen_language]) {
+                element.innerText = this.data.settings[key][this.choosen_language];
+            }
+        });
+        
+        document.getElementById("saveBtn").innerText = this.data["settings"]["save"][this.choosen_language];
+    }
 }
