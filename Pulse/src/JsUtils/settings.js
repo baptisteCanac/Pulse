@@ -127,3 +127,96 @@ async function translate(){
 }
 
 translate();
+
+async function updateShortcuts(){
+  try {
+    const response = await fetch("../datas/data.json");
+    if (!response.ok) throw new Error("Erreur réseau");
+    const json = await response.json();
+    const data = json.shortcuts || {};
+
+    const homeInput = document.getElementById("home_input");
+    const overlayInput = document.getElementById("overlay_input");
+
+    // Affecte la valeur initiale via la propriété value (pas setAttribute)
+    homeInput.value = data.go_home ?? "";
+    overlayInput.value = data.open_overlay ?? "";
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Configure l'input pour n'accepter qu'une "touche" et mettre à jour value immédiatement
+function setupShortcutInput(input) {
+  // Capture la touche pressée
+  input.addEventListener("keydown", (e) => {
+    e.preventDefault(); // empêche l'insertion classique
+    // Effacer avec Backspace / Delete
+    if (e.key === "Backspace" || e.key === "Delete") {
+      input.value = "";
+      return;
+    }
+    // Caractère imprimable (lettre/chiffre/signe)
+    if (e.key.length === 1) {
+      input.value = e.key.toUpperCase();
+      return;
+    }
+    // Quelques touches spéciales lisibles
+    const specialMap = {
+      " ": "Space",
+      "Escape": "Esc",
+      "Enter": "Enter",
+      "Tab": "Tab",
+      "ArrowLeft": "←",
+      "ArrowRight": "→",
+      "ArrowUp": "↑",
+      "ArrowDown": "↓"
+    };
+    if (specialMap[e.key]) input.value = specialMap[e.key];
+  });
+
+  // Gérer le collage (prendre uniquement le premier caractère)
+  input.addEventListener("paste", (e) => {
+    e.preventDefault();
+    const clipboard = (e.clipboardData || window.clipboardData).getData("text");
+    if (clipboard && clipboard.length) {
+      input.value = clipboard.trim()[0].toUpperCase();
+    }
+  });
+
+  // Fallback pour mobiles / comportements étranges : garder 1 char max
+  input.addEventListener("input", () => {
+    if (input.value.length > 1) {
+      input.value = input.value[0].toUpperCase();
+    } else {
+      input.value = input.value.toUpperCase();
+    }
+  });
+
+  // Optionnel : select quand on focus pour pouvoir remplacer rapidement
+  input.addEventListener("focus", () => input.select());
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await updateShortcuts();
+
+  // Initialise les inputs
+  setupShortcutInput(document.getElementById("home_input"));
+  setupShortcutInput(document.getElementById("overlay_input"));
+
+  // Enregistrer : lire .value (qui est mis à jour par nos handlers)
+  document.getElementById("saveBtn").addEventListener("click", () => {
+    const newData = {
+      go_home: document.getElementById("home_input").value,
+      open_overlay: document.getElementById("overlay_input").value
+    };
+    console.log("Nouvelles données :", newData);
+    // ici tu peux ajouter fetch POST / write si tu veux sauvegarder côté serveur
+  });
+
+  // Reset : recharge data.json et ré-applique les valeurs
+  document.getElementById("default_values").addEventListener("click", async () => {
+    await updateShortcuts();
+    console.log("Valeurs par défaut rechargées.");
+  });
+});
