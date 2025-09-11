@@ -68,12 +68,33 @@ temp.addEventListener("rendered", () => {
   });
 });
 
-function change_language(language_id){
+async function update_button() {
+  let data;
+  try {
+    const response = await fetch("../datas/languages.json");
+    if (!response.ok) throw new Error("Erreur réseau");
+    data = await response.json();
+  } catch (err) {
+    console.error(err);
+    return; // quitte si erreur
+  }
+
+  document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
+    if (i === data["choosen_language"]) {
+      element.classList.add("active");
+    }
+  });
+}
+
+update_button();
+
+async function change_language(element, language_id){
+  element.classList.add("active");
   console.log(language_id);
 }
 
 document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
-  element.addEventListener("click", () => {
-    change_language(i);
+  element.addEventListener("click", (event) => {
+    change_language(event.currentTarget, i);
   });
 })
