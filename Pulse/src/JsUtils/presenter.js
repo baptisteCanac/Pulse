@@ -81,10 +81,19 @@ slideStrings.forEach(element => {
   slideElements.push(new_section);
 
   // Mermaid
-  const mermaidBlocks = wrapper.querySelectorAll('pre.mermaid');
-  if (mermaidBlocks.length > 0) {
-      mermaid.init(undefined, mermaidBlocks);
-  }
+  const mermaidBlocks = wrapper.querySelectorAll('pre.mermaid, div.mermaid');
+mermaidBlocks.forEach(async (block) => {
+    const codeText = block.textContent || "";
+    const svgContainer = document.createElement('div');
+    const uniqueId = 'mermaid-' + Math.random().toString(36).substr(2, 9);
+    try {
+        const { svg } = await mermaid.render(uniqueId, codeText); // <-- correction ici
+        svgContainer.innerHTML = svg;
+        block.replaceWith(svgContainer);
+    } catch (err) {
+        console.error("Mermaid error:", err, "Code:", codeText);
+    }
+});
 
   // KaTeX
   renderMath(wrapper);
