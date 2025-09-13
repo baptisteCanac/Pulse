@@ -7,8 +7,8 @@ function redirections(){
         document.getElementById("home").addEventListener("click", () => {
             window.location.href = "../index.html";
         });
-        document.getElementById("exportToPdf").addEventListener("click", () => {
-            window.location.href = "pdfExport.html";
+        document.getElementById("code").addEventListener("click", () => {
+            window.location.href = "code.html";
         });
         document.getElementById("settings").addEventListener("click", () => {
             window.location.href = "settings.html";
