@@ -1,4 +1,4 @@
-class appSidebar extends HTMLElement{
+class AppSidebar extends HTMLElement{
     constructor(){
         super();
     }
@@ -54,4 +54,4 @@ class appSidebar extends HTMLElement{
     }
 }
 
-customElements.define('app-sidebar', appSidebar);
+customElements.define('app-sidebar', AppSidebar);

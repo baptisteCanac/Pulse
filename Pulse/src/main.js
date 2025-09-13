@@ -1,7 +1,7 @@
 const { invoke } = window.__TAURI__.core;
-import ColorMode from "./JsUtils/ColorMode.js";
-import JsonManager from "./JsUtils/JsonManager.js";
-import TranslateManager from "./JsUtils/TranslateManager.js";
+import ColorMode from "./js/lib/ColorMode.js";
+import JsonManager from "./js/lib/JsonManager.js";
+import TranslateManager from "./js/lib/TranslateManager.js";
 
 const jsonManager = new JsonManager("datas/data.json");
 const recent_files_container = document.getElementById("recent_files_container");
