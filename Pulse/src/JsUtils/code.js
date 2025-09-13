@@ -242,8 +242,6 @@ async function updatePreview() {
   if (typeof Prism !== 'undefined') Prism.highlightAllUnder(previewParent);
 }
 
-
-
     (async () => { await updatePreview(); hideLoader(); })();
     editor.onDidChangeModelContent(updatePreview);
 
