@@ -1,6 +1,6 @@
 export default class MarkdownParser {
   constructor(invoke) {
-    this.invoke = invoke; // tu passes `invoke` en argument
+    this.invoke = invoke;
   }
 
   parseMarkdownHeadings(md) {
