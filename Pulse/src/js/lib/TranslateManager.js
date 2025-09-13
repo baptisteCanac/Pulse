@@ -15,7 +15,7 @@ export default class TranslateManager {
 
     async getData() {
         try {
-            const response = await fetch("../datas/languages.json");
+            const response = await fetch("../../datas/languages.json");
             if (!response.ok) throw new Error("Erreur réseau");
             const data = await response.json();
             return data;

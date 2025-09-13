@@ -1,6 +1,6 @@
 const { invoke } = window.__TAURI__.core;
-import MarkdownParser from "./MarkdownParser.js";
-import ColorMode from "./ColorMode.js";
+import MarkdownParser from "../lib/MarkdownParser.js";
+import ColorMode from "../lib/ColorMode.js";
 
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
@@ -46,10 +46,10 @@ function redirections() {
   const temp = document.querySelector("app-sidebar");
   temp.addEventListener("rendered", () => {
     document.getElementById("home").addEventListener("click", () => {
-      window.location.href = "../index.html";
+      window.location.href = "../../index.html";
     });
     document.getElementById("settings").addEventListener("click", () => {
-      window.location.href = "settings.html";
+      window.location.href = "../html/settings.html";
     });
   });
 }

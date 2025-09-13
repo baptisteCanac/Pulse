@@ -1,6 +1,6 @@
 const { invoke } = window.__TAURI__.core;
-import ColorMode from "../JsUtils/ColorMode.js";
-import TranslateManager from "./TranslateManager.js";
+import ColorMode from "../lib/ColorMode.js";
+import TranslateManager from "../lib/TranslateManager.js";
 
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 
@@ -65,14 +65,14 @@ const temp = document.querySelector("app-sidebar");
 
 temp.addEventListener("rendered", () => {
   document.getElementById("home").addEventListener("click", () => {
-    window.location.href = "../index.html";
+    window.location.href = "../../index.html";
   });
 });
 
 async function update_button() {
   let data;
   try {
-    const response = await fetch("../datas/languages.json");
+    const response = await fetch("../../datas/languages.json");
     if (!response.ok) throw new Error("Erreur réseau");
     data = await response.json();
   } catch (err) {
@@ -130,7 +130,7 @@ translate();
 
 async function updateShortcuts(){
   try {
-    const response = await fetch("../datas/data.json");
+    const response = await fetch("../../datas/data.json");
     if (!response.ok) throw new Error("Erreur réseau");
     const json = await response.json();
     const data = json.shortcuts || {};

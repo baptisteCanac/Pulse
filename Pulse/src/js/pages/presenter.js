@@ -1,5 +1,5 @@
-import ColorMode from "../JsUtils/ColorMode.js";
-import MarkdownParser from "../JsUtils/MarkdownParser.js";
+import ColorMode from "../lib/ColorMode.js";
+import MarkdownParser from "../lib/MarkdownParser.js";
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 
 const { invoke } = window.__TAURI__.core;

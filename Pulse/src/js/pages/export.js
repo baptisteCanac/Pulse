@@ -5,13 +5,13 @@ function redirections(){
 
     temp.addEventListener("rendered", () => {
         document.getElementById("home").addEventListener("click", () => {
-            window.location.href = "../index.html";
+            window.location.href = "../../index.html";
         });
         document.getElementById("code").addEventListener("click", () => {
-            window.location.href = "code.html";
+            window.location.href = "../../html/code.html";
         });
         document.getElementById("settings").addEventListener("click", () => {
-            window.location.href = "settings.html";
+            window.location.href = "../../html/settings.html";
         });
     });
 }
