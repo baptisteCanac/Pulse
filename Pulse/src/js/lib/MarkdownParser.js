@@ -133,36 +133,42 @@ export default class MarkdownParser {
   }
 
   async fixImagePaths(html, mdPath) {
-    let mdDir = mdPath.replace(/\/?[^\/\\]+$/, '');
-    const imgRegex = /<img\s+src=["'](.*?)["']\s*>/g;
-    const matches = [...html.matchAll(imgRegex)];
-
-    for (const match of matches) {
-      const src = match[1];
-      if (/^(\/|https?:)/.test(src)) continue;
-
-      let parts = src.split(/[\\/]/);
-      let baseParts = mdDir.split(/[\\/]/);
-      for (let part of parts) {
-        if (part === "..") baseParts.pop();
-        else if (part !== ".") baseParts.push(part);
-      }
-      const resolvedPath = baseParts.join("/");
-
-      let bytes;
-      try {
-        bytes = await this.invoke("read_image", { path: resolvedPath });
-      } catch (e) {
-        console.error("Erreur lecture image :", e);
-        continue;
-      }
-
-      const blob = new Blob([new Uint8Array(bytes)]);
-      const url = URL.createObjectURL(blob);
-      html = html.replace(match[0], `<img src="${url}">`);
-    }
-    return html;
+  // Gérer le cas où mdPath est null ou undefined
+  if (!mdPath) {
+    console.warn("Aucun chemin de fichier fourni, impossible de résoudre les chemins d'images relatifs");
+    return html; // Retourner le HTML tel quel
   }
+
+  let mdDir = mdPath.replace(/\/?[^\/\\]+$/, '');
+  const imgRegex = /<img\s+src=["'](.*?)["']\s*>/g;
+  const matches = [...html.matchAll(imgRegex)];
+
+  for (const match of matches) {
+    const src = match[1];
+    if (/^(\/|https?:)/.test(src)) continue;
+
+    let parts = src.split(/[\\/]/);
+    let baseParts = mdDir.split(/[\\/]/);
+    for (let part of parts) {
+      if (part === "..") baseParts.pop();
+      else if (part !== ".") baseParts.push(part);
+    }
+    const resolvedPath = baseParts.join("/");
+
+    let bytes;
+    try {
+      bytes = await this.invoke("read_image", { path: resolvedPath });
+    } catch (e) {
+      console.error("Erreur lecture image :", e);
+      continue;
+    }
+
+    const blob = new Blob([new Uint8Array(bytes)]);
+    const url = URL.createObjectURL(blob);
+    html = html.replace(match[0], `<img src="${url}">`);
+  }
+  return html;
+}
 
    parseMermaidBlocks(md) {
   // Cherche tous les blocs ```mermaid ... ```

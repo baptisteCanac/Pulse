@@ -218,7 +218,7 @@ function renderMath(container) {
 
 async function updatePreview() {
   const mdContent = editor.getValue();
-  let html = await parser.parseAll(mdContent, "/dummy/path");
+  let html = await parser.parseAll(mdContent, choosen_file_path);
 
   html = html.replace(/^\s*---\s*$/gm,
     '<hr style="width: 100%; border: 0; border-top: 5px solid grey;">'
