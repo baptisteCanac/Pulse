@@ -48,11 +48,20 @@ async function updateTheme() {
   }
 }
 
-function cta(){
+async function cta(){
     const format = document.getElementById("export-format").value;
-    const loop = document.getElementById("loopCheckbox").checked;
+    const looper = document.getElementById("loopCheckbox").checked;
     const protect = document.getElementById("protectCheckbox").checked;
-    const pageSize = document.getElementById("page-size").value;
+    const page_size = document.getElementById("page-size").value; // <- underscore
+
+    const callCreatePdf = await invoke("create_pdf", {
+        format: format,
+        looper: looper,
+        protect: protect,
+        pageSize: page_size  // <- Changez ça en camelCase
+    });
+
+    console.log(callCreatePdf);
 }
 
 function listeners(){

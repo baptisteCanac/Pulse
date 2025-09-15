@@ -55,6 +55,32 @@ fn save_new_language(languageId: i16) -> Result<String, String> {
 }
 
 #[tauri::command]
+fn create_pdf(format: &str, looper: bool, protect: bool, page_size: &str) -> Result<String, String> {
+    let output = Command::new("python3") // ou "python" selon ton OS
+        .arg("../src/scripts/create_pdf.py")
+        .arg(format)
+        .arg(looper.to_string())
+        .arg(protect.to_string())
+        .arg(page_size)
+        .output()
+        .map_err(|e| e.to_string())?;
+
+    // Récupérer stdout et stderr
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur : {}", stderr);
+    }
+
+    if stdout.is_empty() {
+        Err("erreur".into())
+    } else {
+        Ok(stdout)
+    }
+}
+
+#[tauri::command]
 fn save_new_shortcuts(shortcuts: HashMap<String, String>) -> Result<String, String>{
     let output = Command::new("python3") // ou "python" selon ton OS
         .arg("../src/scripts/save_new_shortcuts.py")
@@ -419,7 +445,8 @@ pub fn run() {
             save_existing_file,
             create_new_file,
             save_new_language,
-            save_new_shortcuts
+            save_new_shortcuts,
+            create_pdf
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
