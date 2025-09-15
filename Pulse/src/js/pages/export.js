@@ -49,11 +49,16 @@ async function updateTheme() {
   }
 }
 
+async function chooseFile(){
+    const chooseFile = await invoke("open_new_file");
+    console.log(chooseFile[1]);
+}
+
 async function cta(){
     const format = document.getElementById("export-format").value;
     const looper = document.getElementById("loopCheckbox").checked;
     const protect = document.getElementById("protectCheckbox").checked;
-    const page_size = document.getElementById("page-size").value; // <- underscore
+    const page_size = document.getElementById("page-size").value;
 
     const callCreatePdf = await invoke("create_pdf", {
         format: format,
@@ -66,6 +71,9 @@ async function cta(){
 }
 
 function listeners(){
+    document.getElementById("chooseFile").addEventListener("click", () => {
+        chooseFile();
+    })
     document.getElementById("cta").addEventListener("click", () => {
         cta();
     })
