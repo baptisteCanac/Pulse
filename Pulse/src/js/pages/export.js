@@ -32,16 +32,14 @@ async function updateTheme() {
     const colorManager = new ColorManager();
 
     // Application du thème
-    if (theme === 1) {
-      console.log("theme: 1");
-    } else if (theme === 2) {
-      colorManager.sidebar(theme);
-    } else {
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    if (theme === 3) {
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
         console.log("dark");
       } else {
         console.log("light");
       }
+    }else{
+        colorManager.sidebar(theme);
     }
 
   } catch (err) {
