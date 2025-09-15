@@ -1,6 +1,7 @@
 const { invoke } = window.__TAURI__.core;
 import TranslateManager from "../lib/TranslateManager.js";
 import ColorManager from "../lib/ColorManager.js";
+import MarkdownParser from "../lib/MarkdownParser.js";
 
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 
