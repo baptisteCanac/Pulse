@@ -12,8 +12,60 @@
 </head>
 <body class="bg-gray-900 text-white font-sans">
 
-    <div class="flex flex-col md:flex-row h-screen">
-        <app-sidebar active="export"></app-sidebar>
-    </div>
+  <div class="flex flex-col md:flex-row h-screen">
+    <!-- Sidebar -->
+    <app-sidebar active="export"></app-sidebar>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center p-6 overflow-y-auto">
+      <div class="bg-white text-gray-900 rounded-2xl shadow-xl w-full max-w-2xl p-8">
+        
+        <!-- Titre -->
+        <h1 class="text-2xl font-semibold mb-8">Export Presentation</h1>
+        
+        <!-- Paramètres sur une seule colonne -->
+        <div class="space-y-6">
+
+          <!-- Export Format -->
+          <div>
+            <label for="export-format" class="block text-sm font-medium mb-2">Export Format</label>
+            <select id="export-format" class="w-full rounded-md border-gray-300 bg-gray-100 p-2 focus:ring-2 focus:ring-blue-500">
+              <option>HTML</option>
+              <option>PDF</option>
+              <option>PowerPoint</option>
+            </select>
+          </div>
+
+          <!-- Export Settings -->
+          <div>
+            <p class="text-sm font-medium mb-2">Export Settings</p>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded text-blue-600">
+              <span>Loop presentation</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" class="rounded text-blue-600">
+              <span>Protect with password</span>
+            </label>
+          </div>
+
+          <!-- Page Size -->
+          <div>
+            <label for="page-size" class="block text-sm font-medium mb-2">Page Size (PDF only)</label>
+            <select id="page-size" class="w-full rounded-md border-gray-300 bg-gray-100 p-2 focus:ring-2 focus:ring-blue-500">
+              <option>A4</option>
+            </select>
+          </div>
+
+        <!-- Bouton -->
+        <div class="flex justify-center mt-10">
+          <button class="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow">
+            Export Now
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
 
 </body>
+</html>
