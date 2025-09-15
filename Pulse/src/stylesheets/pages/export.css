@@ -1,0 +1,8 @@
+body{
+    background: var(--bg-light) !important;
+    color: var(--color-light) !important;
+}
+
+aside{
+    background: var(--bg-grey) !important;
+}
