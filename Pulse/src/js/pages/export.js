@@ -48,6 +48,20 @@ async function updateTheme() {
   }
 }
 
+function cta(){
+    const format = document.getElementById("export-format").value;
+    const loop = document.getElementById("loopCheckbox").checked;
+    const protect = document.getElementById("protectCheckbox").checked;
+    const pageSize = document.getElementById("page-size").value;
+}
+
+function listeners(){
+    document.getElementById("cta").addEventListener("click", () => {
+        cta();
+    })
+}
+
 redirections();
 translate();
 updateTheme();
+listeners();
