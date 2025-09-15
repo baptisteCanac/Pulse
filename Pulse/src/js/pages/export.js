@@ -4,6 +4,8 @@ import ColorManager from "../lib/ColorManager.js";
 import MarkdownParser from "../lib/MarkdownParser.js";
 
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
+let code;
+let codePath;
 
 function redirections(){
     const temp = document.querySelector("app-sidebar");
@@ -51,10 +53,15 @@ async function updateTheme() {
 
 async function chooseFile(){
     const chooseFile = await invoke("open_new_file");
-    console.log(chooseFile[1]);
+    codePath = chooseFile[0];
+    code = chooseFile[1];
 }
 
 async function cta(){
+    const markdownParser = new MarkdownParser(invoke);
+
+    code = await markdownParser.parseAll(code, codePath);
+
     const format = document.getElementById("export-format").value;
     const looper = document.getElementById("loopCheckbox").checked;
     const protect = document.getElementById("protectCheckbox").checked;
@@ -64,7 +71,7 @@ async function cta(){
         format: format,
         looper: looper,
         protect: protect,
-        pageSize: page_size  // <- Changez ça en camelCase
+        pageSize: page_size
     });
 
     console.log(callCreatePdf);
