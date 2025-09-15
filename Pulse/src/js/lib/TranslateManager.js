@@ -81,5 +81,6 @@ export default class TranslateManager {
         document.getElementById("protect").innerText = this.data["export"]["protect"][this.choosen_language];
         document.getElementById("size").innerText = this.data["export"]["size"][this.choosen_language];
         document.getElementById("cta").innerText = this.data["export"]["cta"][this.choosen_language];
+        document.getElementById("chooseFile").innerText = this.data["export"]["choose_a_file"][this.choosen_language];
     }
 }

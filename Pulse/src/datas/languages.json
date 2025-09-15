@@ -103,6 +103,7 @@
             "Exporter la présentation",
             "Export presentation"
         ],
+        "choose_a_file": ["Choisir un fichier", "Choose a file"],
         "formats": [
             "format d'export",
             "export format"
