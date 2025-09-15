@@ -23,6 +23,7 @@ function redirections(){
 async function translate(){
     const translateManager = await new TranslateManager().init();
     translateManager.translateSidebar();
+    translateManager.translateExport();
 }
 
 // Fonction principale qui applique le thème
