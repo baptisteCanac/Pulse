@@ -97,5 +97,36 @@
             "Fichiers recents",
             "Recents files"
         ]
+    },
+    "export": {
+        "title": [
+            "Exporter la présentation",
+            "Export presentation"
+        ],
+        "choose_a_file": ["Choisir un fichier", "Choose a file"],
+        "formats": [
+            "format d'export",
+            "export format"
+        ],
+        "settings": [
+            "Paramètres d'export",
+            "Export settings"
+        ],
+        "loop": [
+            "Faire boucler la présenation",
+            "Loop presentation"
+        ],
+        "protect": [
+            "Protéger avec un mot de passe",
+            "Protect with password"
+        ],
+        "size": [
+            "Taille de la page (uniquement pdf)",
+            "Page size (pdf only)"
+        ],
+        "cta": [
+            "Exporter",
+            "Export now"
+        ]
     }
 }

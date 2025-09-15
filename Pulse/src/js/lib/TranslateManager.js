@@ -72,4 +72,15 @@ export default class TranslateManager {
         document.getElementById("openFileButton").innerText = this.data["home"]["open_a_file"][this.choosen_language];
         document.getElementById("recent_file_text").innerText = this.data["home"]["recent_files"][this.choosen_language];
     }
+
+    translateExport(){
+        document.getElementById("title").innerText = this.data["export"]["title"][this.choosen_language];
+        document.getElementById("formats").innerText = this.data["export"]["formats"][this.choosen_language];
+        document.getElementById("exportSettings").innerText = this.data["export"]["settings"][this.choosen_language];
+        document.getElementById("loop").innerText = this.data["export"]["loop"][this.choosen_language];
+        document.getElementById("protect").innerText = this.data["export"]["protect"][this.choosen_language];
+        document.getElementById("size").innerText = this.data["export"]["size"][this.choosen_language];
+        document.getElementById("cta").innerText = this.data["export"]["cta"][this.choosen_language];
+        document.getElementById("chooseFile").innerText = this.data["export"]["choose_a_file"][this.choosen_language];
+    }
 }

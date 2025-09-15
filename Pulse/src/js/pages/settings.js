@@ -67,6 +67,12 @@ temp.addEventListener("rendered", () => {
   document.getElementById("home").addEventListener("click", () => {
     window.location.href = "../../index.html";
   });
+  document.getElementById("export").addEventListener("click", () => {
+    window.location.href = "../../html/export.html";
+  });
+  document.getElementById("code").addEventListener("click", () => {
+    window.location.href = "../../html/code.html";
+  });
 });
 
 async function update_button() {
