@@ -55,13 +55,14 @@ fn save_new_language(languageId: i16) -> Result<String, String> {
 }
 
 #[tauri::command]
-fn create_pdf(format: &str, looper: bool, protect: bool, page_size: &str) -> Result<String, String> {
+fn create_pdf(format: &str, looper: bool, protect: bool, page_size: &str, parsed_code: &str) -> Result<String, String> {
     let output = Command::new("python3") // ou "python" selon ton OS
-        .arg("../src/scripts/create_pdf.py")
+        .arg("../src/scripts/export.py")
         .arg(format)
         .arg(looper.to_string())
         .arg(protect.to_string())
         .arg(page_size)
+        .arg(parsed_code)
         .output()
         .map_err(|e| e.to_string())?;
 

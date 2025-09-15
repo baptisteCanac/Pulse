@@ -71,7 +71,8 @@ async function cta(){
         format: format,
         looper: looper,
         protect: protect,
-        pageSize: page_size
+        pageSize: page_size,
+        parsedCode: code
     });
 
     console.log(callCreatePdf);
