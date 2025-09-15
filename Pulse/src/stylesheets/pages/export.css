@@ -1,8 +1,8 @@
 body{
-    background: var(--bg-light) !important;
-    color: var(--color-light) !important;
+    background: var(--bg) !important;
+    color: var(--color) !important;
 }
 
 aside{
-    background: var(--bg-grey) !important;
+    background: var(--bg-sidebar) !important;
 }

@@ -1,5 +1,8 @@
 const { invoke } = window.__TAURI__.core;
 import TranslateManager from "../lib/TranslateManager.js";
+import ColorManager from "../lib/ColorManager.js";
+
+let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 
 function redirections(){
     const temp = document.querySelector("app-sidebar");
@@ -22,5 +25,30 @@ async function translate(){
     translateManager.translateSidebar();
 }
 
+// Fonction principale qui applique le thème
+async function updateTheme() {
+  try {
+    theme = parseInt(await invoke("get_theme"), 10);
+    const colorManager = new ColorManager();
+
+    // Application du thème
+    if (theme === 1) {
+      console.log("theme: 1");
+    } else if (theme === 2) {
+      colorManager.sidebar(theme);
+    } else {
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        console.log("dark");
+      } else {
+        console.log("light");
+      }
+    }
+
+  } catch (err) {
+    console.error("Erreur lors de la mise à jour du thème :", err);
+  }
+}
+
 redirections();
 translate();
+updateTheme();
