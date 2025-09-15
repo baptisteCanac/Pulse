@@ -1,4 +1,5 @@
 const { invoke } = window.__TAURI__.core;
+import TranslateManager from "../lib/TranslateManager.js";
 
 function redirections(){
     const temp = document.querySelector("app-sidebar");
@@ -16,4 +17,10 @@ function redirections(){
     });
 }
 
+async function translate(){
+    const translateManager = await new TranslateManager().init();
+    translateManager.translateSidebar();
+}
+
 redirections();
+translate();
