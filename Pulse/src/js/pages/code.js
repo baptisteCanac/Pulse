@@ -291,3 +291,20 @@ async function applyTheme() {
 }
 
 applyTheme();
+
+async function checkSidebarOpen(){
+  try {
+    const response = await fetch("../../datas/data.json");
+    if (!response.ok) throw new Error("Erreur réseau");
+    const json = await response.json();
+    const isActive = json.sidebar_opened;
+
+    if (!isActive){
+      document.querySelector("app-sidebar").style.display = "none";
+    }
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+checkSidebarOpen();
