@@ -13,8 +13,10 @@
     ],
     "shortcuts": {
         "go_home": "h",
-        "open_overlay": "o"
+        "open_overlay": "o",
+        "sidebar": "s"
     },
     "theme": "1",
-    "version": "3.0.0"
+    "version": "3.0.0",
+    "sidebar_opened": false
 }
