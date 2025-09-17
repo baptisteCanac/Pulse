@@ -2,6 +2,8 @@ const { invoke } = window.__TAURI__.core;
 import MarkdownParser from "../lib/MarkdownParser.js";
 import ColorMode from "../lib/ColorMode.js";
 
+const shortcuts = await invoke("get_shortcuts");
+
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
 const loader = document.getElementById("loader");
@@ -137,6 +139,10 @@ async function getStarter() {
         e.preventDefault();
         e.stopPropagation();
         saveFile();
+      }else if ((e.ctrlKey || e.metaKey) && e.browserEvent.key.toLowerCase() === shortcuts["go_home"].toLowerCase()) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = "../index.html";
       }
     });
 
