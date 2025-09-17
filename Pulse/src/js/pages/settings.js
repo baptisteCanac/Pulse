@@ -228,3 +228,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log("Valeurs par défaut rechargées.");
   });
 });
+
+async function updateCloseSidebarButton(){
+  try {
+    const response = await fetch("../../datas/data.json");
+    if (!response.ok) throw new Error("Erreur réseau");
+    const json = await response.json();
+    const isActive = json.sidebar_opened;
+
+    console.log(isActive);
+
+    const checkbox = document.getElementById("CloseSidebarCheckbox");
+
+    if (checkbox.checked != isActive){
+      checkbox.checked = true;
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+updateCloseSidebarButton();
+
+async function checkCloseSidebarCheckbox(){
+  const checkbox = document.getElementById("CloseSidebarCheckbox");
+
+  if (checkbox.checked == false){
+    checkbox.checked = false;
+  }else{
+    checkbox.checked = true;
+  }
+}
+
+document.getElementById("CloseSidebarCheckbox").addEventListener("click", () => {
+  checkCloseSidebarCheckbox();
+})
