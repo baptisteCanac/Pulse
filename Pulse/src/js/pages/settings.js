@@ -236,8 +236,6 @@ async function updateCloseSidebarButton(){
     const json = await response.json();
     const isActive = json.sidebar_opened;
 
-    console.log(isActive);
-
     const checkbox = document.getElementById("CloseSidebarCheckbox");
 
     if (checkbox.checked != isActive){
@@ -254,8 +252,14 @@ async function checkCloseSidebarCheckbox(){
 
   if (checkbox.checked == false){
     checkbox.checked = false;
+
+    const check = await invoke("save_sidebar_state", {state: false});
+    console.log(check);
   }else{
     checkbox.checked = true;
+
+    const check = await invoke("save_sidebar_state", {state: true});
+    console.log(check);
   }
 }
 
