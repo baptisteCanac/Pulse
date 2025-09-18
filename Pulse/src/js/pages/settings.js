@@ -217,19 +217,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function updateCloseSidebarButton(){
-  try {
-    const response = await fetch("../../datas/data.json");
-    if (!response.ok) throw new Error("Erreur réseau");
-    const json = await response.json();
-    const isActive = json.sidebar_opened;
+  const isActive = await jsonDataManager.getSidebarOpened();
 
-    const checkbox = document.getElementById("CloseSidebarCheckbox");
+  const checkbox = document.getElementById("CloseSidebarCheckbox");
 
-    if (checkbox.checked != isActive){
-      checkbox.checked = true;
-    }
-  } catch (err) {
-    console.error(err);
+  if (checkbox.checked != isActive){
+    checkbox.checked = true;
   }
 }
 updateCloseSidebarButton();
