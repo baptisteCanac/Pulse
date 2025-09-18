@@ -10,7 +10,18 @@ export default class JsonManager{
             return data.recent_files_titles;
         } catch (error) {
             console.error(error);
-            return []; // évite que ça casse
+            return [];
+        }
+    }
+
+    async getSidebarOpened(){
+        try {
+            const response = await fetch(this.filePath);
+            const data = await response.json();
+            return data.sidebar_opened;
+        } catch (error) {
+            console.error(error);
+            return [];
         }
     }
 }
