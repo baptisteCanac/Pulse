@@ -143,6 +143,10 @@ async function getStarter() {
         e.preventDefault();
         e.stopPropagation();
         window.location.href = "../index.html";
+      }else if ((e.ctrlKey || e.metaKey) && e.browserEvent.key.toLowerCase() === shortcuts["toggle_sidebar"].toLowerCase()){
+        e.preventDefault();
+        e.stopPropagation();
+        toggleSidebar();
       }
     });
 
@@ -298,6 +302,8 @@ async function applyTheme() {
 
 applyTheme();
 
+let openedSidebar;
+
 async function checkSidebarOpen(){
   try {
     const response = await fetch("../../datas/data.json");
@@ -307,6 +313,9 @@ async function checkSidebarOpen(){
 
     if (!isActive){
       document.querySelector("app-sidebar").style.display = "none";
+      openedSidebar = false;
+    }else{
+      openedSidebar = true;
     }
 
   } catch (err) {
@@ -314,3 +323,13 @@ async function checkSidebarOpen(){
   }
 }
 checkSidebarOpen();
+
+async function toggleSidebar(){
+  if (openedSidebar){
+    document.querySelector("app-sidebar").style.display = "none";
+    openedSidebar = false;
+  }else{
+    document.querySelector("app-sidebar").style.display = "flex";
+    openedSidebar = true;
+  }
+}
