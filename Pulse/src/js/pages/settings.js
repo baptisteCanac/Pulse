@@ -1,8 +1,10 @@
 const { invoke } = window.__TAURI__.core;
 import ColorMode from "../lib/ColorMode.js";
 import TranslateManager from "../lib/TranslateManager.js";
+import JsonManager from "../lib/JsonManager.js";
 
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
+const jsonlanguagesManager = new JsonManager("../../datas/languages.json");
 
 // Fonction principale qui applique le thème
 async function updateTheme() {
@@ -76,15 +78,7 @@ temp.addEventListener("rendered", () => {
 });
 
 async function update_button() {
-  let data;
-  try {
-    const response = await fetch("../../datas/languages.json");
-    if (!response.ok) throw new Error("Erreur réseau");
-    data = await response.json();
-  } catch (err) {
-    console.error(err);
-    return; // quitte si erreur
-  }
+  const data = await jsonlanguagesManager.getLanguagesData();
 
   document.querySelectorAll(".change_languages_radio").forEach((element, i) => {
     if (i === data["choosen_language"]) {
