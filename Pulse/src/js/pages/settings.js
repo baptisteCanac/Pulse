@@ -131,7 +131,6 @@ translate();
 
 async function updateShortcuts(){
   const data = await jsonDataManager.getShortcuts();
-  console.log(data);
 
   const homeInput = document.getElementById("home_input");
   const overlayInput = document.getElementById("overlay_input");
