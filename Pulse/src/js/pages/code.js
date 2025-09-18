@@ -1,6 +1,9 @@
 const { invoke } = window.__TAURI__.core;
 import MarkdownParser from "../lib/MarkdownParser.js";
 import ColorMode from "../lib/ColorMode.js";
+import JsonManager from "../lib/JsonManager.js";
+
+const jsonManager = new JsonManager("../../datas/data.json");
 
 const shortcuts = await invoke("get_shortcuts");
 
@@ -305,21 +308,13 @@ applyTheme();
 let openedSidebar;
 
 async function checkSidebarOpen(){
-  try {
-    const response = await fetch("../../datas/data.json");
-    if (!response.ok) throw new Error("Erreur réseau");
-    const json = await response.json();
-    const isActive = json.sidebar_opened;
+  const isActive = await jsonManager.getSidebarOpened();
 
-    if (!isActive){
+  if (!isActive){
       document.querySelector("app-sidebar").style.display = "none";
       openedSidebar = false;
     }else{
       openedSidebar = true;
-    }
-
-  } catch (err) {
-    console.error(err);
   }
 }
 checkSidebarOpen();
