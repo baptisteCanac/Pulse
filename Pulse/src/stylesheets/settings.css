@@ -76,3 +76,42 @@
     border: none;
     cursor: pointer;
 }
+
+
+/* Masquer la checkbox native */
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Couleur de fond quand cochée */
+input[type="checkbox"]:checked {
+    background-color: #2563eb; /* bleu Tailwind par défaut */
+    border-color: #2563eb;
+}
+
+/* Créer la coche */
+input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Ajouter un effet au hover */
+input[type="checkbox"]:hover {
+    border-color: #2563eb;
+}

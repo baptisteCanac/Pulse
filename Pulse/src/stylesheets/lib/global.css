@@ -11,3 +11,7 @@
     --color-light: #000;
     --color-dark: #fff;
 }
+
+.invisible{
+    display: none;
+}

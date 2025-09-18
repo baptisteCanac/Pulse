@@ -2,6 +2,8 @@ const { invoke } = window.__TAURI__.core;
 import MarkdownParser from "../lib/MarkdownParser.js";
 import ColorMode from "../lib/ColorMode.js";
 
+const shortcuts = await invoke("get_shortcuts");
+
 const editorParent = document.getElementById("editor");
 const previewParent = document.getElementById("preview");
 const loader = document.getElementById("loader");
@@ -43,15 +45,15 @@ function applyMonacoTheme(theme) {
 }
 
 function redirections() {
-  const temp = document.querySelector("app-sidebar");
-  temp.addEventListener("rendered", () => {
     document.getElementById("home").addEventListener("click", () => {
       window.location.href = "../../index.html";
+    });
+    document.getElementById("export").addEventListener("click", () => {
+      window.location.href = "../html/export.html";
     });
     document.getElementById("settings").addEventListener("click", () => {
       window.location.href = "../html/settings.html";
     });
-  });
 }
 redirections();
 
@@ -137,6 +139,14 @@ async function getStarter() {
         e.preventDefault();
         e.stopPropagation();
         saveFile();
+      }else if ((e.ctrlKey || e.metaKey) && e.browserEvent.key.toLowerCase() === shortcuts["go_home"].toLowerCase()) {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.href = "../index.html";
+      }else if ((e.ctrlKey || e.metaKey) && e.browserEvent.key.toLowerCase() === shortcuts["toggle_sidebar"].toLowerCase()){
+        e.preventDefault();
+        e.stopPropagation();
+        toggleSidebar();
       }
     });
 
@@ -291,3 +301,38 @@ async function applyTheme() {
 }
 
 applyTheme();
+
+let openedSidebar;
+
+async function checkSidebarOpen(){
+  try {
+    const response = await fetch("../../datas/data.json");
+    if (!response.ok) throw new Error("Erreur réseau");
+    const json = await response.json();
+    const isActive = json.sidebar_opened;
+
+    if (!isActive){
+      document.querySelector("app-sidebar").style.display = "none";
+      openedSidebar = false;
+    }else{
+      openedSidebar = true;
+    }
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+checkSidebarOpen();
+
+async function toggleSidebar(){
+  if (openedSidebar){
+    document.querySelector("app-sidebar").style.display = "none";
+    openedSidebar = false;
+  }else{
+    document.querySelector("app-sidebar").style.display = "flex";
+    openedSidebar = true;
+    document.getElementById("settings").addEventListener("click", () => {
+      console.log("test");
+    })
+  }
+}

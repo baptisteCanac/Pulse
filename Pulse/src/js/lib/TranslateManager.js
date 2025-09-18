@@ -56,6 +56,8 @@ export default class TranslateManager {
             "go_home",
             "go_home_shortcut",
             "default_values",
+            "ergonomic_settings_title",
+            "close_sidebar"
         ];
 
         keys.forEach(key => {
