@@ -25,6 +25,17 @@ export default class JsonManager{
         }
     }
 
+    async getShortcuts(){
+        try {
+            const response = await fetch(this.filePath);
+            const data = await response.json();
+            return data.shortcuts;
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
     async getLanguagesData(){
         try {
             const response = await fetch(this.filePath);

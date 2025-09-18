@@ -5,6 +5,7 @@ import JsonManager from "../lib/JsonManager.js";
 
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 const jsonlanguagesManager = new JsonManager("../../datas/languages.json");
+const jsonDataManager = new JsonManager("../../datas/data.json");
 
 // Fonction principale qui applique le thème
 async function updateTheme() {
@@ -129,21 +130,14 @@ async function translate(){
 translate();
 
 async function updateShortcuts(){
-  try {
-    const response = await fetch("../../datas/data.json");
-    if (!response.ok) throw new Error("Erreur réseau");
-    const json = await response.json();
-    const data = json.shortcuts || {};
+  const data = await jsonDataManager.getShortcuts();
+  console.log(data);
 
-    const homeInput = document.getElementById("home_input");
-    const overlayInput = document.getElementById("overlay_input");
+  const homeInput = document.getElementById("home_input");
+  const overlayInput = document.getElementById("overlay_input");
 
-    // Affecte la valeur initiale via la propriété value (pas setAttribute)
-    homeInput.value = data.go_home ?? "";
-    overlayInput.value = data.open_overlay ?? "";
-  } catch (err) {
-    console.error(err);
-  }
+  homeInput.value = data.go_home ?? "";
+  overlayInput.value = data.open_overlay ?? "";
 }
 
 // Configure l'input pour n'accepter qu'une "touche" et mettre à jour value immédiatement
