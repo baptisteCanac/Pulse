@@ -45,15 +45,15 @@ function applyMonacoTheme(theme) {
 }
 
 function redirections() {
-  const temp = document.querySelector("app-sidebar");
-  temp.addEventListener("rendered", () => {
     document.getElementById("home").addEventListener("click", () => {
       window.location.href = "../../index.html";
+    });
+    document.getElementById("export").addEventListener("click", () => {
+      window.location.href = "../html/export.html";
     });
     document.getElementById("settings").addEventListener("click", () => {
       window.location.href = "../html/settings.html";
     });
-  });
 }
 redirections();
 
@@ -331,5 +331,8 @@ async function toggleSidebar(){
   }else{
     document.querySelector("app-sidebar").style.display = "flex";
     openedSidebar = true;
+    document.getElementById("settings").addEventListener("click", () => {
+      console.log("test");
+    })
   }
 }
