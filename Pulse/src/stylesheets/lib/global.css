@@ -1,3 +1,7 @@
+*{
+    font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+}
+
 :root{
     --bg: var(--bg-light);
     --bg-light: #fff;

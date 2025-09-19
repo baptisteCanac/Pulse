@@ -1,0 +1,15 @@
+#container{
+    background: var(--bg);
+    border-radius: 10px !important;
+    width: 90% !important;
+    margin: 10px !important;
+    padding: 30px !important;
+}
+
+h1{
+    padding-top: 40px !important;
+    font-weight: bold !important;
+}
+h2, h3{
+    font-weight: bold !important;
+}
