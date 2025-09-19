@@ -54,6 +54,15 @@ function updateThemeButtons() {
 async function selectFile() {
   const selectedfilePath = await invoke("select_file", { scriptPath: "../src/scripts/pick_file.py" });
   console.log(await invoke("new_recent_file", { newRecentFilePath: selectedfilePath }));
+
+  /* 
+  Tauri bug pour absolument aucune raison, plus rien ne fonctionne quand on rajoute quelque chose
+  même si c'est une condition genre if (true) ca plante
+  j'ai tout essayé. 
+
+  On va donc lancer le presenter et on fera l'analyse directement dans le js du presenter
+  */
+
   window.location.href = "html/presenter.html";
 }
 

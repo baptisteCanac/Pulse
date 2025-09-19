@@ -224,7 +224,6 @@ fn save_existing_file(path: String, text: String) -> Result<String, String> {
 
 #[tauri::command]
 fn new_recent_file(new_recent_file_path: &str) -> Result<String, String> {
-    // Chemin vers ton script Python
     let script_path = "../src/scripts/new_recent_file.py";
 
     // Récupérer le chemin absolu du fichier Rust actuel
@@ -448,6 +447,28 @@ fn get_md_starter() -> Result<String, String> {
     Ok(content)
 }
 
+#[tauri::command]
+fn choosen_file_type() -> Result<String, String>{
+    let output = Command::new("python3") // ou "python" selon ton OS
+        .arg("../src/scripts/choosen_file_type.py")
+        .output()
+        .map_err(|e| e.to_string())?;
+
+    // Récupérer stdout et stderr
+    let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    if !stderr.is_empty() {
+        eprintln!("Erreur : {}", stderr);
+    }
+
+    if stdout.is_empty() {
+        Err("erreur".into())
+    } else {
+        Ok(stdout)
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -471,7 +492,8 @@ pub fn run() {
             save_new_language,
             save_new_shortcuts,
             create_pdf,
-            save_sidebar_state
+            save_sidebar_state,
+            choosen_file_type
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
