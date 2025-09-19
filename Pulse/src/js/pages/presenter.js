@@ -253,3 +253,12 @@ Prism.highlightAll();
     isPlaying: () => isPlaying
   };
 })();
+
+async function presentation_or_reader(){
+  const wich = await invoke("choosen_file_type");
+  console.log(wich);
+  if (wich != "presenter"){
+    window.location.href = "reader.html";
+  }
+}
+presentation_or_reader();
