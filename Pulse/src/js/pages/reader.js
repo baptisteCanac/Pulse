@@ -8,8 +8,9 @@ async function codeTraitement(){
     const container = document.getElementById("container");
 
     let code = await invoke("get_code");
-    code = await markdownParser.parseAll(code);
-
+    let presentationPath = await invoke("get_presentation_path");
+    code = await markdownParser.parseAll(code, presentationPath);
+    
     container.innerHTML = code;
 }
 
