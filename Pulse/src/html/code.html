@@ -21,9 +21,11 @@
     <div class="flex flex-col md:flex-row h-screen">
     <app-sidebar active="code"></app-sidebar>
     <!-- Conteneur Monaco -->
-    <div id="editor" style="flex: 1; min-height: 100vh; border-right: 1px solid #ccc;"></div>
+    <div id="editor" style="width: 50%; resize: horizontal; overflow: auto;
+              min-width: 100px; max-width: 99%;
+              border-right: 2px solid #ccc; padding: 1rem; contain: strict;"></div>
     <!-- Preview -->
-    <div id="preview" style="flex: 1; padding: 1rem; overflow: auto"></div>
+    <div id="preview" style="flex: 1; padding: 1rem; overflow: auto;"></div>
     <!-- Loader -->
     <div id="loader" class="fixed inset-0 bg-gray-900 bg-opacity-80 flex items-center justify-center z-50">
     <div class="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
