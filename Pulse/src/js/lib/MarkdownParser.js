@@ -202,16 +202,72 @@ export default class MarkdownParser {
   );
 }
 
+// Fonction à ajouter dans ta classe MarkdownParser
+parseLaTeX(md) {
+  // Remplace les blocs LaTeX $$...$$ par des spans avec classe math-display
+  md = md.replace(/\$\$\s*([\s\S]*?)\s*\$\$/g, (match, latex) => {
+    const cleanLatex = latex.trim();
+    return `<span class="math-display" data-latex="${this.escapeHtml(cleanLatex)}"></span>`;
+  });
+  
+  // Remplace les formules inline $...$ par des spans avec classe math-inline
+  md = md.replace(/\$\s*(.*?)\s*\$/g, (match, latex) => {
+    const cleanLatex = latex.trim();
+    return `<span class="math-inline" data-latex="${this.escapeHtml(cleanLatex)}"></span>`;
+  });
+  
+  return md;
+}
+
+// Fonction utilitaire pour échapper les attributs HTML
+escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Fonction pour rendre les formules LaTeX après insertion dans le DOM
+renderMathElements() {
+  // Traite les formules en bloc
+  document.querySelectorAll('.math-display').forEach(element => {
+    const latex = element.getAttribute('data-latex');
+    try {
+      katex.render(latex, element, {
+        displayMode: true,
+        throwOnError: false
+      });
+    } catch (error) {
+      element.textContent = `Erreur LaTeX: ${latex}`;
+      console.error('Erreur KaTeX:', error);
+    }
+  });
+  
+  // Traite les formules inline
+  document.querySelectorAll('.math-inline').forEach(element => {
+    const latex = element.getAttribute('data-latex');
+    try {
+      katex.render(latex, element, {
+        displayMode: false,
+        throwOnError: false
+      });
+    } catch (error) {
+      element.textContent = `Erreur LaTeX: ${latex}`;
+      console.error('Erreur KaTeX:', error);
+    }
+  });
+}
+
   async parseAll(md, mdPath) {
-    let html = this.parseMarkdownHeadings(md);
-    html = this.parseMarkdownLists(html);
-    html = this.parseCodeBlocks(html);
-    html = this.parseMermaidBlocks(html);
-    html = this.convertHtmlMermaidToMermaidPre(html);
-    html = this.parseInlineCode(html);
-    html = this.parseBlockQuotes(html);
-    html = this.parseTables(html);
-    html = await this.fixImagePaths(html, mdPath);
-    return html;
-  }
+  let html = this.parseMarkdownHeadings(md);
+  html = this.parseMarkdownLists(html);
+  html = this.parseCodeBlocks(html);
+  html = this.parseMermaidBlocks(html);
+  html = this.convertHtmlMermaidToMermaidPre(html);
+  html = this.parseLaTeX(html); // ← Ajouter cette ligne
+  html = this.parseInlineCode(html);
+  html = this.parseBlockQuotes(html);
+  html = this.parseTables(html);
+  html = await this.fixImagePaths(html, mdPath);
+  return html;
+}
 }
