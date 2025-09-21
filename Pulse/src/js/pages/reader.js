@@ -12,6 +12,9 @@ async function codeTraitement(){
     code = await markdownParser.parseAll(code, presentationPath);
     
     container.innerHTML = code;
+    
+    // Rendre les formules LaTeX après insertion
+    markdownParser.renderMathElements(); // ← Ajouter cette ligne
 }
 
 codeTraitement();
