@@ -46,4 +46,15 @@ export default class JsonManager{
             return [];
         }
     }
+
+    async getConfig(){
+        try {
+            const response = await fetch(this.filePath);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
 }

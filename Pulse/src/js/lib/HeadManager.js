@@ -1,6 +1,9 @@
+import JsonManager from "./JsonManager.js";
+
 export default class HeadManager{
     constructor(){
-        self.head = document.querySelector("head");
+        this.config;
+        this.head = document.head;
     }
 
     createElement(elementName, attributes){
@@ -13,11 +16,20 @@ export default class HeadManager{
         return element;
     }
 
-    init(){
+    async init(){
         /*
         Load global config
         */
-        const meta = this.createElement("meta", {'charset': 'UTF-8'});
-        document.head.prepend(meta);
+        this.config = await new JsonManager("../../datas/config.json").getConfig();
+        this.config = this.config.headManager;
+
+        const global = this.config.global;
+        const tags = global.tags;
+        const attributes = global.attributes;
+
+        for (const tag in tags){
+            const element = this.createElement(tags[tag], attributes[tag]);
+            this.head.prepend(element);
+        }
     }
 }

@@ -1,9 +1,10 @@
 {
     "headManager": {
         "global": {
-            "meta": {
-                "charset": "utf-8"
-            }
+            "tags": ["meta"],
+            "attributes": [
+                {"charset": "UTF-8"}
+            ]
         }
     }
 }
