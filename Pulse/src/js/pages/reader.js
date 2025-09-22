@@ -1,5 +1,6 @@
 const { invoke } = window.__TAURI__.core;
 import MarkdownParser from "../lib/MarkdownParser.js";
+import ColorMode from "../lib/ColorMode.js";
 
 async function codeTraitement(){
     const markdownParser = new MarkdownParser(invoke);
@@ -68,3 +69,30 @@ function redirections(){
 }
 
 redirections();
+
+async function applyTheme() {
+  const colorMode = new ColorMode("index");
+  
+  const theme = parseInt(await invoke("get_theme"), 10);
+
+  try {
+
+    // Appliquer le thème
+    if (theme === 1) {
+      colorMode.applyLightModeSidebar();
+    } else if (theme === 2) {
+      colorMode.darkModeSidebar();
+    } else {
+      // Auto : détecter le système
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        colorMode.darkModeSidebar();
+      } else {
+        colorMode.applyLightModeSidebar();
+      }
+    }
+  } catch (err) {
+    console.error("Erreur lors de l'application du thème :", err);
+  }
+}
+
+applyTheme();
