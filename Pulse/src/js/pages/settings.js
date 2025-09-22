@@ -66,7 +66,7 @@ updateTheme();
 
 const temp = document.querySelector("app-sidebar");
 
-temp.addEventListener("rendered", () => {
+function redirections(){
   document.getElementById("home").addEventListener("click", () => {
     window.location.href = "../../index.html";
   });
@@ -76,7 +76,8 @@ temp.addEventListener("rendered", () => {
   document.getElementById("code").addEventListener("click", () => {
     window.location.href = "../../html/code.html";
   });
-});
+};
+redirections();
 
 async function update_button() {
   const data = await jsonlanguagesManager.getLanguagesData();
@@ -190,7 +191,6 @@ function setupShortcutInput(input) {
   input.addEventListener("focus", () => input.select());
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
   await updateShortcuts();
 
   // Initialise les inputs
@@ -214,7 +214,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     await updateShortcuts();
     console.log("Valeurs par défaut rechargées.");
   });
-});
 
 async function updateCloseSidebarButton(){
   const isActive = await jsonDataManager.getSidebarOpened();
