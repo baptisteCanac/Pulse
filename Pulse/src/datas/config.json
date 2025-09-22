@@ -1,5 +1,6 @@
 {
     "headManager": {
+        "title": "Pulse",
         "global": {
             "tags": [
                 "meta",
@@ -17,13 +18,19 @@
         },
         "settings": {
             "tags": [
-                "link"
+                "link",
+                "script"
             ],
             "attributes": [
                 {
                     "rel": "stylesheet",
                     "type": "text/css",
                     "href": "../stylesheets/settings.css"
+                },
+                {
+                    "type": "module",
+                    "src": "../js/pages/settings.js",
+                    "defer": "true"
                 }
             ]
         }

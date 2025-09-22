@@ -15,11 +15,9 @@ export default class HeadManager {
     }
 
     async init() {
-        // Charge définitivement la config
         const fullConfig = await new JsonManager("../../datas/config.json").getConfig();
         this.config = fullConfig.headManager; // mise à jour définitive
 
-        // Traitement des éléments globaux
         const global = this.config.global;
         const tags = global.tags;
         const attributes = global.attributes;
@@ -28,11 +26,14 @@ export default class HeadManager {
             const element = this.createElement(tags[tag], attributes[tag]);
             this.head.appendChild(element);
         }
+
+        // set up title
+        document.title = this.config.title;
     }
 
     async setHead(sectionName) {
         await this.init();
-        
+
         const container = this.config[sectionName];
         const tags = container.tags;
         const attributes = container.attributes;
