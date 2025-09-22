@@ -155,3 +155,15 @@ window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change', asy
         await applyTheme();
     }
 });
+
+async function shortcuts(){
+  const shortcuts = await invoke("get_shortcuts");
+
+  // go home
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" || (event.ctrlKey && event.key.toLowerCase() === shortcuts["go_home"])) {
+      window.location.href = "../index.html";
+    }
+  });
+}
+shortcuts();

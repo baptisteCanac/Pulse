@@ -151,7 +151,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// CTRL+O pour l'overlay
+// open overlay
 document.addEventListener("keydown", (event) => {
   if (event.ctrlKey && event.key.toLocaleLowerCase() === shortcuts["open_overlay"]) {
     if (toggleOverlay === 0) {
