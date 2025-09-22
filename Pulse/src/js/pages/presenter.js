@@ -19,6 +19,19 @@ let actualSlide = 0;
 let code = await invoke("get_code");
 let presentationPath = await invoke("get_presentation_path");
 
+function course_or_presentation(){
+  const separator_i = code
+    .split("\n") // on coupe en lignes
+    .map(line => line.trim()) // on enlève les espaces autour
+    .filter(line => line === "---") // on garde seulement les lignes qui sont exactement ---
+    .length; // on compte
+
+  if (separator_i <= 2){
+    window.location.href = "reader.html";
+  }
+}
+course_or_presentation();
+
 // Parsing via la classe
 code = await markdownParser.parseAll(code, presentationPath);
 
@@ -138,7 +151,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// CTRL+O pour l'overlay
+// open overlay
 document.addEventListener("keydown", (event) => {
   if (event.ctrlKey && event.key.toLocaleLowerCase() === shortcuts["open_overlay"]) {
     if (toggleOverlay === 0) {
