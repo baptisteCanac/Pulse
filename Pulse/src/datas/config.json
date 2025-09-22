@@ -83,6 +83,27 @@
                     "content": "width=device-width, initial-scale=1"
                 }
             ]
+        },
+        "export": {
+            "tags": [
+                "meta",
+                "meta",
+                "script"
+            ],
+            "attributes": [
+                {
+                    "charset": "UTF-8"
+                },
+                {
+                    "name": "viewport",
+                    "content": "width=device-width, initial-scale=1.0"
+                },
+                {
+                    "type": "module",
+                    "src": "../js/pages/export.js",
+                    "defer": "true"
+                }
+            ]
         }
     }
 }
