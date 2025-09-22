@@ -1,0 +1,10 @@
+#container{
+    margin: 50px;
+}
+.mermaid{
+    background-color: white !important;
+}
+
+h1, h2, h3, h4, h5{
+    padding-top: 10px;
+}
