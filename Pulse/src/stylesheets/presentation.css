@@ -1,40 +1,40 @@
 .bullet-list{
-  list-style-type: disc !important; /* ou circle, square */
-  margin-left: 20px !important;
+  list-style-type: disc; /* ou circle, square */
+  margin-left: 20px;
 }
 
 /* titres */
 #preview h1, h1 {
-  font-size: 3rem !important;
-  margin-bottom: 1rem !important;
+  font-size: 3rem;
+  margin-bottom: 1rem;
 }
 #preview h2, h2 {
-  font-size: 2.5rem !important;
-  margin-bottom: 0.8rem !important;
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
 }
 
 #preview h3, h3 {
-  font-size: 2rem !important;
-  margin-bottom: 0.6rem !important;
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
 }
 
 #preview h4, #preview h5, #preview h6, h4, h5, h6{
-  font-size: 1.5rem !important;
-  margin-bottom: 0.5rem !important;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Paragraphes et listes */
 #preview p, p, #preview li, li {
-  font-size: 1.3rem !important;
-  line-height: 1.6 !important;
-  margin: 0.5rem 0 !important;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin: 0.5rem 0;
 }
 
 /* Listes */
 #preview ul, ul, #preview ol, ol {
-  text-align: left !important;
-  max-width: 70% !important;
-  margin: 1rem auto !important;
+  text-align: left;
+  max-width: 70%;
+  margin: 1rem auto;
 }
 
 #preview code, code {
@@ -63,86 +63,86 @@
 
 /* Tableaux */
 #preview table, table {
-  border-collapse: collapse !important;
-  margin: 2rem auto !important;
-  width: 80% !important;
-  max-width: 900px !important;
-  font-size: 1.1rem !important;
-  background: #2a2a2a !important;
-  border-radius: 8px !important;
-  overflow: hidden !important;
+  border-collapse: collapse;
+  margin: 2rem auto;
+  width: 80%;
+  max-width: 900px;
+  font-size: 1.1rem;
+  background: #2a2a2a;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 #preview th, th, #preview td, td {
-  padding: 0.8rem 1.2rem !important;
-  text-align: left !important;
+  padding: 0.8rem 1.2rem;
+  text-align: left;
 }
 
 #preview th, th {
-  background: #333 !important;
-  color: #fff !important;
-  font-weight: 600 !important;
-  border-bottom: 2px solid #444 !important;
+  background: #333;
+  color: #fff;
+  font-weight: 600;
+  border-bottom: 2px solid #444;
 }
 
 #preview td, td {
-  border-bottom: 1px solid #444 !important;
+  border-bottom: 1px solid #444;
 }
 
 #preview tr:last-child td, tr:last-child td {
-  border-bottom: none !important;
+  border-bottom: none;
 }
 
 #preview hr, hr {
-  border: none !important;
-  border-top: 2px solid #444 !important;
-  margin: 2rem auto !important;
-  width: 60% !important;
-  position: relative !important;
+  border: none;
+  border-top: 2px solid #444;
+  margin: 2rem auto;
+  width: 60%;
+  position: relative;
 }
 
 #preview hr::after, hr::after {
-  content: "• • •" !important !important;
-  position: absolute !important !important;
-  top: -0.8rem !important !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  font-size: 0.9rem !important;
-  color: #666 !important;
-  letter-spacing: 0.5rem !important;
+  content: "• • •";
+  position: absolute;
+  top: -0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  color: #666;
+  letter-spacing: 0.5rem;
 }
 
 #preview tr:nth-child(even) td, tr:nth-child(even) td {
-  background: #252525 !important;
+  background: #252525;
 }
 
 #preview span.quote, span.quote {
-  display: block !important;            /* un bloc pour la citation */
-  font-style: italic !important;
-  color: #a0a0a0 !important;
-  border-left: 3px solid #ffcc66 !important;
-  padding-left: 0.8rem !important;
-  margin: 0.5rem 0 !important;
-  white-space: pre-wrap !important;     /* conserver les retours à la ligne */
+  display: block;            /* un bloc pour la citation */
+  font-style: italic;
+  color: #a0a0a0;
+  border-left: 3px solid #ffcc66;
+  padding-left: 0.8rem;
+  margin: 0.5rem 0;
+  white-space: pre-wrap;     /* conserver les retours à la ligne */
 }
 
 section {
-  display: flex !important;
-  flex-direction: column !important; /* empile verticalement */
-  align-items: center !important;    /* centre horizontalement tous les enfants */
+  display: flex;
+  flex-direction: column; /* empile verticalement */
+  align-items: center;    /* centre horizontalement tous les enfants */
 }
 
 section > * {
-  max-width: 90% !important; /* limite la largeur de tous les enfants */
-  width: 100% !important;    /* occupe toute la largeur disponible */
-  margin: 1rem 0 !important; /* espace vertical */
+  max-width: 90%; /* limite la largeur de tous les enfants */
+  width: 100%;    /* occupe toute la largeur disponible */
+  margin: 1rem 0; /* espace vertical */
 }
 
 /* Images spécifiques */
 section img {
-  display: block !important;
-  max-width: 50vw !important;  /* taille maximale pour ne pas tout remplir l'écran */
-  width: 100% !important;       /* largeur adaptative si l'image est plus petite */
-  height: auto !important;      /* conserve les proportions */
-  margin: 1rem auto !important; /* espace vertical et centrage horizontal */
+  display: block;
+  max-width: 50vw;  /* taille maximale pour ne pas tout remplir l'écran */
+  width: 100%;       /* largeur adaptative si l'image est plus petite */
+  height: auto;      /* conserve les proportions */
+  margin: 1rem auto; /* espace vertical et centrage horizontal */
 }
