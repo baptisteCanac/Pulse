@@ -33,6 +33,36 @@
                     "defer": "true"
                 }
             ]
+        },
+        "reader": {
+            "tags": [
+                "script",
+                "link",
+                "link",
+                "link"
+            ],
+            "attributes": [
+                {
+                    "type": "module",
+                    "src": "../js/pages/reader.js",
+                    "defer": "true"
+                },
+                {
+                    "rel": "stylesheet",
+                    "type": "text/css",
+                    "href": "../stylesheets/lib/global.css"
+                },
+                {
+                    "rel": "stylesheet",
+                    "type": "text/css",
+                    "href": "../stylesheets/pages/reader.css"
+                },
+                {
+                    "rel": "stylesheet",
+                    "type": "text/css",
+                    "href": "../stylesheets/presentation.css"
+                }
+            ]
         }
     }
 }
