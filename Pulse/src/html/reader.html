@@ -7,21 +7,20 @@
             headManager.setHead("reader");
         </script>
         <script src="https://cdn.tailwindcss.com"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
         <script type="module" src="../js/components/AppSidebar.js"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
 
         <!-- Prism.js CSS et JS -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
 
         <!-- Mermaid.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
     </head>
     <body style="margin: 0; font-family: system-ui, -apple-system, sans-serif;">
         <div style="display: flex; min-height: 100vh;">
-            <app-sidebar active="settings"></app-sidebar>
+            <app-sidebar active="home"></app-sidebar>
             <div id="container"></div>
         </div>
     </body>
