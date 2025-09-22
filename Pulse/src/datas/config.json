@@ -1,9 +1,30 @@
 {
     "headManager": {
         "global": {
-            "tags": ["meta"],
+            "tags": [
+                "meta",
+                "meta"
+            ],
             "attributes": [
-                {"charset": "UTF-8"}
+                {
+                    "charset": "UTF-8"
+                },
+                {
+                    "name": "viewport",
+                    "content": "width=device-width, initial-scale=1.0"
+                }
+            ]
+        },
+        "settings": {
+            "tags": [
+                "link"
+            ],
+            "attributes": [
+                {
+                    "rel": "stylesheet",
+                    "type": "text/css",
+                    "href": "../stylesheets/settings.css"
+                }
             ]
         }
     }
