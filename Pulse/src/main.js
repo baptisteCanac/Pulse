@@ -2,7 +2,14 @@ const { invoke } = window.__TAURI__.core;
 import ColorMode from "./js/lib/ColorMode.js";
 import JsonManager from "./js/lib/JsonManager.js";
 import TranslateManager from "./js/lib/TranslateManager.js";
+import RedirectionManager from "./js/lib/RedirectionManager.js";
 
+const redirectionManager = new RedirectionManager(
+  "#",
+  "html/export.html",
+  "html/code.html",
+  "html/settings.html"
+);
 const jsonManager = new JsonManager("datas/data.json");
 const recent_files_container = document.getElementById("recent_files_container");
 const colorMode = new ColorMode("index");
@@ -76,17 +83,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("openFileButton").addEventListener("click", selectFile);
 
-  document.getElementById("export").addEventListener("click", () => {
-    window.location.href = "html/export.html";
-  });
-
-  document.getElementById("code").addEventListener("click", () => {
-    window.location.href = "html/code.html";
-  });
-
-  document.getElementById("settings").addEventListener("click", () => {
-    window.location.href = "html/settings.html";
-  });
+  redirectionManager.initRedirections();
 });
 
 async function translate(){

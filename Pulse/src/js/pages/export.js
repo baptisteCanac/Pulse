@@ -2,26 +2,19 @@ const { invoke } = window.__TAURI__.core;
 import TranslateManager from "../lib/TranslateManager.js";
 import ColorManager from "../lib/ColorManager.js";
 import MarkdownParser from "../lib/MarkdownParser.js";
+import RedirectionManager from "../lib/RedirectionManager.js";
 
+const redirectionManager = new RedirectionManager(
+    "../../index.html",
+    "#",
+    "../../html/code.html",
+    "../../html/settings.html"
+);
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 let code;
 let codePath;
 
-function redirections(){
-    const temp = document.querySelector("app-sidebar");
-
-    temp.addEventListener("rendered", () => {
-        document.getElementById("home").addEventListener("click", () => {
-            window.location.href = "../../index.html";
-        });
-        document.getElementById("code").addEventListener("click", () => {
-            window.location.href = "../../html/code.html";
-        });
-        document.getElementById("settings").addEventListener("click", () => {
-            window.location.href = "../../html/settings.html";
-        });
-    });
-}
+redirectionManager.initRedirections();
 
 async function translate(){
     const translateManager = await new TranslateManager().init();
@@ -87,7 +80,6 @@ function listeners(){
     })
 }
 
-redirections();
 translate();
 updateTheme();
 listeners();
