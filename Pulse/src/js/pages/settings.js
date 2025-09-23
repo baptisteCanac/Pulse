@@ -71,8 +71,6 @@ window.changeTheme = async function (val) {
 // Initialisation
 updateTheme();
 
-const temp = document.querySelector("app-sidebar");
-
 redirectionManager.initRedirections();
 
 async function update_button() {
