@@ -4,7 +4,12 @@ import JsonManager from "./js/lib/JsonManager.js";
 import TranslateManager from "./js/lib/TranslateManager.js";
 import RedirectionManager from "./js/lib/RedirectionManager.js";
 
-const redirectionManager = new RedirectionManager();
+const redirectionManager = new RedirectionManager(
+  "#",
+  "html/export.html",
+  "html/code.html",
+  "html/settings.html"
+);
 const jsonManager = new JsonManager("datas/data.json");
 const recent_files_container = document.getElementById("recent_files_container");
 const colorMode = new ColorMode("index");

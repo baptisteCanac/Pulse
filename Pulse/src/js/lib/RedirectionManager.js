@@ -1,19 +1,26 @@
 export default class RedirectionManager{
-    constructor(){
-        console.log("Ok");
+    constructor(homePath, exportPath, codePath, settingsPath){
+        this.homePath = homePath;
+        this.exportPath = exportPath;
+        this.codePath = codePath;
+        this.settingsPath = settingsPath;
     }
 
     initRedirections(){
+        document.getElementById("home").addEventListener("click", () => {
+            window.location.href = this.homePath;
+        });
+
         document.getElementById("export").addEventListener("click", () => {
-            window.location.href = "html/export.html";
+            window.location.href = this.exportPath;
         });
 
         document.getElementById("code").addEventListener("click", () => {
-            window.location.href = "html/code.html";
+            window.location.href = this.codePath;
         });
 
         document.getElementById("settings").addEventListener("click", () => {
-            window.location.href = "html/settings.html";
+            window.location.href = this.settingsPath;
         });
     }
 }
