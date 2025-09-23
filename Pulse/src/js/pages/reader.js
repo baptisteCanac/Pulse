@@ -96,20 +96,17 @@ async function codeTraitement(){
 codeTraitement();
 
 function redirections(){
-    const temp = document.querySelector("app-sidebar");
-    temp.addEventListener("rendered", () => {
-        document.getElementById("home").addEventListener("click", () => {
-            window.location.href = "../../index.html";
-        });
-        document.getElementById("export").addEventListener("click", () => {
-            window.location.href = "../../html/export.html";
-        });
-        document.getElementById("code").addEventListener("click", () => {
-            window.location.href = "../../html/code.html";
-        });
-        document.getElementById("settings").addEventListener("click", () => {
-            window.location.href = "../../html/settings.html";
-        });
+    document.getElementById("home").addEventListener("click", () => {
+        window.location.href = "../../index.html";
+    });
+    document.getElementById("export").addEventListener("click", () => {
+        window.location.href = "../../html/export.html";
+    });
+    document.getElementById("code").addEventListener("click", () => {
+        window.location.href = "../../html/code.html";
+    });
+    document.getElementById("settings").addEventListener("click", () => {
+        window.location.href = "../../html/settings.html";
     });
 }
 
@@ -148,14 +145,6 @@ async function applyTheme() {
 
 applyTheme();
 
-// Écouter les changements de thème système si en mode auto
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change', async (e) => {
-    const theme = parseInt(await invoke("get_theme"), 10);
-    if (theme === 0) { // Mode auto
-        await applyTheme();
-    }
-});
-
 async function shortcuts(){
   const shortcuts = await invoke("get_shortcuts");
 
@@ -167,3 +156,24 @@ async function shortcuts(){
   });
 }
 shortcuts();
+
+async function test(){
+    const colorMode = new ColorMode("index");
+    const theme = parseInt(await invoke("get_theme"), 10);
+    const element = document.querySelector("aside");
+
+    console.log(theme);
+    if (theme == 1){
+        // light mode
+        element.style.background = "var(--bg-grey-light)";
+    }else if (theme == 2){
+        element.style.background = "var(--bg-grey-dark)";
+    }else{
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            colorMode.darkModeSidebar();
+        } else {
+            colorMode.applyLightModeSidebar();
+        }
+    }
+}
+test();

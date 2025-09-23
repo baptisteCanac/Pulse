@@ -1,0 +1,130 @@
+{
+    "headManager": {
+        "title": "Pulse",
+        "global": {
+            "tags": [
+                "meta",
+                "meta"
+            ],
+            "attributes": [
+                {
+                    "charset": "UTF-8"
+                },
+                {
+                    "name": "viewport",
+                    "content": "width=device-width, initial-scale=1.0"
+                }
+            ]
+        },
+        "settings": {
+            "tags": [
+                "link",
+                "script"
+            ],
+            "attributes": [
+                {
+                    "rel": "stylesheet",
+                    "type": "text/css",
+                    "href": "../stylesheets/settings.css"
+                },
+                {
+                    "type": "module",
+                    "src": "../js/pages/settings.js",
+                    "defer": "true"
+                }
+            ]
+        },
+        "reader": {
+            "tags": [
+                "script",
+                "link",
+                "link",
+                "link",
+                "script"
+            ],
+            "attributes": [
+                {
+                    "type": "module",
+                    "src": "../js/pages/reader.js",
+                    "defer": "true"
+                },
+                {
+                    "rel": "stylesheet",
+                    "type": "text/css",
+                    "href": "../stylesheets/lib/global.css"
+                },
+                {
+                    "rel": "stylesheet",
+                    "type": "text/css",
+                    "href": "../stylesheets/pages/reader.css"
+                },
+                {
+                    "rel": "stylesheet",
+                    "type": "text/css",
+                    "href": "../stylesheets/presentation.css"
+                },
+                {
+                    "src": "https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js",
+                    "defer": "true"
+                }
+            ]
+        },
+        "presenter": {
+            "tags": [
+                "meta",
+                "meta"
+            ],
+            "attributes": [
+                {
+                    "charset": "UTF-8"
+                },
+                {
+                    "name": "viewport",
+                    "content": "width=device-width, initial-scale=1"
+                }
+            ]
+        },
+        "export": {
+            "tags": [
+                "meta",
+                "meta",
+                "script"
+            ],
+            "attributes": [
+                {
+                    "charset": "UTF-8"
+                },
+                {
+                    "name": "viewport",
+                    "content": "width=device-width, initial-scale=1.0"
+                },
+                {
+                    "type": "module",
+                    "src": "../js/pages/export.js",
+                    "defer": "true"
+                }
+            ]
+        },
+        "code": {
+            "tags": [
+                "meta",
+                "meta",
+                "script"
+            ],
+            "attributes": [
+                {
+                    "charset": "UTF-8"
+                },
+                {
+                    "name": "viewport",
+                    "content": "width=device-width, initial-scale=1.0"
+                },
+                {
+                    "type": "module",
+                    "src": "../js/pages/code.js",
+                    "defer": "true"
+                }
+            ]
+        }
+    }
+}

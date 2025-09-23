@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pulse</title>
+    <script type="module">
+        import HeadManager from '../js/lib/HeadManager.js';
+        const headManager = new HeadManager();
+        headManager.setHead("settings");
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="../js/pages/settings.js" defer></script>
     <script type="module" src="../js/components/AppSidebar.js"></script>
-    <link rel="stylesheet" type="text/css" href="../stylesheets/settings.css">
 </head>
 <body style="background-color: #111827; color: white; margin: 0; font-family: system-ui, -apple-system, sans-serif;">
     <div style="display: flex; min-height: 100vh;">
