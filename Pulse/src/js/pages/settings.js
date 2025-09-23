@@ -2,7 +2,14 @@ const { invoke } = window.__TAURI__.core;
 import ColorMode from "../lib/ColorMode.js";
 import TranslateManager from "../lib/TranslateManager.js";
 import JsonManager from "../lib/JsonManager.js";
+import RedirectionManager from "../lib/RedirectionManager.js";
 
+const redirectionManager = new RedirectionManager(
+  "../../index.html",
+  "../../html/export.html",
+  "../../html/code.html",
+  "#"
+);
 let theme = 0; // 0 = Auto, 1 = Light, 2 = Dark
 const jsonlanguagesManager = new JsonManager("../../datas/languages.json");
 const jsonDataManager = new JsonManager("../../datas/data.json");
@@ -66,18 +73,7 @@ updateTheme();
 
 const temp = document.querySelector("app-sidebar");
 
-function redirections(){
-  document.getElementById("home").addEventListener("click", () => {
-    window.location.href = "../../index.html";
-  });
-  document.getElementById("export").addEventListener("click", () => {
-    window.location.href = "../../html/export.html";
-  });
-  document.getElementById("code").addEventListener("click", () => {
-    window.location.href = "../../html/code.html";
-  });
-};
-redirections();
+redirectionManager.initRedirections();
 
 async function update_button() {
   const data = await jsonlanguagesManager.getLanguagesData();
