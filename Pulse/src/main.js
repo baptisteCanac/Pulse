@@ -67,7 +67,6 @@ async function selectFile() {
 // Événements DOM
 window.addEventListener("DOMContentLoaded", async () => {
   await applyTheme();
-  await loadRecentFiles();
 
   document.getElementById("openFileButton").addEventListener("click", selectFile);
 

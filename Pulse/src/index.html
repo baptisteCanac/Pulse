@@ -13,40 +13,8 @@
     <app-sidebar active="home"></app-sidebar>
       <!-- Main Content -->
       <main class="flex-1 flex items-center justify-center p-6">
-        <div class="bg-gray-800 rounded-2xl shadow-xl p-8 w-full max-w-md">
-        <button id="openFileButton" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-lg transition mb-6">
-        Ouvrir un fichier
-</button>
-<!-- Zone drag and drop -->
-<div id="dropZone" class="border-2 border-dashed border-gray-600 hover:border-blue-500 bg-gray-700 hover:bg-gray-600 rounded-xl p-8 text-center transition-all duration-300 cursor-pointer group">
-<div class="space-y-4">
-<div class="mx-auto w-16 h-16 bg-gray-600 group-hover:bg-blue-500 rounded-full flex items-center justify-center transition-colors duration-300">
-<svg class="w-8 h-8 text-gray-300 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-</svg>
-</div>
-<div>
-<p class="text-lg font-medium text-gray-200 group-hover:text-white transition-colors duration-300">
-Glissez vos fichiers ici
-</p>
-<p class="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-ou cliquez pour parcourir
-</p>
-</div>
-<div class="text-xs text-gray-500">
-Formats supportés: PDF, DOC, DOCX, TXT
-</div>
-</div>
-</div>
-<!-- Zone d'affichage des fichiers sélectionnés -->
-<div id="fileList" class="mt-6 space-y-2 hidden">
-<h3 class="text-sm font-medium text-gray-300 mb-2">Fichiers sélectionnés :</h3>
-</div>
-</div>
-</main>
-</div>
-
-<input type="file" id="fileInput" class="hidden" multiple accept=".md,.txt">
-
+          <button id="openFileButton" class="w-3/4 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-lg transition mb-6"></button>
+      </main>
+    </div>
 </body>
 </html>
