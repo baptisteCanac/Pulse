@@ -72,7 +72,6 @@ export default class TranslateManager {
 
     translateHome(){
         document.getElementById("openFileButton").innerText = this.data["home"]["open_a_file"][this.choosen_language];
-        document.getElementById("recent_file_text").innerText = this.data["home"]["recent_files"][this.choosen_language];
     }
 
     translateExport(){
