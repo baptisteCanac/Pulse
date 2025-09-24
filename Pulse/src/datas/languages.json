@@ -134,6 +134,22 @@
         "cta": [
             "Exporter",
             "Export now"
+        ],
+        "popup_title": [
+            "Fonctionnalité en développement",
+            "Page not yet finished"
+        ],
+        "popup_subtitle": [
+            "Cette page d'export n'est pas encore développée. Elle sera disponible dans une prochaine version de PULSE.",
+            "This export page is not yet developed. It will be available in a future version of PULSE."
+        ],
+        "understand_popup": [
+            "Compris",
+            "Understand"
+        ],
+        "go_back_popup": [
+            "Retour",
+            "Go back"
         ]
     }
 }

@@ -1,74 +1,96 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <script type="module">
-    import HeadManager from '../js/lib/HeadManager.js';
-    const headManager = new HeadManager();
-    headManager.setHead("export");
-  </script>
-  <title>PULSE</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script type="module" src="../js/components/AppSidebar.js"></script>
-  <link rel="stylesheet" href="../stylesheets/pages/export.css">
-  <link rel="stylesheet" href="../stylesheets/lib/global.css">
-</head>
-<body class="bg-gray-900 text-white font-sans">
+  <head>
+    <script type="module">
+      import HeadManager from '../js/lib/HeadManager.js';
+      const headManager = new HeadManager();
+      headManager.setHead("export");
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="../js/components/AppSidebar.js"></script>
+    <link rel="stylesheet" href="../stylesheets/pages/export.css">
+    <link rel="stylesheet" href="../stylesheets/lib/global.css">
+  </head>
+  <body class="bg-gray-900 text-white font-sans">
+    <div class="flex flex-col md:flex-row h-screen">
+      <!-- Sidebar -->
+      <app-sidebar active="export"></app-sidebar>
+      
+      <!-- Main Content -->
+      <main class="flex-1 flex items-center justify-center p-6 overflow-y-auto">
+        <div class="bg-white text-gray-900 rounded-2xl shadow-xl w-full max-w-2xl p-8 opacity-50 pointer-events-none">
 
-  <div class="flex flex-col md:flex-row h-screen">
-    <!-- Sidebar -->
-    <app-sidebar active="export"></app-sidebar>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex items-center justify-center p-6 overflow-y-auto">
-      <div class="bg-white text-gray-900 rounded-2xl shadow-xl w-full max-w-2xl p-8">
-        
         <!-- Titre -->
-        <h1 class="text-2xl font-semibold mb-8" id="title"></h1>
-        
+        <h1 class="text-2xl font-semibold mb-8" id="title">Export</h1>
+
         <!-- Paramètres sur une seule colonne -->
         <div class="space-y-6">
-
           <div class="flex justify-center mt-10">
-          <button class="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow" id="chooseFile"></button>
-        </div>
+            <button class="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow" id="chooseFile">Choisir un fichier</button>
+          </div>
 
           <!-- Export Format -->
           <div>
-            <label for="export-format" class="block text-sm font-medium mb-2" id="formats"></label>
+            <label for="export-format" class="block text-sm font-medium mb-2" id="formats">Format d'export</label>
             <select id="export-format" class="w-full rounded-md border-gray-300 bg-gray-100 p-2 focus:ring-2 focus:ring-blue-500">
-              <option>HTML</option>
-              <option>PDF</option>
+            <option>HTML</option>
+            <option>PDF</option>
             </select>
           </div>
 
           <!-- Export Settings -->
           <div>
-            <p class="text-sm font-medium mb-2" id="exportSettings"></p>
+            <p class="text-sm font-medium mb-2" id="exportSettings">Paramètres d'export</p>
             <label class="flex items-center gap-2">
               <input type="checkbox" class="rounded text-blue-600" id="loopCheckbox">
-              <span id="loop"></span>
+              <span id="loop">Boucle</span>
             </label>
             <label class="flex items-center gap-2">
               <input type="checkbox" class="rounded text-blue-600" id="protectCheckbox">
-              <span id="protect"></span>
+              <span id="protect">Protection</span>
             </label>
           </div>
 
           <!-- Page Size -->
           <div>
-            <label for="page-size" class="block text-sm font-medium mb-2" id="size"></label>
+            <label for="page-size" class="block text-sm font-medium mb-2" id="size">Taille de page</label>
             <select id="page-size" class="w-full rounded-md border-gray-300 bg-gray-100 p-2 focus:ring-2 focus:ring-blue-500">
               <option>A4</option>
             </select>
           </div>
+          
+          <!-- Bouton -->
+          <div class="flex justify-center mt-10">
+            <button class="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow" id="cta">Exporter</button>
+          </div>
+        </div>
+      </main>
+    </div>
 
-        <!-- Bouton -->
-        <div class="flex justify-center mt-10">
-          <button class="px-6 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white font-medium shadow" id="cta"></button>
+    <!-- Popup de fonctionnalité non développée -->
+    <div id="popup-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 mx-4 max-w-md w-full text-center transform transition-all duration-300 scale-100">
+
+        <!-- Icône -->
+        <div class="mx-auto flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-6">
+          <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+          </svg>
+        </div>
+
+        <!-- Titre -->
+        <h2 class="text-xl font-semibold text-gray-900 mb-4" id="popupTitle"></h2>
+
+        <!-- Message -->
+        <p class="text-gray-600 mb-6 leading-relaxed" id="popupSubtitle"></p>
+        
+        <!-- Boutons -->
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button id="closePopupButton" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200"></button>
+          
+          <button id="goBackButton" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition-colors duration-200"></button>
         </div>
       </div>
-    </main>
-  </div>
-
+    </div>
 </body>
 </html>
