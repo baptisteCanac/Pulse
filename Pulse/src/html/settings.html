@@ -105,7 +105,7 @@
                     <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                         <div class="flex-1">
                             <label class="block text-sm font-medium text-gray-900 mb-1" id="go_home"></label>
-                            <p class="text-sm text-gray-600" id="go_home_shortcut">Go home shortcut</p>
+                            <p class="text-sm text-gray-600" id="go_home_shortcut"></p>
                         </div>
                         <div class="flex items-center space-x-2 ml-4">
                             <div class="flex items-center bg-white border border-gray-300 rounded-md px-3 py-2">
@@ -113,6 +113,26 @@
                                 <span class="mx-2 text-gray-500">+</span>
                                 <input 
                                     id="home_input"
+                                    type="text" 
+                                    maxlength="1" 
+                                    class="shortcut-input w-8 h-8 text-center text-sm font-semibold border border-gray-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono"
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toggle sidebar Shortcut -->
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div class="flex-1">
+                            <label class="block text-sm font-medium text-gray-900 mb-1" id="toggleSidebar">Toggle sidebar</label>
+                            <p class="text-sm text-gray-600" id="toggleSidebarSubtitle">Open & close your sidebar when you are in code editor</p>
+                        </div>
+                        <div class="flex items-center space-x-2 ml-4">
+                            <div class="flex items-center bg-white border border-gray-300 rounded-md px-3 py-2">
+                                <kbd class="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-300 rounded font-mono">Ctrl</kbd>
+                                <span class="mx-2 text-gray-500">+</span>
+                                <input 
+                                    id="toggleSidebarInput"
                                     type="text" 
                                     maxlength="1" 
                                     class="shortcut-input w-8 h-8 text-center text-sm font-semibold border border-gray-300 rounded focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 font-mono"
