@@ -91,21 +91,15 @@ export default class TranslateManager {
             "go_home_shortcut",
             "default_values",
             "ergonomic_settings_title",
-            "close_sidebar"
+            "close_sidebar",
+            "saveBtn"
         ];
 
-        keys.forEach(key => {
-            const element = document.getElementById(key);
-            if (element && this.data.settings[key] && this.data.settings[key][this.choosen_language]) {
-                element.innerText = this.data.settings[key][this.choosen_language];
-            }
-        });
-        
-        document.getElementById("saveBtn").innerText = this.data["settings"]["save"][this.choosen_language];
+        this.translateDict(keys, "settings");
     }
 
     translateHome(){
-        document.getElementById("openFileButton").innerText = this.data["home"]["open_a_file"][this.choosen_language];
+        this.translate("openFileButton", "home", "open_a_file");
     }
 
     translateExport(){
