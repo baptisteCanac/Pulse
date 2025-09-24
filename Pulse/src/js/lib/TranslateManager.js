@@ -92,7 +92,9 @@ export default class TranslateManager {
             "default_values",
             "ergonomic_settings_title",
             "close_sidebar",
-            "saveBtn"
+            "saveBtn",
+            "toggleSidebar",
+            "toggleSidebarSubtitle"
         ];
 
         this.translateDict(keys, "settings");

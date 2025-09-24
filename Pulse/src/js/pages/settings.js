@@ -129,9 +129,11 @@ async function updateShortcuts(){
 
   const homeInput = document.getElementById("home_input");
   const overlayInput = document.getElementById("overlay_input");
+  const toggleSidebarInput = document.getElementById("toggleSidebarInput");
 
   homeInput.value = data.go_home ?? "";
   overlayInput.value = data.open_overlay ?? "";
+  toggleSidebarInput.value = data.toggle_sidebar ?? "";
 }
 
 // Configure l'input pour n'accepter qu'une "touche" et mettre à jour value immédiatement
