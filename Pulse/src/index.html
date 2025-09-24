@@ -1,32 +1,20 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PULSE</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script type="module" src="main.js" defer></script>
-  <script type="module" src="js/components/AppSidebar.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PULSE</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="module" src="main.js" defer></script>
+<script type="module" src="js/components/AppSidebar.js"></script>
 </head>
 <body class="bg-gray-900 text-white font-sans">
-
   <div class="flex flex-col md:flex-row h-screen">
     <app-sidebar active="home"></app-sidebar>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex items-center justify-center p-6">
-      <div class="bg-gray-800 rounded-2xl shadow-xl p-8 w-full max-w-md">
-        <button id="openFileButton" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-lg transition"></button>
-
-        <!-- Recent Files -->
-        <div class="mt-6">
-          <h2 class="text-gray-300 text-sm mb-3" id="recent_file_text"></h2>
-          <div class="space-y-2" id="recent_files_container">
-            <!-- Add recent files via js -->
-          </div>
-        </div>
-      </div>
-    </main>
-  </div>
+      <!-- Main Content -->
+      <main class="flex-1 flex items-center justify-center p-6">
+          <button id="openFileButton" class="w-3/4 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-lg transition mb-6"></button>
+      </main>
+    </div>
 </body>
 </html>

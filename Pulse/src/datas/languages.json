@@ -100,10 +100,6 @@
         "open_a_file": [
             "Ouvrir un fichier",
             "Open a file"
-        ],
-        "recent_files": [
-            "Fichiers recents",
-            "Recents files"
         ]
     },
     "export": {

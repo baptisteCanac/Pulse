@@ -64,22 +64,9 @@ async function selectFile() {
   window.location.href = "html/presenter.html";
 }
 
-// Ajout des fichiers récents
-async function loadRecentFiles() {
-  const titles = await jsonManager.getRecentFileTitles();
-  titles.forEach(title => {
-    const new_recent_file = document.createElement("div");
-    const bgClass = toggleColorMode === 0 ? "bg-gray-700" : "bg-gray-200";
-    new_recent_file.setAttribute("class", `recent-file p-3 ${bgClass} rounded-lg`);
-    new_recent_file.innerText = title;
-    recent_files_container.appendChild(new_recent_file);
-  });
-}
-
 // Événements DOM
 window.addEventListener("DOMContentLoaded", async () => {
   await applyTheme();
-  await loadRecentFiles();
 
   document.getElementById("openFileButton").addEventListener("click", selectFile);
 
