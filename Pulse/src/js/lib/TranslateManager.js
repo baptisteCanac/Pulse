@@ -12,6 +12,37 @@ export default class TranslateManager {
 
         return this; // retourne l'objet une fois prêt
     }
+    
+    translateDict(toTranslate, pageElement=null){
+        /* 
+        Translate an entire dictionnary using this method using this format
+        {
+        "name of the hmtl element": ["name of the page element", "name of the element in TranslateManager"]
+        }
+        */
+        if (Array.isArray(toTranslate)){
+            toTranslate.forEach(element => {
+                this.translate(element, pageElement, element);
+            });
+        }else{
+            if (pageElement == null){
+                for (let key in toTranslate){
+                    this.translate(key, toTranslate[key][0], toTranslate[key][1]);
+                };
+            }else{
+                for (let key in toTranslate){
+                    this.translate(key, pageElement, toTranslate[key]);
+                }
+            }
+        }
+    }
+
+    translate(nameTextContainer, nameTranslationContainer, nameTranslationCategory){
+        /*
+        With this function you don't need to use document.get...
+        */
+        document.getElementById(nameTextContainer).innerText = this.data[nameTranslationContainer][nameTranslationCategory][this.choosen_language];
+    }
 
     async getData() {
         try {
@@ -26,12 +57,15 @@ export default class TranslateManager {
     }
 
     translateSidebar() {
-        document.getElementById("home_text_sidebar").innerText = this.data["sidebar"]["home"][this.choosen_language];
-        document.getElementById("export_text_sidebar").innerText = this.data["sidebar"]["export"][this.choosen_language];
-        document.getElementById("code_text_sidebar").innerText = this.data["sidebar"]["code"][this.choosen_language];
-        document.getElementById("settings_text_sidebar").innerText = this.data["sidebar"]["settings"][this.choosen_language];
+        const toTranslate = {
+            "home_text_sidebar": "home",
+            "export_text_sidebar": "export",
+            "code_text_sidebar": "code",
+            "settings_text_sidebar": "settings",
+            "version_text": "version"
+        };
 
-        document.getElementById("version_text").innerHTML = this.data["sidebar"]["version"][this.choosen_language];
+        this.translateDict(toTranslate, "sidebar");
 
         async function syncVersion(){
             const version = await invoke("get_version");
@@ -57,35 +91,33 @@ export default class TranslateManager {
             "go_home_shortcut",
             "default_values",
             "ergonomic_settings_title",
-            "close_sidebar"
+            "close_sidebar",
+            "saveBtn"
         ];
 
-        keys.forEach(key => {
-            const element = document.getElementById(key);
-            if (element && this.data.settings[key] && this.data.settings[key][this.choosen_language]) {
-                element.innerText = this.data.settings[key][this.choosen_language];
-            }
-        });
-        
-        document.getElementById("saveBtn").innerText = this.data["settings"]["save"][this.choosen_language];
+        this.translateDict(keys, "settings");
     }
 
     translateHome(){
-        document.getElementById("openFileButton").innerText = this.data["home"]["open_a_file"][this.choosen_language];
+        this.translate("openFileButton", "home", "open_a_file");
     }
 
     translateExport(){
-        document.getElementById("title").innerText = this.data["export"]["title"][this.choosen_language];
-        document.getElementById("formats").innerText = this.data["export"]["formats"][this.choosen_language];
-        document.getElementById("exportSettings").innerText = this.data["export"]["settings"][this.choosen_language];
-        document.getElementById("loop").innerText = this.data["export"]["loop"][this.choosen_language];
-        document.getElementById("protect").innerText = this.data["export"]["protect"][this.choosen_language];
-        document.getElementById("size").innerText = this.data["export"]["size"][this.choosen_language];
-        document.getElementById("cta").innerText = this.data["export"]["cta"][this.choosen_language];
-        document.getElementById("chooseFile").innerText = this.data["export"]["choose_a_file"][this.choosen_language];
-        document.getElementById("popupTitle").innerText = this.data["export"]["popup_title"][this.choosen_language];
-        document.getElementById("popupSubtitle").innerText = this.data["export"]["popup_subtitle"][this.choosen_language];
-        document.getElementById("closePopupButton").innerText = this.data["export"]["understand_popup"][this.choosen_language];
-        document.getElementById("goBackButton").innerText = this.data["export"]["go_back_popup"][this.choosen_language];
+        const toTranslate = [
+            "title",
+            "formats",
+            "loop",
+            "protect",
+            "size",
+            "cta",
+            "chooseFile",
+            "popupTitle",
+            "popupSubtitle",
+            "closePopupButton",
+            "goBackButton",
+            "exportSettings"
+        ];
+
+        this.translateDict(toTranslate, "export");
     }
 }
