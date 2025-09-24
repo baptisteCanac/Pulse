@@ -83,5 +83,9 @@ export default class TranslateManager {
         document.getElementById("size").innerText = this.data["export"]["size"][this.choosen_language];
         document.getElementById("cta").innerText = this.data["export"]["cta"][this.choosen_language];
         document.getElementById("chooseFile").innerText = this.data["export"]["choose_a_file"][this.choosen_language];
+        document.getElementById("popupTitle").innerText = this.data["export"]["popup_title"][this.choosen_language];
+        document.getElementById("popupSubtitle").innerText = this.data["export"]["popup_subtitle"][this.choosen_language];
+        document.getElementById("closePopupButton").innerText = this.data["export"]["understand_popup"][this.choosen_language];
+        document.getElementById("goBackButton").innerText = this.data["export"]["go_back_popup"][this.choosen_language];
     }
 }
