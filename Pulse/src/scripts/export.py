@@ -150,6 +150,7 @@ Pulse rend la création de présentations :
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" rel="stylesheet">
         <script type='module'>
         {ColorModeCode}
 
@@ -192,6 +193,8 @@ Pulse rend la création de présentations :
 
         showCurrentSlide(currentSlide);
 
+        Prism.highlightAll();
+
         </script>
         <meta charset='UTF-8'>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -201,6 +204,10 @@ Pulse rend la création de présentations :
         </style>
     </head>
     <body class='presentation-light'>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-python.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-javascript.min.js"></script>
+        
         {code}
     </body>
 </html
