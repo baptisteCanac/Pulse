@@ -1,0 +1,707 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type='module'>
+        export default class ColorMode {
+    constructor(type) {
+        if (type === "index") {
+            const temp = document.querySelector("app-sidebar");
+            temp.addEventListener("rendered", () => {
+                this.sidebar = temp.querySelector("aside");
+                this.footer = this.sidebar.querySelector("div.mt-6");
+                this.mainCard = document.querySelector("main > div");
+                this.button = document.getElementById("openFileButton");
+            });
+        }
+    }
+
+    // Configuration centralisée des thèmes
+    static themes = {
+        light: {
+            body: { add: ["bg-white", "text-gray-900"], remove: ["bg-gray-900", "text-white"] },
+            sidebar: { add: ["bg-gray-100"], remove: ["bg-gray-800"] },
+            footer: { add: ["text-gray-600"], remove: ["text-gray-400"] },
+            mainCard: { add: ["bg-gray-50"], remove: ["bg-gray-800"] },
+            button: { add: ["bg-blue-500"], remove: ["bg-blue-600"] },
+            recentFiles: { add: ["bg-gray-200", "text-gray-900"], remove: ["bg-gray-700", "text-white"] }
+        },
+        dark: {
+            body: { add: ["bg-gray-900", "text-white"], remove: ["bg-white", "text-gray-900"] },
+            sidebar: { add: ["bg-gray-800"], remove: ["bg-gray-100"] },
+            footer: { add: ["text-gray-400"], remove: ["text-gray-600"] },
+            mainCard: { add: ["bg-gray-800"], remove: ["bg-gray-50"] },
+            button: { add: ["bg-blue-600"], remove: ["bg-blue-500"] },
+            recentFiles: { add: ["bg-gray-700", "text-white"], remove: ["bg-gray-200", "text-gray-900"] }
+        }
+    };
+
+    // Méthode générique pour appliquer un thème
+    applyTheme(themeName) {
+        const theme = ColorMode.themes[themeName];
+        if (!theme) return;
+
+        // Application sur les éléments principaux
+        const elements = {
+            body: document.body,
+            sidebar: this.sidebar,
+            footer: this.footer,
+            mainCard: this.mainCard,
+            button: this.button
+        };
+
+        Object.entries(elements).forEach(([key, element]) => {
+            if (element && theme[key]) {
+                element.classList.remove(...theme[key].remove);
+                element.classList.add(...theme[key].add);
+            }
+        });
+
+        // Fichiers récents
+        if (theme.recentFiles) {
+            document.querySelectorAll(".recent-file").forEach(el => {
+                el.classList.remove(...theme.recentFiles.remove);
+                el.classList.add(...theme.recentFiles.add);
+            });
+        }
+    }
+
+    lightMode() { this.applyTheme('light'); }
+    darkMode() { this.applyTheme('dark'); }
+
+    // Configuration des styles CSS pour les modes présentation et settings
+    static styles = {
+        presentation: {
+            light: `
+body.presentation-light {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+body.presentation-light section {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+body.presentation-light h1, body.presentation-light h2, body.presentation-light h3,
+body.presentation-light h4, body.presentation-light h5, body.presentation-light h6 {
+  color: #0f172a !important;
+}
+
+body.presentation-light p, body.presentation-light li {
+  color: #0f172a !important;
+}
+
+body.presentation-light code, body.presentation-light pre {
+  background: #f3f4f6 !important;
+  color: #7b1e1b !important;
+  border-radius: 6px;
+}
+
+body.presentation-light table {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+body.presentation-light th {
+  background: #e6e9ee !important;
+  color: #0f172a !important;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0 !important;
+}
+
+body.presentation-light td {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-bottom: 1px solid #eef2f6 !important;
+}
+
+body.presentation-light tr:nth-child(even) td {
+  background: #fbfdff !important;
+}
+
+body.presentation-light hr {
+  border-top: 2px solid #e6e9ee !important;
+}
+
+body.presentation-light hr::after {
+  color: #6b7280 !important;
+}
+
+body.presentation-light section img {
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06) !important;
+}
+
+body.presentation-light .hidden { display: none !important; }
+body.presentation-light .active { display: flex !important; }`
+        },
+        settings: {
+            light: `
+body.settings-light {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+body.settings-light aside {
+  background-color: #f3f4f6 !important;
+  height: 100vh;
+}
+
+body.settings-light aside a:hover {
+  color: #1e40af !important;
+}
+
+body.settings-light aside .mt-6 {
+  color: #6b7280 !important;
+}
+
+body.settings-light h2, body.settings-light h3 {
+  color: #111827 !important;
+}
+
+body.settings-light .toggle-switch.active {
+  background-color: #3b82f6 !important;
+}
+
+body.settings-light .radio-button.active {
+  border: 2px solid #3b82f6 !important;
+}
+
+body.settings-light span[style*="background-color: #374151"] {
+  background-color: #e5e7eb !important;
+  color: #111827 !important;
+  border: 1px solid #d1d5db !important;
+}`
+        }
+    };
+
+    // Méthode générique pour appliquer des styles CSS
+    applyStyleMode(mode, type, oppositeModeClass, styleId, darkStyleId) {
+        document.body.classList.add(`${mode}-light`);
+        document.body.classList.remove(`${mode}-dark`);
+
+        // Supprime l'ancien style dark
+        const darkStyle = document.getElementById(darkStyleId);
+        if (darkStyle) darkStyle.remove();
+
+        // Crée ou met à jour le style
+        let style = document.getElementById(styleId);
+        if (!style) {
+            style = document.createElement("style");
+            style.id = styleId;
+            document.head.appendChild(style);
+        }
+        style.textContent = ColorMode.styles[type].light;
+    }
+
+    lightModePresentation() {
+        this.applyStyleMode(
+            'presentation',
+            'presentation',
+            'presentation-dark',
+            'presentation-light-styles',
+            'presentation-dark-styles'
+        );
+    }
+
+    lightModeSettings() {
+        this.applyStyleMode(
+            'settings',
+            'settings',
+            'settings-dark',
+            'settings-light-styles',
+            'settings-dark-styles'
+        );
+    }
+
+    // Nouvelle méthode dans la classe ColorMode
+darkModeSidebar() {
+    if (!this.sidebar) return; // sécurité si la sidebar n'est pas encore rendue
+
+    const theme = ColorMode.themes.dark;
+
+    // Appliquer uniquement le style sidebar
+    if (theme.sidebar) {
+        this.sidebar.classList.remove(...theme.sidebar.remove);
+        this.sidebar.classList.add(...theme.sidebar.add);
+    }
+
+    // Footer dans la sidebar
+    if (this.footer && theme.footer) {
+        this.footer.classList.remove(...theme.footer.remove);
+        this.footer.classList.add(...theme.footer.add);
+    }
+
+    // Fichiers récents
+    if (theme.recentFiles) {
+        document.querySelectorAll(".recent-file").forEach(el => {
+            el.classList.remove(...theme.recentFiles.remove);
+            el.classList.add(...theme.recentFiles.add);
+        });
+    }
+}
+
+// Méthode pour mettre uniquement la sidebar en light mode
+applyLightModeSidebar() {
+    if (!this.sidebar) return; // sécurité si sidebar pas encore rendue
+    const theme = ColorMode.themes.light;
+
+    // Sidebar
+    if (theme.sidebar) {
+        this.sidebar.classList.remove(...theme.sidebar.remove);
+        this.sidebar.classList.add(...theme.sidebar.add);
+    }
+
+    // Footer
+    if (this.footer && theme.footer) {
+        this.footer.classList.remove(...theme.footer.remove);
+        this.footer.classList.add(...theme.footer.add);
+    }
+
+    // Si tu veux, tu peux aussi mettre à jour les fichiers récents
+    if (theme.recentFiles) {
+        document.querySelectorAll(".recent-file").forEach(el => {
+            el.classList.remove(...theme.recentFiles.remove);
+            el.classList.add(...theme.recentFiles.add);
+        });
+    }
+}
+
+}
+
+        const colorMode = new ColorMode("presentation");
+        colorMode.lightModePresentation();
+
+        let currentSlide = 0;
+        let i = 0;
+
+        const parts = ["<section style='display:none'>\n<h1>🎉 bienvenue sur Pulse</h1>\n\n<strong>Pulse simplifie la création et l'affichage de présentations Markdown (Marp)</strong>\npour les conférenciers et formateurs.\n</section>", "<section style='display:none'>\n<h2>🎯 Pourquoi Pulse ?</h2>\n\n<ul><li>Écrire vos slides directement dans un éditeur Markdown  </li><li>Visualiser vos présentations <strong>en temps réel</strong>  </li><li>Design moderne et épuré sans effort  </li><li>Réduire le temps de préparation pour les conférences  </li></ul>\n</section>", "<section style='display:none'>\n<h2>✨ Fonctionnalités clés</h2>\n\n1. <strong>Édition simple</strong>\n<ul><ul><li>Tapez vos slides comme du texte  </li><li>Utilisez des titres, listes, tableaux et code facilement  </li></ul></ul>\n2. <strong>Affichage instantané</strong>\n<ul><ul><li>Pulse transforme votre Markdown en présentation interactive  </li><li>Aucun paramétrage complexe nécessaire  </li></ul></ul>\n3. <strong>Support complet Marp</strong>\n<ul><ul><li>Thèmes, couleurs, images et code intégré  </li><li>Pagination automatique  </li></ul></ul>\n4. <strong>Support complet de mermaid</strong>\n<ul><ul><li>Diagrames</li><li>Pagination automatique  </li></ul></ul>\n</section>", '<section style=\'display:none\'>\n<h2>💻 Exemple d’utilisation</h2>\n\n<span class="quote">Avec Pulse, cette simple syntaxe devient <strong>une présentation professionnelle</strong>.</span>\n</section>', '<section style=\'display:none\'>\n<h2>🌟 Avantages pour le conférencier</h2>\n\n<ul class="bullet-list">\n<li>Plus besoin de PowerPoint ou Keynote</li>\n<li>Tout est <strong>dans le Markdown</strong></li>\n<li>Facile à modifier même en dernière minute</li>\n<li>Compatible multi-plateformes (Windows, Mac, Linux)</li>\n</ul>\n</section>', '<section style=\'display:none\'>\n<h2>🚀 Pulse en action</h2>\n\n<ul class="bullet-list">\n<li>Ouvrez votre fichier <span class="inline-code">.md</span></li>\n<li>Modifiez vos slides directement dans l’éditeur</li>\n<li>Affichez la présentation en <strong>plein écran avec Pulse</strong></li>\n<li>Ajoutez vos notes, images et code en quelques secondes</li>\n</ul>\n</section>', '<section style=\'display:none\'>\n<h2>Exemple de code python</h2>\n\n<pre><code class="language-python">def bonjour(nom: str) -&gt; str:\n   return f"Bonjour {nom}"\n</code></pre>\n\n<h2>Exemple de code javascript</h2>\n<pre><code class="language-javascript">function bonjour(nom) {\n    return <span class="inline-code">Bonjour ${nom}</span>;\n}\n</code></pre>\n</section>', '<section style=\'display:none\'>\n<h2>🖋️ Exemple de diagramme Mermaid</h2>\n\n<pre class="mermaid">graph TD\n    A[Début] --> B{Choix ?}\n    B -->|Oui| C[Action 1]\n    B -->|Non| D[Action 2]\n    C --> E[Fin]\n    D --> E[Fin]</pre>\n\n<span class="quote">Avec Pulse, vous pouvez intégrer facilement des diagrammes Mermaid directement dans vos présentations Markdown !</span>\n</section>', '<section style=\'display:none\'>\n<h2>Exemple de formule LateX</h2>\n\n\n<span class="math-display" data-latex="\\int_0^\\infty e^{-x}\\, dx = 1"></span>\n</section>', '<section style=\'display:none\'>\n<span class="math-display" data-latex="\\frac{d}{dx} \\Big( \\sin(x) \\Big) = \\cos(x)"></span>\n</section>', '<section style=\'display:none\'>\n<h2>🎉 Conclusion</h2>\n\nPulse rend la création de présentations :\n\n<ul class="bullet-list">\n<li>Simple</li>\n<li>Rapide</li>\n<li>Accessible à tous</li>\n<li>Et surtout <strong>agréable pour le conférencier</strong></li>\n</ul>\n<span class="quote">Fini le stress des logiciels complexes, place à la fluidité et à l’efficacité !</span>\n</section>'];
+        console.log(parts.length);
+
+        function showCurrentSlide(index){
+            const sections = document.querySelectorAll('section');
+            sections.forEach((element, i) => {
+                element.style.display = (i === index) ? 'flex' : 'none';
+            });
+        };
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "ArrowLeft") goToPreviousSlide();
+            if (event.key === "ArrowRight") goToNextSlide();
+        });
+
+        function goToPreviousSlide() {
+            console.log('previous');
+            if (currentSlide > 0) {
+                currentSlide--;
+                showCurrentSlide(currentSlide);
+            }
+        };
+
+        function goToNextSlide() {
+            console.log('next');
+            if (currentSlide < parts.length -1) {
+                currentSlide ++;
+                showCurrentSlide(currentSlide);
+            }
+        };
+
+        showCurrentSlide(currentSlide);
+
+        </script>
+        <meta charset='UTF-8'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pulse</title>
+        <style>
+        /* Reset basique */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #1e1e1e; /* fond sombre */
+  color: #f5f5f5;
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden; /* pas de scroll vertical */
+}
+
+/* Chaque slide */
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centrage vertical */
+  align-items: center;     /* centrage horizontal */
+  text-align: center;
+  width: 100%;
+  height: 100vh;           /* une slide = une page */
+  padding: 2rem 4rem;
+  box-sizing: border-box;
+}
+
+span.inline-code {
+  font-family: "Fira Code", monospace;
+  background: #2e2e2e;
+  color: #ffcc66;
+  padding: 0.1rem 0.3rem;   /* un peu moins que pre pour rester discret */
+  border-radius: 4px;
+  white-space: pre-wrap;    /* préserve les espaces si nécessaire */
+  display: inline;          /* reste dans le flux inline */
+  font-size: 1em;           /* taille cohérente avec le texte */
+}
+
+/* Séparateur visuel si on scrolle (utile pour debug) */
+section:not(:last-child) {
+  border-bottom: 1px solid #333;
+}
+
+hidden{
+  display: none;
+}
+active{
+  display: flex;
+}
+
+/* Images dans les slides */
+section img {
+  max-width: 80%;   /* largeur max 80% de la slide */
+  max-height: 60%;  /* hauteur max 60% de la slide */
+  object-fit: contain; /* conserve le ratio */
+  margin: 1rem 0;   /* espace au-dessus et en-dessous */
+  border-radius: 8px; /* coins arrondis si tu veux */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* optionnel, léger relief */
+}
+
+/* Citations inline */
+
+.media-player-overlay {
+  background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+  border-radius: 20px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.media-player-time-display {
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-right: 12px;
+}
+
+.media-player-progress-info {
+  color: #cbd5e0;
+  font-size: 14px;
+  font-weight: 400;
+  margin-right: 16px;
+}
+
+.media-player-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.media-player-control-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(10px);
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.media-player-control-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.media-player-control-btn:active {
+  transform: translateY(0);
+}
+
+.media-player-play-btn {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.media-player-play-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.media-player-icon {
+  width: 18px;
+  height: 18px;
+  fill: white;
+  flex-shrink: 0;
+}
+
+.media-player-play-icon {
+  width: 20px;
+  height: 20px;
+}.bullet-list{
+  list-style-type: disc; /* ou circle, square */
+  margin-left: 20px;
+}
+
+/* titres */
+#preview h1, h1 {
+  font-size: 3rem !important;
+  margin-bottom: 1rem !important;
+}
+#preview h2, h2 {
+  font-size: 2.5rem !important;
+  margin-bottom: 0.8rem !important;
+}
+
+#preview h3, h3 {
+  font-size: 2rem !important;
+  margin-bottom: 0.6rem !important;
+}
+
+#preview h4, #preview h5, #preview h6, h4, h5, h6{
+  font-size: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Paragraphes et listes */
+#preview p, p, #preview li, li {
+  font-size: 1.3rem !important;
+  line-height: 1.6 !important;
+  margin: 0.5rem 0 !important;
+}
+
+/* Listes */
+#preview ul, ul, #preview ol, ol {
+  text-align: left !important;
+  max-width: 70% !important;
+  margin: 1rem auto !important;
+}
+
+#preview code, code {
+  font-family: "Fira Code", monospace;
+  background: #2e2e2e;
+  color: #ffcc66;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  display: inline;        /* reste inline pour les backticks */
+  white-space: pre-wrap;  /* conserve les espaces si nécessaire */
+  font-size: 1em;
+}
+
+/* Blocs de code préformatés */
+#preview pre, pre {
+  font-family: "Fira Code", monospace;
+  background: #2e2e2e;
+  color: #ffcc66;
+  padding: 1rem;
+  overflow-x: auto;
+  text-align: left;
+  border-radius: 8px;
+  margin: 1rem auto;      /* centrer horizontalement */
+  box-sizing: border-box; /* inclut le padding dans la largeur */
+}
+
+/* Tableaux */
+#preview table, table {
+  border-collapse: collapse !important;
+  margin: 2rem auto !important;
+  width: 80% !important;
+  max-width: 900px !important;
+  font-size: 1.1rem !important;
+  background: #2a2a2a !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+#preview th, th, #preview td, td {
+  padding: 0.8rem 1.2rem !important;
+  text-align: left !important;
+}
+
+#preview th, th {
+  background: #333 !important;
+  color: #fff !important;
+  font-weight: 600 !important;
+  border-bottom: 2px solid #444 !important;
+}
+
+#preview td, td {
+  border-bottom: 1px solid #444 !important;
+}
+
+#preview tr:last-child td, tr:last-child td {
+  border-bottom: none !important;
+}
+
+#preview hr, hr {
+  border: none !important;
+  border-top: 2px solid #444 !important;
+  margin: 2rem auto !important;
+  width: 60% !important;
+  position: relative !important;
+}
+
+#preview hr::after, hr::after {
+  content: "• • •" !important;
+  position: absolute !important;
+  top: -0.8rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  font-size: 0.9rem !important;
+  color: #666 !important;
+  letter-spacing: 0.5rem !important;
+}
+
+#preview tr:nth-child(even) td, tr:nth-child(even) td {
+  background: #252525 !important;
+}
+
+#preview span.quote, span.quote {
+  display: block !important;            /* un bloc pour la citation */
+  font-style: italic !important;
+  color: #a0a0a0 !important;
+  border-left: 3px solid #ffcc66 !important;
+  padding-left: 0.8rem !important;
+  margin: 0.5rem 0 !important;
+  white-space: pre-wrap !important;     /* conserver les retours à la ligne */
+}
+
+section {
+  display: flex;
+  flex-direction: column; /* empile verticalement */
+  align-items: center;    /* centre horizontalement tous les enfants */
+}
+
+section > * {
+  max-width: 90% !important; /* limite la largeur de tous les enfants */
+  width: 100% !important;    /* occupe toute la largeur disponible */
+  margin: 1rem 0 !important; /* espace vertical */
+}
+
+/* Images spécifiques */
+section img {
+  display: block !important;
+  max-width: 50vw !important;  /* taille maximale pour ne pas tout remplir l'écran */
+  width: 100% !important;       /* largeur adaptative si l'image est plus petite */
+  height: auto !important;      /* conserve les proportions */
+  margin: 1rem auto !important; /* espace vertical et centrage horizontal */
+}
+        </style>
+    </head>
+    <body class='presentation-light'>
+        <section style='display:none'>
+<h1>🎉 bienvenue sur Pulse</h1>
+
+<strong>Pulse simplifie la création et l'affichage de présentations Markdown (Marp)</strong>
+pour les conférenciers et formateurs.
+</section>
+<section style='display:none'>
+<h2>🎯 Pourquoi Pulse ?</h2>
+
+<ul><li>Écrire vos slides directement dans un éditeur Markdown  </li><li>Visualiser vos présentations <strong>en temps réel</strong>  </li><li>Design moderne et épuré sans effort  </li><li>Réduire le temps de préparation pour les conférences  </li></ul>
+</section>
+<section style='display:none'>
+<h2>✨ Fonctionnalités clés</h2>
+
+1. <strong>Édition simple</strong>
+<ul><ul><li>Tapez vos slides comme du texte  </li><li>Utilisez des titres, listes, tableaux et code facilement  </li></ul></ul>
+2. <strong>Affichage instantané</strong>
+<ul><ul><li>Pulse transforme votre Markdown en présentation interactive  </li><li>Aucun paramétrage complexe nécessaire  </li></ul></ul>
+3. <strong>Support complet Marp</strong>
+<ul><ul><li>Thèmes, couleurs, images et code intégré  </li><li>Pagination automatique  </li></ul></ul>
+4. <strong>Support complet de mermaid</strong>
+<ul><ul><li>Diagrames</li><li>Pagination automatique  </li></ul></ul>
+</section>
+<section style='display:none'>
+<h2>💻 Exemple d’utilisation</h2>
+
+<span class="quote">Avec Pulse, cette simple syntaxe devient <strong>une présentation professionnelle</strong>.</span>
+</section>
+<section style='display:none'>
+<h2>🌟 Avantages pour le conférencier</h2>
+
+<ul class="bullet-list">
+<li>Plus besoin de PowerPoint ou Keynote</li>
+<li>Tout est <strong>dans le Markdown</strong></li>
+<li>Facile à modifier même en dernière minute</li>
+<li>Compatible multi-plateformes (Windows, Mac, Linux)</li>
+</ul>
+</section>
+<section style='display:none'>
+<h2>🚀 Pulse en action</h2>
+
+<ul class="bullet-list">
+<li>Ouvrez votre fichier <span class="inline-code">.md</span></li>
+<li>Modifiez vos slides directement dans l’éditeur</li>
+<li>Affichez la présentation en <strong>plein écran avec Pulse</strong></li>
+<li>Ajoutez vos notes, images et code en quelques secondes</li>
+</ul>
+</section>
+<section style='display:none'>
+<h2>Exemple de code python</h2>
+
+<pre><code class="language-python">def bonjour(nom: str) -&gt; str:
+   return f"Bonjour {nom}"
+</code></pre>
+
+<h2>Exemple de code javascript</h2>
+<pre><code class="language-javascript">function bonjour(nom) {
+    return <span class="inline-code">Bonjour ${nom}</span>;
+}
+</code></pre>
+</section>
+<section style='display:none'>
+<h2>🖋️ Exemple de diagramme Mermaid</h2>
+
+<pre class="mermaid">graph TD
+    A[Début] --> B{Choix ?}
+    B -->|Oui| C[Action 1]
+    B -->|Non| D[Action 2]
+    C --> E[Fin]
+    D --> E[Fin]</pre>
+
+<span class="quote">Avec Pulse, vous pouvez intégrer facilement des diagrammes Mermaid directement dans vos présentations Markdown !</span>
+</section>
+<section style='display:none'>
+<h2>Exemple de formule LateX</h2>
+
+
+<span class="math-display" data-latex="\int_0^\infty e^{-x}\, dx = 1"></span>
+</section>
+<section style='display:none'>
+<span class="math-display" data-latex="\frac{d}{dx} \Big( \sin(x) \Big) = \cos(x)"></span>
+</section>
+<section style='display:none'>
+<h2>🎉 Conclusion</h2>
+
+Pulse rend la création de présentations :
+
+<ul class="bullet-list">
+<li>Simple</li>
+<li>Rapide</li>
+<li>Accessible à tous</li>
+<li>Et surtout <strong>agréable pour le conférencier</strong></li>
+</ul>
+<span class="quote">Fini le stress des logiciels complexes, place à la fluidité et à l’efficacité !</span>
+</section>
+    </body>
+</html
+        
