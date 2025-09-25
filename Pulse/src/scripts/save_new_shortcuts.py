@@ -5,6 +5,7 @@ from pathlib import Path
 # Récupération des arguments
 home = sys.argv[1]
 open_overlay = sys.argv[2]
+toggle_sidebar = sys.argv[3]
 
 # Chemin vers le JSON
 json_path = Path("../src/datas/data.json")
@@ -19,6 +20,7 @@ if "shortcuts" not in data:
 
 data["shortcuts"]["go_home"] = home
 data["shortcuts"]["open_overlay"] = open_overlay
+data["shortcuts"]["toggle_sidebar"] = toggle_sidebar
 
 # Réécrire dans le fichier
 with open(json_path, "w", encoding="utf-8") as f:

@@ -94,6 +94,14 @@
         "saveBtn": [
             "Enregistrer",
             "Save"
+        ],
+        "toggleSidebar": [
+            "Afficher/Masquer la barre latérale",
+            "Toggle sidebar"
+        ],
+        "toggleSidebarSubtitle": [
+            "Ouvrir ou fermer la barre latérale",
+            "Open or close the sidebar"
         ]
     },
     "home": {

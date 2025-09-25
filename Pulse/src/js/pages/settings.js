@@ -129,9 +129,11 @@ async function updateShortcuts(){
 
   const homeInput = document.getElementById("home_input");
   const overlayInput = document.getElementById("overlay_input");
+  const toggleSidebarInput = document.getElementById("toggleSidebarInput");
 
   homeInput.value = data.go_home ?? "";
   overlayInput.value = data.open_overlay ?? "";
+  toggleSidebarInput.value = data.toggle_sidebar ?? "";
 }
 
 // Configure l'input pour n'accepter qu'une "touche" et mettre à jour value immédiatement
@@ -190,12 +192,14 @@ function setupShortcutInput(input) {
   // Initialise les inputs
   setupShortcutInput(document.getElementById("home_input"));
   setupShortcutInput(document.getElementById("overlay_input"));
+  setupShortcutInput(document.getElementById("toggleSidebarInput"));
 
   // Enregistrer : lire .value (qui est mis à jour par nos handlers)
   document.getElementById("saveBtn").addEventListener("click", async () => {
     const newData = {
       go_home: document.getElementById("home_input").value,
-      open_overlay: document.getElementById("overlay_input").value
+      open_overlay: document.getElementById("overlay_input").value,
+      toggle_sidebar: document.getElementById("toggleSidebarInput").value
     };
     console.log("Nouvelles données :", newData);
     const test = await invoke("save_new_shortcuts", ({shortcuts: newData}));
