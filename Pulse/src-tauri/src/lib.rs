@@ -110,6 +110,7 @@ fn save_new_shortcuts(shortcuts: HashMap<String, String>) -> Result<String, Stri
         .arg("../src/scripts/save_new_shortcuts.py")
         .arg(shortcuts["go_home"].clone())
         .arg(shortcuts["open_overlay"].clone())
+        .arg(shortcuts["toggle_sidebar"].clone())
         .output()
         .map_err(|e| e.to_string())?;
 
