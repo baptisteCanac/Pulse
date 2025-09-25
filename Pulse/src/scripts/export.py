@@ -151,6 +151,9 @@ Pulse rend la création de présentations :
 <html>
     <head>
         <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
         <script type='module'>
         {ColorModeCode}
 
@@ -194,6 +197,13 @@ Pulse rend la création de présentations :
         showCurrentSlide(currentSlide);
 
         Prism.highlightAll();
+
+        document.querySelectorAll('.math-display').forEach(el => {{
+    katex.render(el.dataset.latex, el, {{
+        throwOnError: false,
+        displayMode: true
+    }});
+}});
 
         </script>
         <meta charset='UTF-8'>
