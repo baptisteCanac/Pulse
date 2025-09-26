@@ -116,8 +116,7 @@ export default class TranslateManager {
             "popupTitle",
             "popupSubtitle",
             "closePopupButton",
-            "goBackButton",
-            "exportSettings"
+            "goBackButton"
         ];
 
         this.translateDict(toTranslate, "export");
