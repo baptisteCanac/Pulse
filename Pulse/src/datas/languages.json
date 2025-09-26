@@ -123,10 +123,6 @@
             "format d'export",
             "export format"
         ],
-        "exportSettings": [
-            "Paramètres d'export",
-            "Export settings"
-        ],
         "loop": [
             "Faire boucler la présenation",
             "Loop presentation"

@@ -110,30 +110,7 @@ function closePopup() {
 // Fonction pour retourner en arrière
 function goBack() {
   window.history.back();
-}
-
-// Empêcher la fermeture en cliquant en dehors de la popup
-document.getElementById('popup-overlay').addEventListener('click', function(e) {
-  if (e.target === this) {
-    // Ne rien faire - la popup ne se ferme que avec les boutons
-  }
-});
-
-// Animation d'entrée de la popup
-window.addEventListener('load', function() {
-  const overlay = document.getElementById('popup-overlay');
-  const popup = overlay.querySelector('div');
-
-  // Commencer avec une popup invisible et réduite
-  popup.style.transform = 'scale(0.9)';
-  popup.style.opacity = '0';
-
-  // Animer l'apparition
-  setTimeout(() => {
-    popup.style.transform = 'scale(1)';
-    popup.style.opacity = '1';
-    }, 100);
-});
+};
 
 translate();
 updateTheme();

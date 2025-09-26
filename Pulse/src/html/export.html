@@ -34,13 +34,11 @@
             <label for="export-format" class="block text-sm font-medium mb-2" id="formats">Format d'export</label>
             <select id="export-format" class="w-full rounded-md border-gray-300 bg-gray-100 p-2 focus:ring-2 focus:ring-blue-500">
             <option value="html">HTML</option>
-            <option value="pdf">PDF</option>
             </select>
           </div>
 
           <!-- Export Settings -->
           <div>
-            <p class="text-sm font-medium mb-2" id="exportSettings">Paramètres d'export</p>
             <label class="flex items-center gap-2">
               <input type="checkbox" class="rounded text-blue-600" id="loopCheckbox">
               <span id="loop">Boucle</span>
@@ -65,32 +63,6 @@
           </div>
         </div>
       </main>
-    </div>
-
-    <!-- Popup de fonctionnalité non développée -->
-    <div id="popup-overlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-2xl shadow-2xl p-8 mx-4 max-w-md w-full text-center transform transition-all duration-300 scale-100">
-
-        <!-- Icône -->
-        <div class="mx-auto flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-6">
-          <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-          </svg>
-        </div>
-
-        <!-- Titre -->
-        <h2 class="text-xl font-semibold text-gray-900 mb-4" id="popupTitle"></h2>
-
-        <!-- Message -->
-        <p class="text-gray-600 mb-6 leading-relaxed" id="popupSubtitle"></p>
-        
-        <!-- Boutons -->
-        <div class="flex flex-col sm:flex-row gap-3 justify-center">
-          <button id="closePopupButton" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200"></button>
-          
-          <button id="goBackButton" class="px-6 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg font-medium transition-colors duration-200"></button>
-        </div>
-      </div>
     </div>
 </body>
 </html>
