@@ -79,28 +79,37 @@ fn save_sidebar_state(state: bool) -> Result<String, String>{
 
 #[tauri::command]
 fn create_pdf(format: &str, looper: bool, protect: bool, page_size: &str, parsed_code: &str) -> Result<String, String> {
-    let output = Command::new("python3") // ou "python" selon ton OS
+    let mut child = Command::new("python3")
         .arg("../src/scripts/export.py")
         .arg(format)
         .arg(looper.to_string())
         .arg(protect.to_string())
         .arg(page_size)
-        .arg(parsed_code)
-        .output()
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
         .map_err(|e| e.to_string())?;
+
+    // Écrire le code dans stdin
+    if let Some(stdin) = child.stdin.as_mut() {
+        stdin.write_all(parsed_code.as_bytes()).map_err(|e| e.to_string())?;
+    }
+
+    let output = child.wait_with_output().map_err(|e| e.to_string())?;
 
     // Récupérer stdout et stderr
     let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
     let stderr = String::from_utf8_lossy(&output.stderr);
 
     if !stderr.is_empty() {
-        eprintln!("Erreur : {}", stderr);
+        eprintln!("Erreur Python : {}", stderr);
     }
 
     if stdout.is_empty() {
-        Err("erreur".into())
+        Err("Erreur : aucun retour du script Python".into())
     } else {
-        Ok(stdout)
+        Ok(stdout)  // <-- c'est ce qui manquait
     }
 }
 
