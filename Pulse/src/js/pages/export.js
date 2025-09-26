@@ -60,6 +60,12 @@ async function cta(){
     const protect = document.getElementById("protectCheckbox").checked;
     const page_size = document.getElementById("page-size").value;
 
+    console.log(format);
+    console.log(looper);
+    console.log(protect);
+    console.log(page_size);
+    console.log(code);
+
     const callCreatePdf = await invoke("create_pdf", {
         format: format,
         looper: looper,
