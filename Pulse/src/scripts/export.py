@@ -1,11 +1,16 @@
 import sys
 from pathlib import Path
 import webbrowser
+import pyzipper
+import tkinter as tk
+from tkinter import filedialog, Tk, simpledialog
+from pathlib import Path
+import pexpect
 
 if __name__ == "__main__":
     format = 'html'
-    looper = False
-    protect = False
+    looper = True
+    protect = True
     pageSize = 'A4'
     code = r"""
 <h1>🎉 bienvenue sur Pulse</h1>
@@ -178,21 +183,37 @@ Pulse rend la création de présentations :
             if (event.key === "ArrowRight") goToNextSlide();
         }});
 
-        function goToPreviousSlide() {{
+        {"""function goToPreviousSlide() {{
+            console.log('previous');
+            if (currentSlide > 0) {{
+                currentSlide--;
+            }} else {{
+                currentSlide = parts.length - 1;
+            }}
+            showCurrentSlide(currentSlide);
+        }};""" if looper else """function goToPreviousSlide() {{
             console.log('previous');
             if (currentSlide > 0) {{
                 currentSlide--;
                 showCurrentSlide(currentSlide);
             }}
-        }};
+        }};"""}
 
-        function goToNextSlide() {{
+        {"""function goToNextSlide() {{
+            console.log('next');
+            if (currentSlide < parts.length - 1) {{
+                currentSlide++;
+            }} else {{
+                currentSlide = 0;
+            }}
+            showCurrentSlide(currentSlide);
+        }};""" if looper else """function goToNextSlide() {{
             console.log('next');
             if (currentSlide < parts.length -1) {{
-                currentSlide ++;
+                currentSlide++;
                 showCurrentSlide(currentSlide);
             }}
-        }};
+        }};"""}
 
         showCurrentSlide(currentSlide);
 
@@ -225,7 +246,52 @@ Pulse rend la création de présentations :
 
         out = Path("test.html")
         out.write_text(htmlCode, encoding="utf-8")
-        webbrowser.open(out.resolve().as_uri())
+
+        if protect:
+            def ask_save_file(default_name="secret.zip", filetypes=(("Archive ZIP", "*.zip"), ("Tous les fichiers", "*.*"))):
+                root = tk.Tk()
+                root.withdraw()  # cacher la fenêtre principale
+
+                # ouvrir la popup "Enregistrer sous"
+                filepath = filedialog.asksaveasfilename(
+                    defaultextension=".zip",
+                    initialfile=default_name,
+                    filetypes=filetypes,
+                    title="Enregistrer l’archive ZIP"
+                )
+
+                root.destroy()
+                return Path(filepath) if filepath else None
+
+            root = Tk()
+            root.withdraw()
+            zip_path = filedialog.asksaveasfilename(
+                defaultextension=".zip",
+                initialfile="secret.zip",
+                filetypes=[("Archive ZIP", "*.zip"), ("Tous les fichiers", "*.*")]
+            )
+            root.destroy()
+
+            if zip_path:
+                password = simpledialog.askstring("Mot de passe", "Entrez le mot de passe :", show="*")
+
+                def zip_with_password(zip_file, file_to_add, password):
+                    cmd = f"zip -er {zip_file} {file_to_add}"
+                    child = pexpect.spawn(cmd)
+
+                    child.expect("password:")
+                    child.sendline(password)
+                    child.expect("password:")
+                    child.sendline(password)
+                    child.expect(pexpect.EOF)
+                    child.close()
+
+                    print(f"Archive créée : {zip_file}")
+
+                zip_with_password(zip_path, "test.html", password)
+
+        else:
+            webbrowser.open(out.resolve().as_uri())
     elif format == "pdf":
         print("format pdf pas encore développé")
 

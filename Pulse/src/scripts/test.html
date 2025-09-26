@@ -296,21 +296,25 @@ applyLightModeSidebar() {
             if (event.key === "ArrowRight") goToNextSlide();
         });
 
-        function goToPreviousSlide() {
+        function goToPreviousSlide() {{
             console.log('previous');
-            if (currentSlide > 0) {
+            if (currentSlide > 0) {{
                 currentSlide--;
-                showCurrentSlide(currentSlide);
-            }
-        };
+            }} else {{
+                currentSlide = parts.length - 1;
+            }}
+            showCurrentSlide(currentSlide);
+        }};
 
-        function goToNextSlide() {
+        function goToNextSlide() {{
             console.log('next');
-            if (currentSlide < parts.length -1) {
-                currentSlide ++;
-                showCurrentSlide(currentSlide);
-            }
-        };
+            if (currentSlide < parts.length - 1) {{
+                currentSlide++;
+            }} else {{
+                currentSlide = 0;
+            }}
+            showCurrentSlide(currentSlide);
+        }};
 
         showCurrentSlide(currentSlide);
 
